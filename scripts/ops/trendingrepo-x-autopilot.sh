@@ -16,7 +16,9 @@ if [ "${1:-}" = "--dispatch-utc" ]; then
   case "$(date -u +%H)" in
     04) set -- --slot D ;;
     08) set -- --slot A ;;
+    10) set -- --slot F ;;
     12) set -- --slot B ;;
+    14) set -- --slot G ;;
     17) set -- --slot C ;;
     21) set -- --slot E ;;
     *) exit 0 ;;

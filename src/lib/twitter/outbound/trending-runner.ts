@@ -180,7 +180,7 @@ export function rankTrendingCandidates(
 
 function maxPerDay(): number {
   const n = Number.parseInt(process.env.TRENDING_POST_MAX_PER_DAY ?? "", 10);
-  return Number.isFinite(n) && n > 0 ? n : 5;
+  return Number.isFinite(n) && n > 0 ? n : 7;
 }
 
 function singleMediaPath(repo: Repo): string {

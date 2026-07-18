@@ -4,7 +4,9 @@
 //
 //   slot D (04:47)  discovery single
 //   slot A (08:47)  TOP single
+//   slot F (10:47)  weekly-top10 pack (the 10-repo leaderboard card, daily)
 //   slot B (12:47)  rotating AI/tooling pack
+//   slot G (14:47)  sustained TREND single
 //   slot C (17:47)  alternating GAINER single (even UTC date) / llm-models pack (odd, CE-5)
 //   slot E (21:47)  rotating builder-ecosystem pack
 //
@@ -12,7 +14,7 @@
 //   {"B":{"0":{"format":"trending_single"}}}   // Sundays: no pack
 // Malformed overrides are ignored — the fixed matrix always works.
 
-export type SlotId = "A" | "B" | "C" | "D" | "E";
+export type SlotId = "A" | "B" | "C" | "D" | "E" | "F" | "G";
 export type TrendingRanker = "top" | "gainer" | "trend" | "discovery";
 
 export type SlotFormatKind = "trending_single" | "discovery_single" | "trending_pack";
@@ -76,6 +78,11 @@ export function resolveSlotFormat(
   if (slot === "B") return { format: "trending_pack", packId: B_ROTATION[day], ranker: "top" };
   if (slot === "E") return { format: "trending_pack", packId: E_ROTATION[day], ranker: "top" };
   if (slot === "D") return { format: "discovery_single", ranker: "discovery" };
+  // F: the 10-repo leaderboard card every day — the highest-engagement format.
+  if (slot === "F") return { format: "trending_pack", packId: "weekly-top10", ranker: "top" };
+  // G: sustained TREND single — durable multi-day climbers, distinct from
+  // A's TOP spike and C's 24h GAINER.
+  if (slot === "G") return { format: "trending_single", ranker: "trend" };
   if (slot === "C") {
     const dayOfMonth = new Date(nowMs).getUTCDate();
     // CE-5: odd dates surface the llm-models pack; even dates keep the

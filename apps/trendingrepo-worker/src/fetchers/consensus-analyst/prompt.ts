@@ -238,7 +238,98 @@ export function buildCitationCandidates(item: ConsensusItem): Citation[] {
     });
   }
   candidates.sort((a, b) => a.sortKey - b.sortKey);
-  return candidates.map(({ title, url }) => ({ title, url }));
+  return candidates.map(({ title, url }) => ({ title: title.slice(0, 80), url }));
+}
+
+/**
+ * Convert unreliable model JSON into the strict report contract using only
+ * facts already present in the consensus item. Model prose wins when valid;
+ * missing load-bearing fields get deterministic, non-hallucinated defaults.
+ */
+export function normalizeItemReport(raw: unknown, item: ConsensusItem): ItemReport {
+  const input = isRecord(raw) ? raw : {};
+  const rawScores = isRecord(input.scores) ? input.scores : {};
+  const derivedScores = {
+    momentum: score(item.consensusScore),
+    credibility: score(item.confidence),
+    crossSource: score((item.sourceCount / 8) * 100),
+    developerAdoption: score(item.sources.gh.normalized * 100),
+    marketRelevance: score((item.consensusScore + item.confidence) / 2),
+    hypeRisk: score(100 - item.confidence),
+  };
+  const verdict = isVerdict(input.verdict)
+    ? input.verdict
+    : item.verdict === 'strong_consensus'
+      ? 'strong'
+      : item.verdict === 'early_call'
+        ? 'early'
+        : 'weak';
+  const fallbackAction = verdict === 'strong' || verdict === 'early' ? 'watch' : 'research';
+  const tagline = cleanString(input.tagline)?.slice(0, 160);
+  const allowedCitations = new Map(buildCitationCandidates(item).map((citation) => [citation.url, citation]));
+  const citations = Array.isArray(input.citations)
+    ? input.citations
+        .map((citation) => (isRecord(citation) && typeof citation.url === 'string'
+          ? allowedCitations.get(citation.url)
+          : undefined))
+        .filter((citation): citation is Citation => Boolean(citation))
+        .slice(0, 8)
+    : [];
+
+  return ItemReportSchema.parse({
+    ...(tagline ? { tagline } : {}),
+    summary:
+      cleanString(input.summary) ??
+      `${item.fullName} ranks #${item.rank} with ${item.sourceCount}-source confirmation and a consensus score of ${score(item.consensusScore)}.`,
+    scores: {
+      momentum: score(rawScores.momentum, derivedScores.momentum),
+      credibility: score(rawScores.credibility, derivedScores.credibility),
+      crossSource: score(rawScores.crossSource, derivedScores.crossSource),
+      developerAdoption: score(rawScores.developerAdoption, derivedScores.developerAdoption),
+      marketRelevance: score(rawScores.marketRelevance, derivedScores.marketRelevance),
+      hypeRisk: score(rawScores.hypeRisk, derivedScores.hypeRisk),
+    },
+    evidence: Array.isArray(input.evidence)
+      ? input.evidence
+          .map(cleanString)
+          .filter((value): value is string => Boolean(value))
+          .slice(0, 8)
+      : [],
+    contrarian: cleanString(input.contrarian) ?? '',
+    verdict,
+    confidence: score(input.confidence, item.confidence),
+    whyNow:
+      cleanString(input.whyNow) ??
+      `${item.fullName} is currently ranked #${item.rank} across ${item.sourceCount} external sources.`,
+    whatToDo: isAction(input.whatToDo) ? input.whatToDo : fallbackAction,
+    whatToDoDetail:
+      cleanString(input.whatToDoDetail) ??
+      'Review the current source mix and rank movement before acting.',
+    ...(citations.length > 0 ? { citations } : {}),
+  });
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+}
+
+function cleanString(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const cleaned = value.trim();
+  return cleaned || undefined;
+}
+
+function score(value: unknown, fallback = 0): number {
+  const numeric = typeof value === 'number' && Number.isFinite(value) ? value : fallback;
+  return Math.round(Math.max(0, Math.min(100, numeric)));
+}
+
+function isVerdict(value: unknown): value is ItemReport['verdict'] {
+  return value === 'strong' || value === 'early' || value === 'weak' || value === 'noise';
+}
+
+function isAction(value: unknown): value is ItemReport['whatToDo'] {
+  return value === 'watch' || value === 'build' || value === 'ignore' || value === 'research';
 }
 
 export function buildItemUserMessage(

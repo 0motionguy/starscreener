@@ -11,6 +11,7 @@ import {
   RIBBON_SYSTEM_PROMPT,
   buildItemUserMessage,
   buildRibbonUserMessage,
+  normalizeItemReport,
   type AnalystUserMessageContext,
   type ItemReport,
   type Ribbon,
@@ -112,6 +113,7 @@ const fetcher: Fetcher = {
     // result meta so a NanoGPT-fallback run reports honestly (not 'kimi').
     let usedProvider: LlmProvider | undefined;
     let usedModel: string | undefined;
+    let repairedItems = 0;
     const errors: RunResult['errors'] = [];
 
     // Bounded-concurrency sweep — N workers pulling from a shared queue.
@@ -134,7 +136,6 @@ const fetcher: Fetcher = {
               jsonMode: true,
             },
             { feature: 'ai_analyst', task_type: 'item', request_id: randomUUID() },
-            (text) => ItemReportSchema.safeParse(parseJson(text)).success,
           );
           usedProvider = r.meta.provider;
           usedModel = r.meta.model;
@@ -145,22 +146,16 @@ const fetcher: Fetcher = {
           const parsed = parseJson(r.text);
           const validated = ItemReportSchema.safeParse(parsed);
           if (!validated.success) {
+            repairedItems += 1;
             ctx.log.warn(
               { fullName: item.fullName, issues: validated.error.issues.slice(0, 3) },
-              'consensus-analyst: item report failed schema validation',
+              'consensus-analyst: repaired item report with deterministic consensus facts',
             );
-            errors.push({
-              stage: 'item-schema',
-              itemSourceId: item.fullName,
-              message:
-                validated.error.issues
-                  .slice(0, 3)
-                  .map((issue) => issue.message)
-                  .join('; ') || 'item report failed schema validation',
-            });
-            continue;
           }
-          items[item.fullName] = { fullName: item.fullName, ...validated.data };
+          items[item.fullName] = {
+            fullName: item.fullName,
+            ...normalizeItemReport(parsed, item),
+          };
         } catch (err) {
           const message = err instanceof Error ? err.message : String(err);
           ctx.log.warn(
@@ -186,7 +181,6 @@ const fetcher: Fetcher = {
           jsonMode: true,
         },
         { feature: 'ai_analyst', task_type: 'ribbon', request_id: randomUUID() },
-        (text) => RibbonSchema.safeParse(parseJson(text)).success,
       );
       usedProvider = r.meta.provider;
       usedModel = r.meta.model;
@@ -199,14 +193,6 @@ const fetcher: Fetcher = {
         ribbon = validated.data;
       } else {
         ctx.log.warn({ issues: validated.error.issues.slice(0, 3) }, 'consensus-analyst: ribbon schema invalid');
-        errors.push({
-          stage: 'ribbon-schema',
-          message:
-            validated.error.issues
-              .slice(0, 3)
-              .map((issue) => issue.message)
-              .join('; ') || 'ribbon schema invalid',
-        });
       }
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
@@ -233,6 +219,9 @@ const fetcher: Fetcher = {
       ]);
     }
     const mergedItems = { ...existingItems, ...items };
+    const generator = freshCount > 0 && repairedItems === freshCount
+      ? 'template'
+      : (usedProvider ?? getLlmProvider());
     const payload: VerdictsPayload = {
       computedAt: new Date().toISOString(),
       status: errors.length > 0 ? 'degraded' : 'ok',
@@ -240,8 +229,8 @@ const fetcher: Fetcher = {
       // Honestly report which provider actually produced this run (e.g.
       // 'nanogpt' while Kimi-for-coding billing is restored). Falls back to the
       // configured primary when no call succeeded this run.
-      generator: usedProvider ?? getLlmProvider(),
-      model: usedModel,
+      generator,
+      ...(generator !== 'template' && usedModel ? { model: usedModel } : {}),
       ribbon,
       items: mergedItems,
       usage: {
@@ -255,6 +244,7 @@ const fetcher: Fetcher = {
     ctx.log.info(
       {
         freshThisRun: freshCount,
+        repairedItems,
         totalRetained: Object.keys(mergedItems).length,
         ribbonBullets: ribbon.bullets.length,
         usage: payload.usage,

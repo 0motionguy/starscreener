@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// TrendingRepo — 3x/day X autopilot runner (TOOLBOX host).
+// TrendingRepo — 5x/day X autopilot runner (TOOLBOX host).
 //
 // Runs from /etc/cron.d on the box, NOT inside the app container, because it
 // drives the host `twitter` CLI (agent-reach / twitter-cli, cookie session).
@@ -12,7 +12,7 @@
 // Cap + 14d cooldown make a double fire a no-op. `--dry-run` skips the auth
 // guard and the post, printing the composed tweet + card status instead.
 //
-// Args: --slot A|B|C   content-calendar slot (omit = plain trending single)
+// Args: --slot A|B|C|D|E   content-calendar slot (omit = plain trending single)
 //       --dry-run      compose + fetch card, never post
 //
 // Env: CRON_SECRET (required), TRENDINGREPO_URL (default localhost:3023),
@@ -41,7 +41,7 @@ function argValue(flag) {
 }
 
 const SLOT_RAW = (argValue("--slot") || "").toUpperCase();
-const SLOT = ["A", "B", "C"].includes(SLOT_RAW) ? SLOT_RAW : undefined;
+const SLOT = ["A", "B", "C", "D", "E"].includes(SLOT_RAW) ? SLOT_RAW : undefined;
 
 function twitter(args) {
   return execFileSync("twitter", args, { encoding: "utf8", timeout: 60_000 });
@@ -177,6 +177,7 @@ async function main() {
         text: plan.text,
         ...(plan.format ? { format: plan.format } : {}),
         ...(plan.packId ? { packId: plan.packId } : {}),
+        ...(plan.ranker ? { ranker: plan.ranker } : {}),
         ...(plan.source ? { source: plan.source } : {}),
       },
     }),

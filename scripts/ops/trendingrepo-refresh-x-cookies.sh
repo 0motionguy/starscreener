@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Non-interactive X cookie refresh for the trendingrepo 3x/day autopilot
+# Non-interactive X cookie refresh for the trendingrepo 5x/day autopilot
 # (@trendingrepo). Sibling of `trending-twitter-login` (interactive paste) —
 # same canonical store /opt/trendingrepo-twitter/.env (0600) — plus two
 # guards the login helper lacks:

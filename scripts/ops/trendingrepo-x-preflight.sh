@@ -2,7 +2,7 @@
 # TrendingRepo X posting pre-flight — the "similar play" twin of
 # /opt/aiso/x-session-check.sh (which guards the 15:47 aiso relay).
 #
-# Guards the 3x/day trendingrepo autopilot (twitter-trending-run.mjs):
+# Guards the 5x/day trendingrepo autopilot (twitter-trending-run.mjs):
 #   1) cookie session still authenticated (twitter-cli feed, read-only)
 #   2) outcome: a post actually landed in the last 26h (only when mode=live)
 # Mode-aware: TWITTER_OUTBOUND_MODE != live -> informational only, never
@@ -13,9 +13,13 @@
 # OPS_ALERT_WEBHOOK_URL from /opt/toolbox/.env; always logs.
 #
 # Deploy: scripts/ops (repo) -> /usr/local/bin/trendingrepo-x-preflight.sh
-# Cron:   /etc/cron.d/trendingrepo-x-preflight (27 9 * * * — ten minutes
-#         after the aiso check so Slack pings don't interleave).
+# Cron:   hourly at :27 with --dispatch-utc; the wrapper proceeds only at
+#         04:27 UTC, twenty minutes before the first posting slot.
 set -uo pipefail
+
+if [ "${1:-}" = "--dispatch-utc" ] && [ "$(date -u +%H)" != "04" ]; then
+  exit 0
+fi
 
 ENV_FILE=/opt/trendingrepo/.env.production        # mode + app config
 COOKIE_FILE=/opt/trendingrepo-twitter/.env        # canonical @trendingrepo store (trending-twitter-login / refresh script)

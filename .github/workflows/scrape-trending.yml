@@ -50,12 +50,6 @@ jobs:
           TOOLBOX_INGEST_HMAC_SECRET: ${{ secrets.TOOLBOX_INGEST_HMAC_SECRET }}
         run: node scripts/scrape-trending.mjs --skip-collection-rankings
 
-      - name: Discover recent GitHub repos
-        env:
-          REDIS_URL: ${{ secrets.REDIS_URL }}
-          GITHUB_TOKEN: ${{ github.token }}
-        run: node scripts/discover-recent-repos.mjs
-
       - name: Refresh Reddit mentions
         # Reddit is intentionally paused end-to-end. Keep the step visible so
         # re-enabling requires an explicit diff, not a silent schedule drift.
@@ -153,7 +147,6 @@ jobs:
             data/trending-lite.json
             data/deltas.json
             data/hot-collections.json
-            data/recent-repos.json
             data/repo-metadata.json
             data/hackernews-trending.json
             data/hackernews-repo-mentions.json

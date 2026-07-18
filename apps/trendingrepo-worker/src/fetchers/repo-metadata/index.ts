@@ -3,11 +3,9 @@
 // from Redis (written by Group 1 fetchers) and queries the GitHub GraphQL
 // API in batches of 25 for stargazerCount, forkCount, topics, etc.
 //
-// Slug: `repo-metadata`. Cadence: hourly at :13 (matches what scripts/
-// fetch-repo-metadata.mjs runs at via scrape-trending.yml). Bumped from
-// the original 12h pick to keep parity once the legacy workflow archives;
-// downstream consumers (repo-profiles, trustmrr, /repo/* page) all assume
-// hourly fresh metadata.
+// Slug: `repo-metadata`. Cadence: hourly at :13. The worker owns production
+// metadata hydration; the legacy workflow no longer runs a duplicate recent
+// discovery pass. Downstream consumers assume hourly fresh metadata.
 //
 // Auth: GH_TOKEN_POOL or GITHUB_TOKEN. Throws when no PAT is available.
 
@@ -16,8 +14,10 @@ import { writeDataStore, readDataStore } from '../../lib/redis.js';
 import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import { fetchJsonWithRetry } from '../../lib/util/http-helpers.js';
 import {
+  getGithubTokens,
   parseRateLimitHeaders,
   pickGithubToken,
+  quarantine,
   recordRateLimit,
 } from '../../lib/util/github-token-pool.js';
 import {
@@ -120,8 +120,8 @@ function collectFullNames(
   // Sorted by lastSeenAt desc so the natural map-insert order surfaces fresher
   // repos to the batch loop first; existing names are already keyed (dedup).
   // This closes the metadata gap that left registry-only profiles showing
-  // "not available" for stars/lang/topics. Bounded by the registry cap (2000)
-  // → ~36 GH GraphQL batches at BATCH_SIZE=25 (safe under the hourly quota).
+  // "not available" for stars/lang/topics. Bounded by the registry cap (3000)
+  // → at most 120 GH GraphQL batches at BATCH_SIZE=25.
   const registryEntries = Object.values(registry?.repos ?? {}).sort((a, b) =>
     (b.lastSeenAt ?? '') < (a.lastSeenAt ?? '') ? -1 : (b.lastSeenAt ?? '') > (a.lastSeenAt ?? '') ? 1 : 0,
   );
@@ -281,10 +281,7 @@ function normalizeRepo(
 
 const fetcher: Fetcher = {
   name: 'repo-metadata',
-  // Hourly at :13 — matches scripts/fetch-repo-metadata.mjs which runs as
-  // part of scrape-trending.yml every hour. Keeping pace ensures
-  // repo-profiles / trustmrr / /repo/* page never drop to a stale
-  // metadata snapshot once Phase D archives the legacy script.
+  // Hourly at :13 keeps repo-profiles / trustmrr / /repo/* hydrated.
   schedule: '13 * * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
@@ -294,8 +291,7 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, []);
     }
 
-    const token = pickGithubToken();
-    if (!token) {
+    if (getGithubTokens().length === 0) {
       const msg = 'GH_TOKEN_POOL / GITHUB_TOKEN not configured — skipping repo-metadata';
       ctx.log.warn(msg);
       return done(startedAt, 0, false, [{ stage: 'auth', message: msg }]);
@@ -357,6 +353,8 @@ const fetcher: Fetcher = {
       const batchTotal = Math.ceil(fullNames.length / BATCH_SIZE);
       const payload = buildBatchQuery(batch);
       try {
+        const token = pickGithubToken();
+        if (!token) throw new Error('GitHub token pool has no usable token');
         const body = await fetchJsonWithRetry<GraphqlResponse>(GRAPHQL_URL, {
           method: 'POST',
           headers: {
@@ -371,6 +369,7 @@ const fetcher: Fetcher = {
           retryDelayMs: 1_000,
           timeoutMs: 20_000,
           onResponse: (res) => {
+            if (res.status === 401) quarantine(token);
             const rl = parseRateLimitHeaders(res.headers);
             if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
           },

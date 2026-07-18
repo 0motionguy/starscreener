@@ -1,7 +1,11 @@
 import { Agent, fetch as undiciFetch } from 'undici';
 import { RateLimitQuarantineError, TransientHttpError } from './errors.js';
 import type { HttpClient, HttpOptions, RedisHandle } from './types.js';
-import { parseRateLimitHeaders, recordRateLimit } from './util/github-token-pool.js';
+import {
+  parseRateLimitHeaders,
+  quarantine,
+  recordRateLimit,
+} from './util/github-token-pool.js';
 
 const DEFAULT_AGENT = new Agent({
   connectTimeout: 10_000,
@@ -19,6 +23,7 @@ const ETAG_TTL_SECONDS = 7 * 24 * 60 * 60;
 export interface HttpClientDeps {
   redis: RedisHandle | null;
   log?: { warn: (m: string) => void; debug?: (m: string) => void };
+  fetch?: typeof undiciFetch;
 }
 
 export function createHttpClient(deps: HttpClientDeps): HttpClient {
@@ -73,7 +78,7 @@ async function fetchWithRetry(
 
     let res: Response;
     try {
-      res = await undiciFetch(url, {
+      res = await (deps.fetch ?? undiciFetch)(url, {
         method: opts.method ?? 'GET',
         headers,
         body:
@@ -90,6 +95,9 @@ async function fetchWithRetry(
       await sleep(backoffMs(attempt));
       continue;
     }
+
+    const githubToken = publishGithubRateLimit(url, headers, res.headers);
+    if (res.status === 401 && githubToken) quarantine(githubToken);
 
     if (res.status === 304 && priorEtag && deps.redis) {
       const cachedBody = await deps.redis.get(ETAG_BODY_PREFIX + url);
@@ -140,7 +148,6 @@ async function fetchWithRetry(
         deps.redis.set(ETAG_BODY_PREFIX + url, body, { ex: ETAG_TTL_SECONDS }),
       ]);
     }
-    publishGithubRateLimit(url, headers, res.headers);
     return { body, etag: newEtag, cached: false };
   }
   throw new TransientHttpError(`http: exhausted retries for ${url}`, 0, { url, maxRetries });
@@ -150,20 +157,20 @@ function publishGithubRateLimit(
   url: string,
   reqHeaders: Record<string, string>,
   resHeaders: Headers,
-): void {
+): string | null {
   // Only publish for github.com — the pool's recordRateLimit also guards
   // against pool-foreign tokens, but cheap host check avoids parsing URLs
   // for every non-GitHub call.
-  if (!url.startsWith('https://api.github.com')) return;
+  if (!url.startsWith('https://api.github.com')) return null;
   const auth = reqHeaders.authorization ?? reqHeaders.Authorization;
-  if (typeof auth !== 'string') return;
+  if (typeof auth !== 'string') return null;
   const match = /^Bearer\s+(.+)$/i.exec(auth.trim());
-  if (!match) return;
+  if (!match) return null;
   const token = match[1]?.trim();
-  if (!token) return;
+  if (!token) return null;
   const rl = parseRateLimitHeaders(resHeaders);
-  if (!rl) return;
-  recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+  if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+  return token;
 }
 
 function parseRetryAfter(header: string | null): number | null {

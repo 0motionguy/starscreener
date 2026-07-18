@@ -1,4 +1,4 @@
-// velocity-backfill — daily FULL-REGISTRY star-velocity backfill via the GitHub
+// velocity-backfill — four-times-daily FULL-REGISTRY star-velocity backfill via GitHub
 // GraphQL stargazer timestamps (the token pool), giving every repo a real
 // `stars_now` AND real 24h/7d/30d deltas — retroactively, in one pass.
 //
@@ -23,8 +23,9 @@
 //   weeks/months → exact 24h/7d/30d from a single query. Hot repos (>100 stars
 //   in the window) get a bounded page-back; mega-breakouts fall back to a
 //   cold-start lower bound (still ranked, already covered by velocity-refresh).
-//   Aliasing batches ~20 repos per HTTP call → ~50 calls + ~1k points for the
-//   whole registry: trivial for the 20-token pool (100k points/hr).
+//   Aliasing batches ~20 repos per HTTP call keeps the full-registry sweep
+//   bounded. Pool rotation provides credential failover; it does not multiply
+//   quota when PATs belong to the same GitHub account.
 //
 // OUTPUT (same shapes + slugs as the rest of the engine — zero app changes):
 //   - per repo: merges a timestamp-accurate recent window into
@@ -34,9 +35,8 @@
 //   ZERO-WRITE GUARD (shouldPreserveCache) never blanks a populated slug — also
 //   satisfies lint:guards / keep-last-50.
 //
-// SCHEDULE Daily 02:17 UTC — before star-activity (04:17), the deltas recompute
-// (05:30) and velocity-seed (06:13), so its per-repo series feed everything
-// downstream the same morning.
+// SCHEDULE 02:17, 08:17, 14:17, and 20:17 UTC. The first run precedes
+// star-activity (04:17), deltas recompute (05:30), and velocity-seed (06:13).
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
@@ -45,6 +45,7 @@ import { shouldPreserveCache } from '../../lib/util/cache-merge.js';
 import {
   pickGithubToken,
   parseRateLimitHeaders,
+  quarantine,
   recordRateLimit,
 } from '../../lib/util/github-token-pool.js';
 import {
@@ -283,7 +284,7 @@ function sleep(ms: number): Promise<void> {
  * shared pool; backs off + rotates the token on 403/429/5xx). Returns the
  * parsed JSON (which may carry partial `data` alongside `errors`) or null.
  */
-async function runGraphql(
+export async function runGraphql(
   query: string,
   token0: string | undefined,
   log: FetcherContext['log'],
@@ -306,6 +307,13 @@ async function runGraphql(
     if (token) {
       const rl = parseRateLimitHeaders(res.headers);
       if (rl) recordRateLimit(token, rl.remaining, rl.resetUnixSec);
+    }
+    if (res.status === 401 && token) {
+      quarantine(token);
+      const nextToken = pickGithubToken();
+      if (!nextToken) return null;
+      token = nextToken;
+      continue;
     }
     if (res.status === 403 || res.status === 429 || res.status >= 500) {
       const raRaw = Number.parseInt(res.headers.get('retry-after') ?? '', 10);
@@ -496,7 +504,7 @@ async function processRepo(
 
 const fetcher: Fetcher = {
   name: 'velocity-backfill',
-  schedule: '17 2 * * *',
+  schedule: '17 2,8,14,20 * * *',
   async run(ctx: FetcherContext): Promise<RunResult> {
     const startedAt = new Date().toISOString();
     const now = new Date();

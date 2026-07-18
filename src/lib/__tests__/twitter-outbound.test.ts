@@ -258,7 +258,7 @@ test("composeIdeaPublishedPost leaves short pitches verbatim", () => {
 });
 
 // ---------------------------------------------------------------------------
-// composeTrendingSingle — the 3x/day autopilot post
+// composeTrendingSingle — the five-slot autopilot post
 // ---------------------------------------------------------------------------
 
 test("composeTrendingSingle is ASCII-only and within the 270-char budget", () => {

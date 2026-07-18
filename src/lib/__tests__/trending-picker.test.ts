@@ -43,6 +43,15 @@ test("selectTrendingPost skips cooled-down repos and picks the first eligible", 
   assert.equal(pick?.fullName, "acme/three");
 });
 
+test("selectTrendingPost matches cooldown names case-insensitively", () => {
+  const pick = selectTrendingPost(
+    [repo("Acme/One"), repo("Acme/Two")],
+    { cooldownFullNames: new Set(["acme/one"]), postedTodayCount: 0 },
+    5,
+  );
+  assert.equal(pick?.fullName, "Acme/Two");
+});
+
 test("selectTrendingPost returns null when the per-day cap is already met", () => {
   const pick = selectTrendingPost(
     ranked,

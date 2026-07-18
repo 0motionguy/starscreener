@@ -1,7 +1,5 @@
-// Worker GitHub PAT pool. Reads GH_TOKEN_POOL (comma-separated, preferred —
-// that's the env var surface in CI) or GITHUB_TOKEN (single, legacy fallback
-// only when no pool exists). De-dupes, trims, drops empties. Round-robin
-// pick on each call.
+// Worker GitHub PAT pool. Merges GITHUB_TOKEN and both comma-separated pool
+// aliases. De-dupes, trims, drops empties. Round-robin pick on each call.
 //
 // SHARED-QUOTA COORDINATION
 //   Both lanes (Next.js app + this worker) read the same PATs from the same
@@ -48,16 +46,14 @@ function loadTokens(env: NodeJS.ProcessEnv = process.env): string[] {
     seenPool.add(trimmed);
     poolTokens.push(trimmed);
   };
+  pushIfNew(env.GITHUB_TOKEN);
   for (const name of ['GH_TOKEN_POOL', 'GITHUB_TOKEN_POOL'] as const) {
     const pool = env[name];
     if (typeof pool === 'string' && pool.trim().length > 0) {
       for (const raw of pool.split(',')) pushIfNew(raw);
     }
   }
-  if (poolTokens.length > 0) return poolTokens;
-
-  const singleton = env.GITHUB_TOKEN?.trim();
-  return singleton ? [singleton] : [];
+  return poolTokens;
 }
 
 export function getGithubTokens(): string[] {
@@ -74,7 +70,7 @@ export function getGithubTokens(): string[] {
  */
 function redactToken(token: string): string {
   if (token.length <= 8) return '***';
-  return `${token.slice(0, 4)}...${token.slice(-4)}`;
+  return `${token.slice(0, 4)}****${token.slice(-4)}`;
 }
 
 function poolRedisKeyFor(tokenLabel: string): string {
@@ -161,13 +157,11 @@ export function pickGithubToken(): string | null {
   for (const t of tokens) {
     if (!isUnusable(sharedHints.get(t), nowMs)) usable.push(t);
   }
-  // If shared state says every token is exhausted, fall through to the full
-  // list anyway — the worker MUST attempt a call rather than silently no-op,
-  // so a stale Redis hint can't lock us out. The next response will record
-  // the truth via recordRateLimit().
-  const candidates = usable.length > 0 ? usable : tokens;
-  const token = candidates[cursor % candidates.length] ?? null;
-  cursor = (cursor + 1) % Math.max(candidates.length, 1);
+  // Known-exhausted/revoked credentials are never retried until their hint
+  // expires; callers can preserve last-good data when the pool is unusable.
+  if (usable.length === 0) return null;
+  const token = usable[cursor % usable.length] ?? null;
+  cursor = (cursor + 1) % usable.length;
   return token;
 }
 

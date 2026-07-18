@@ -1,44 +1,74 @@
 // GitHub recently-created-repo discovery fetcher.
 //
-// Ports `scripts/discover-recent-repos.mjs`. Calls the GitHub Search
-// REST API for repos created in the last {1,3,7} days with star
-// thresholds, dedupes by owner/repo, sorts newest-first, and publishes
-// the result to `ss:data:v1:recent-repos`.
+// Calls GitHub Search for three broad recency windows plus one lane for each
+// public category, balances the result, and publishes it to
+// `ss:data:v1:recent-repos`.
 //
-// Cadence: hourly at :27 (matches the same fast-refresh GH workflow that
-// runs scrape-trending). GitHub Search counts as a separate API quota
-// pool from REST; using the worker GitHub token pool raises the quota from
-// 10 to 30 req/min on search. We disable ETag caching because the query embeds a
+// Cadence: hourly at :25. GitHub Search counts as a separate API quota pool
+// from REST. We disable ETag caching because the query embeds a
 // rolling `created:>=YYYY-MM-DD` date that changes daily AND because the
 // payload itself updates as new repos cross the star threshold.
 
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
-import { pickGithubToken } from '../../lib/util/github-token-pool.js';
-import {
-  caseInsensitiveKey,
-  mergeAndCap,
-  shouldPreserveCache,
-} from '../../lib/util/cache-merge.js';
+import { RateLimitQuarantineError, TransientHttpError } from '../../lib/errors.js';
+import { pickGithubToken, quarantine } from '../../lib/util/github-token-pool.js';
+import { caseInsensitiveKey, mergeAndCap } from '../../lib/util/cache-merge.js';
 
 const API_URL = 'https://api.github.com/search/repositories';
 const API_VERSION = '2022-11-28';
 const PER_PAGE = 100;
-const MAX_ITEMS = 120;
+const MAX_ITEMS = 300;
+const CATEGORY_RESERVE = 5;
 
-interface SearchWindow {
+export interface DiscoveryQuery {
+  id: string;
   days: number;
   minStars: number;
   pages: number;
+  categoryId?: string;
+  qualifier?: string;
 }
 
-const WINDOWS: SearchWindow[] = [
-  { days: 1, minStars: 5, pages: 2 },
-  { days: 3, minStars: 20, pages: 2 },
-  { days: 7, minStars: 60, pages: 1 },
+const GENERAL_QUERIES: DiscoveryQuery[] = [
+  { id: 'general:1d', days: 1, minStars: 5, pages: 2 },
+  { id: 'general:3d', days: 3, minStars: 20, pages: 2 },
+  { id: 'general:7d', days: 7, minStars: 60, pages: 1 },
+];
+
+export const CATEGORY_QUERIES: DiscoveryQuery[] = [
+  ['ai-agents', 'topic:ai-agent'],
+  ['mcp', 'topic:model-context-protocol'],
+  ['devtools', 'topic:developer-tools'],
+  ['browser-automation', 'topic:browser-automation'],
+  ['local-llm', 'topic:local-llm'],
+  ['security', 'topic:cybersecurity'],
+  ['infrastructure', 'topic:devops'],
+  ['design-engineering', 'topic:design-system'],
+  ['ai-ml', 'topic:machine-learning'],
+  ['web-frameworks', 'topic:web-framework'],
+  ['databases', 'topic:database'],
+  ['mobile', 'topic:mobile-development'],
+  ['data-analytics', 'topic:data-engineering'],
+  ['crypto-web3', 'topic:web3'],
+  ['rust-ecosystem', 'language:Rust'],
+].map(([categoryId, qualifier]) => ({
+  id: `category:${categoryId}`,
+  categoryId,
+  qualifier,
+  days: 30,
+  minStars: 5,
+  pages: 1,
+}));
+
+export const DISCOVERY_QUERIES: DiscoveryQuery[] = [
+  ...GENERAL_QUERIES,
+  ...CATEGORY_QUERIES,
 ];
 
 interface GithubSearchResponse {
+  total_count?: number;
+  incomplete_results?: boolean;
   items?: GithubRepoItem[];
 }
 
@@ -77,11 +107,21 @@ export interface RecentRepoRow {
   createdAt: string;
   updatedAt: string;
   pushedAt: string;
+  discoveredBy?: string[];
+  firstDiscoveredAt?: string;
+  lastDiscoveredAt?: string;
 }
 
 export interface RecentReposPayload {
   fetchedAt: string;
   items: RecentRepoRow[];
+  diagnostics?: {
+    attemptedQueries: number;
+    succeededQueries: number;
+    incompleteQueries: number;
+    totalCount: number;
+    rawRows: number;
+  };
 }
 
 function isoDateDaysAgo(days: number): string {
@@ -90,14 +130,16 @@ function isoDateDaysAgo(days: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-function buildQuery(window: SearchWindow): string {
-  const createdFrom = isoDateDaysAgo(window.days);
+function buildQuery(query: DiscoveryQuery): string {
+  const createdFrom = isoDateDaysAgo(query.days);
   return [
     `created:>=${createdFrom}`,
-    `stars:>=${window.minStars}`,
+    `stars:>=${query.minStars}`,
+    'is:public',
     'archived:false',
     'fork:false',
-  ].join(' ');
+    query.qualifier,
+  ].filter(Boolean).join(' ');
 }
 
 function requestHeaders(token: string | undefined): Record<string, string> {
@@ -110,7 +152,7 @@ function requestHeaders(token: string | undefined): Record<string, string> {
   return headers;
 }
 
-function normalizeRepo(item: GithubRepoItem): RecentRepoRow {
+function normalizeRepo(item: GithubRepoItem, queryId: string, fetchedAt: string): RecentRepoRow {
   return {
     githubId: item.id,
     fullName: String(item.full_name ?? ''),
@@ -127,50 +169,181 @@ function normalizeRepo(item: GithubRepoItem): RecentRepoRow {
     createdAt: String(item.created_at ?? ''),
     updatedAt: String(item.updated_at ?? ''),
     pushedAt: String(item.pushed_at ?? ''),
+    discoveredBy: [queryId],
+    firstDiscoveredAt: fetchedAt,
+    lastDiscoveredAt: fetchedAt,
   };
 }
 
-async function fetchSearchWindow(
-  ctx: FetcherContext,
-  window: SearchWindow,
-  token: string | undefined,
-): Promise<RecentRepoRow[]> {
-  const rows: RecentRepoRow[] = [];
-  const query = buildQuery(window);
+interface SearchResult {
+  rows: RecentRepoRow[];
+  totalCount: number;
+  incomplete: boolean;
+}
 
-  for (let page = 1; page <= window.pages; page += 1) {
+function canRetryWithAnotherToken(err: unknown): boolean {
+  return (
+    err instanceof RateLimitQuarantineError ||
+    (err instanceof TransientHttpError && (err.httpStatus === 401 || err.httpStatus === 403))
+  );
+}
+
+async function fetchPage(
+  ctx: FetcherContext,
+  url: string,
+): Promise<GithubSearchResponse> {
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    const token = pickGithubToken() ?? undefined;
+    try {
+      const { data } = await ctx.http.json<GithubSearchResponse>(url, {
+        headers: requestHeaders(token),
+        timeoutMs: 20_000,
+        maxRetries: 0,
+        useEtagCache: false,
+      });
+      return data;
+    } catch (err) {
+      if (token && err instanceof TransientHttpError && err.httpStatus === 401) {
+        quarantine(token);
+      }
+      if (attempt === 1 || !canRetryWithAnotherToken(err)) throw err;
+    }
+  }
+  throw new Error('GitHub search retry exhausted');
+}
+
+async function fetchDiscoveryQuery(
+  ctx: FetcherContext,
+  query: DiscoveryQuery,
+  fetchedAt: string,
+): Promise<SearchResult> {
+  const rows: RecentRepoRow[] = [];
+  const search = buildQuery(query);
+  let totalCount = 0;
+  let incomplete = false;
+
+  for (let page = 1; page <= query.pages; page += 1) {
     const url = new URL(API_URL);
-    url.searchParams.set('q', query);
+    url.searchParams.set('q', search);
     url.searchParams.set('sort', 'stars');
     url.searchParams.set('order', 'desc');
     url.searchParams.set('per_page', String(PER_PAGE));
     url.searchParams.set('page', String(page));
 
-    let body: GithubSearchResponse;
     try {
-      const { data } = await ctx.http.json<GithubSearchResponse>(url.toString(), {
-        headers: requestHeaders(token),
-        timeoutMs: 20_000,
-        useEtagCache: false,
-      });
-      body = data;
+      const body = await fetchPage(ctx, url.toString());
+      totalCount = Math.max(totalCount, body.total_count ?? 0);
+      incomplete ||= body.incomplete_results === true;
+      const items = Array.isArray(body.items) ? body.items : [];
+      for (const item of items) {
+        if (!item?.full_name || !item.full_name.includes('/')) continue;
+        if (item.archived || item.disabled) continue;
+        rows.push(normalizeRepo(item, query.id, fetchedAt));
+      }
+      if (items.length < PER_PAGE) break;
     } catch (err) {
       throw new Error(
-        `GitHub search failed (${window.days}d page ${page}): ${(err as Error).message}`,
+        `GitHub search failed (${query.id} page ${page}): ${(err as Error).message}`,
       );
     }
-
-    const items = Array.isArray(body.items) ? body.items : [];
-    for (const item of items) {
-      if (!item?.full_name || !item.full_name.includes('/')) continue;
-      if (item.archived || item.disabled) continue;
-      rows.push(normalizeRepo(item));
-    }
-
-    if (items.length < PER_PAGE) break;
   }
 
-  return rows;
+  return { rows, totalCount, incomplete };
+}
+
+function isObviousSpam(row: RecentRepoRow): boolean {
+  const name = row.fullName.toLowerCase();
+  const text = [row.description, ...row.topics].join(' ').toLowerCase();
+  const namePatterns = [
+    /[-_/](crack|cracked)$/,
+    /[-_](crack|cracked)[-_](20\d\d|latest|full|free|download|premium|pro|repack|patch(ed)?)\b/,
+    /\b(premium|pro|full)[-_]?cracked\b/,
+    /\b(keygen|nulled|warez|activator|aimbot|wallhack|mod-menu)\b/,
+    /\bpre-?activated\b/,
+    /\b(we-the-north|wethenorth|darknet)\b/,
+    /[-_]market[-_]market[-_]/,
+    /\bfake[- ]?(btc|bitcoin)\b/,
+  ];
+  const textPatterns = [
+    /\b(activation key|serial key|license key generator)\b/,
+    /\bfree download\b[^.]{0,40}\b(crack|cracked|full version|premium)\b/,
+    /\b(keygen|nulled|warez)\b/,
+    /\bcracked (version|software|download|apk|full)\b/,
+    /\bpre-?activated\b/,
+  ];
+  return namePatterns.some((pattern) => pattern.test(name)) ||
+    textPatterns.some((pattern) => pattern.test(text));
+}
+
+function discoveryScore(row: RecentRepoRow, nowMs: number): number {
+  const createdMs = Date.parse(row.createdAt);
+  const ageDays = Number.isFinite(createdMs)
+    ? Math.max(1, (nowMs - createdMs) / 86_400_000)
+    : 365;
+  return row.stars / ageDays;
+}
+
+function compareDiscovery(a: RecentRepoRow, b: RecentRepoRow, nowMs: number): number {
+  return (
+    discoveryScore(b, nowMs) - discoveryScore(a, nowMs) ||
+    b.stars - a.stars ||
+    Date.parse(b.createdAt) - Date.parse(a.createdAt) ||
+    a.fullName.localeCompare(b.fullName)
+  );
+}
+
+function mergeProvenance(current: RecentRepoRow, next: RecentRepoRow): RecentRepoRow {
+  const first = [current.firstDiscoveredAt, next.firstDiscoveredAt]
+    .filter((value): value is string => Boolean(value))
+    .sort()[0];
+  const last = [current.lastDiscoveredAt, next.lastDiscoveredAt]
+    .filter((value): value is string => Boolean(value))
+    .sort()
+    .at(-1);
+  return {
+    ...next,
+    discoveredBy: Array.from(
+      new Set([...(current.discoveredBy ?? []), ...(next.discoveredBy ?? [])]),
+    ),
+    ...(first ? { firstDiscoveredAt: first } : {}),
+    ...(last ? { lastDiscoveredAt: last } : {}),
+  };
+}
+
+export function selectRecentRepos(
+  candidates: readonly RecentRepoRow[],
+  max: number = MAX_ITEMS,
+): RecentRepoRow[] {
+  const deduped = new Map<string, RecentRepoRow>();
+  for (const row of candidates) {
+    const key = row.fullName.toLowerCase();
+    if (!key || isObviousSpam(row)) continue;
+    const current = deduped.get(key);
+    deduped.set(key, current ? mergeProvenance(current, row) : row);
+  }
+
+  const nowMs = Date.now();
+  const ranked = Array.from(deduped.values()).sort((a, b) => compareDiscovery(a, b, nowMs));
+  const selected = new Map<string, RecentRepoRow>();
+  for (const query of CATEGORY_QUERIES) {
+    for (const row of ranked) {
+      if (selected.size >= max) break;
+      if (!row.discoveredBy?.includes(query.id)) continue;
+      selected.set(row.fullName.toLowerCase(), row);
+      if (
+        Array.from(selected.values()).filter((candidate) =>
+          candidate.discoveredBy?.includes(query.id),
+        ).length >= CATEGORY_RESERVE
+      ) {
+        break;
+      }
+    }
+  }
+  for (const row of ranked) {
+    if (selected.size >= max) break;
+    selected.set(row.fullName.toLowerCase(), row);
+  }
+  return Array.from(selected.values()).sort((a, b) => compareDiscovery(a, b, nowMs));
 }
 
 const fetcher: Fetcher = {
@@ -187,68 +360,61 @@ const fetcher: Fetcher = {
       return done(startedAt, 0, false, errors);
     }
 
-    const token = pickGithubToken() ?? undefined;
     const fetchedAt = new Date().toISOString();
-    const deduped = new Map<string, RecentRepoRow>();
+    const candidates: RecentRepoRow[] = [];
+    let succeededQueries = 0;
+    let incompleteQueries = 0;
+    let totalCount = 0;
 
-    for (const window of WINDOWS) {
-      let rows: RecentRepoRow[] = [];
+    for (const query of DISCOVERY_QUERIES) {
       try {
-        rows = await fetchSearchWindow(ctx, window, token);
+        const result = await fetchDiscoveryQuery(ctx, query, fetchedAt);
+        succeededQueries += 1;
+        incompleteQueries += result.incomplete ? 1 : 0;
+        totalCount += result.totalCount;
+        candidates.push(...result.rows);
         ctx.log.info(
-          { days: window.days, minStars: window.minStars, rows: rows.length },
-          'recent-repos window fetched',
+          {
+            query: query.id,
+            rows: result.rows.length,
+            totalCount: result.totalCount,
+            incomplete: result.incomplete,
+          },
+          'recent-repos query fetched',
         );
       } catch (err) {
         const message = (err as Error).message;
-        ctx.log.error({ window: window.days, err: message }, 'window failed');
-        errors.push({ stage: `window:${window.days}d`, message });
-        continue;
-      }
-      for (const row of rows) {
-        const key = row.fullName.toLowerCase();
-        const existing = deduped.get(key);
-        if (!existing) {
-          deduped.set(key, row);
-          continue;
-        }
-        const existingCreated = Date.parse(existing.createdAt);
-        const nextCreated = Date.parse(row.createdAt);
-        if (
-          nextCreated > existingCreated ||
-          (nextCreated === existingCreated && row.stars > existing.stars)
-        ) {
-          deduped.set(key, row);
-        }
+        ctx.log.error({ query: query.id, err: message }, 'query failed');
+        errors.push({ stage: query.id, message });
       }
     }
 
-    // Wave 2A (2026-05-27): read existing → union → cap, never empty the cache.
-    // Before this, if all 3 GH search windows threw, we'd write `items: []` and
-    // overwrite the previous good payload. That matches the recent-repos=0 prod
-    // symptom flagged in the handover. The fix uses the shared mergeAndCap
-    // helper (apps/trendingrepo-worker/src/lib/util/cache-merge.ts), which
-    // encodes the docs/INGESTION.md "keep last-50, never empty the cache" rule
-    // (2026-05-08) as a single primitive.
-    const fresh = Array.from(deduped.values());
+    // Read existing -> union -> cap. Failed runs do not advance freshness.
+    const fresh = selectRecentRepos(candidates, MAX_ITEMS);
     const existing = await readDataStore<RecentReposPayload>('recent-repos').catch(() => null);
     const existingItems = Array.isArray(existing?.items) ? existing.items : [];
 
-    // Zero-write guard: if all windows produced nothing AND we have prior data,
-    // preserve the prior payload (touch fetchedAt so freshness probes see
-    // motion). Log WARN so the GH outage surfaces in the run-summary.
-    if (shouldPreserveCache({ fresh, existing: existingItems })) {
+    if (succeededQueries === 0 || (fresh.length === 0 && existingItems.length > 0)) {
       ctx.log.warn(
-        { existingItems: existingItems.length, errors: errors.length },
-        'recent-repos: all windows produced 0 rows — preserving prior payload, not overwriting cache',
+        { existingItems: existingItems.length, errors: errors.length, succeededQueries },
+        'recent-repos: no usable fresh rows; preserving prior payload without moving freshness',
       );
-      const preserved: RecentReposPayload = { fetchedAt, items: existingItems };
-      const result = await writeDataStore('recent-repos', preserved);
-      return done(startedAt, existingItems.length, result.source === 'redis', errors);
+      return done(startedAt, existingItems.length, false, errors);
     }
 
-    const items = mergeRecentRepos(existingItems, fresh, MAX_ITEMS);
-    const payload: RecentReposPayload = { fetchedAt, items };
+    const merged = mergeRecentRepos(existingItems, fresh, Number.POSITIVE_INFINITY);
+    const items = selectRecentRepos(merged, MAX_ITEMS);
+    const payload: RecentReposPayload = {
+      fetchedAt,
+      items,
+      diagnostics: {
+        attemptedQueries: DISCOVERY_QUERIES.length,
+        succeededQueries,
+        incompleteQueries,
+        totalCount,
+        rawRows: candidates.length,
+      },
+    };
     const result = await writeDataStore('recent-repos', payload);
 
     ctx.log.info(

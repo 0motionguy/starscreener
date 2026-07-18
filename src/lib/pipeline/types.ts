@@ -180,6 +180,7 @@ export interface RepoScore {
 // ---------------------------------------------------------------------------
 
 export type PipelineCategoryId =
+  | "other"
   | "ai-agents"
   | "mcp"
   | "devtools"

@@ -1,9 +1,10 @@
 #!/bin/sh
-# TrendingRepo 3x/day X autopilot — cron wrapper (Phase C).
+# TrendingRepo 5x/day X autopilot — cron wrapper (Phase C).
 # Pattern-matched to trendingrepo-x402-enrich.sh: pinned checkout, grep-export
 # env (never `source` the dirty workspace env), flock, internal logging.
 #
-# Cron: /etc/cron.d/trendingrepo-x-autopilot -> 47 8,12,17 * * * root <this>
+# Cron: hourly at :47; --dispatch-utc maps UTC hours to slots because HOSTUP
+#       runs Vixie cron in CEST/CET and ignores per-file timezone settings.
 # Gate: TWITTER_OUTBOUND_MODE=live in /opt/trendingrepo/.env.production —
 #       auto-armed by trendingrepo-refresh-x-cookies.sh after a VERIFIED
 #       @trendingrepo session. Until then every slot logs a dormant skip, exit 0.
@@ -11,6 +12,17 @@
 # Post path: node /opt/trendingrepo-cron/scripts/twitter-trending-run.mjs
 #       (self-contained: node built-ins + global fetch; cap + 14d cooldown in
 #       the app make a double fire a no-op).
+if [ "${1:-}" = "--dispatch-utc" ]; then
+  case "$(date -u +%H)" in
+    04) set -- --slot D ;;
+    08) set -- --slot A ;;
+    12) set -- --slot B ;;
+    17) set -- --slot C ;;
+    21) set -- --slot E ;;
+    *) exit 0 ;;
+  esac
+fi
+
 LOG=/var/log/trendingrepo-x-autopilot.log
 exec 9>"/run/trendingrepo-x-autopilot.lock"
 flock -n 9 || exit 0

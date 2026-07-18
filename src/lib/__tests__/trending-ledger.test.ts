@@ -7,10 +7,12 @@ import assert from "node:assert/strict";
 import {
   computeLedgerState,
   appendLedgerPost,
+  rankTrendingCandidates,
   utcDate,
   type TrendingLedger,
   type TrendingLedgerPost,
 } from "../twitter/outbound/trending-runner";
+import type { Repo } from "../types";
 
 const NOW = Date.parse("2026-07-05T18:00:00.000Z");
 const DAY = 24 * 60 * 60 * 1000;
@@ -36,6 +38,15 @@ test("computeLedgerState puts repos posted within 14 days in cooldown", () => {
   const state = computeLedgerState(ledger, NOW);
   assert.ok(state.cooldownFullNames.has("acme/recent"));
   assert.ok(!state.cooldownFullNames.has("acme/old"));
+});
+
+test("computeLedgerState uses lowercase cooldown identities", () => {
+  const state = computeLedgerState(
+    { posts: [post("Acme/Repo", NOW - DAY)] },
+    NOW,
+  );
+  assert.ok(state.cooldownFullNames.has("acme/repo"));
+  assert.ok(!state.cooldownFullNames.has("Acme/Repo"));
 });
 
 test("computeLedgerState counts only today's (UTC) posts for the cap", () => {
@@ -77,4 +88,31 @@ test("appendLedgerPost appends and bounds the ledger to the last 500", () => {
   assert.equal(next.posts.length, 500);
   assert.equal(next.posts.at(-1)?.fullName, "a/new");
   assert.equal(next.posts.some((p) => p.fullName === "a/0"), false); // oldest dropped
+});
+
+test("appendLedgerPost is idempotent by tweet id and case-insensitive repo name", () => {
+  const first = post("Acme/Repo", NOW, "tweet-1");
+  const duplicate = post("acme/repo", NOW + 1_000, "tweet-1");
+  const ledger = { posts: [first] };
+  const next = appendLedgerPost(ledger, duplicate);
+  assert.equal(next.posts.length, 1);
+  assert.equal(next.posts[0]?.fullName, "Acme/Repo");
+  assert.equal(next, ledger);
+});
+
+function rankedRepo(fullName: string, d24: number, d7: number, d30: number): Repo {
+  return {
+    id: fullName,
+    fullName,
+    starsDelta24h: d24,
+    starsDelta7d: d7,
+    starsDelta30d: d30,
+  } as Repo;
+}
+
+test("rankTrendingCandidates supports GAINER and sustained TREND order", () => {
+  const spike = rankedRepo("acme/spike", 100, 100, 100);
+  const climber = rankedRepo("acme/climber", 10, 80, 320);
+  assert.equal(rankTrendingCandidates([climber, spike], "gainer")[0]?.fullName, "acme/spike");
+  assert.equal(rankTrendingCandidates([spike, climber], "trend")[0]?.fullName, "acme/climber");
 });

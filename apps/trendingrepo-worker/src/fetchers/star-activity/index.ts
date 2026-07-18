@@ -15,8 +15,8 @@
 // the latest count either way).
 //
 // Cost: 1 GH REST call per repo (cheap `/repos/{owner}/{name}` returns
-// stargazers_count directly — no pagination). At STAR_ACTIVITY_LIMIT=50
-// (default), bounded concurrency 4 → ~25s wall-clock per daily tick.
+// stargazers_count directly — no pagination). The 3000-row default matches
+// the registry cap and remains below one authenticated core-rate window.
 //
 // SCHEDULE
 //   Daily 04:17 UTC (`17 4 * * *`) — between the GH Action's 03:17 run
@@ -28,7 +28,12 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { writeDynamicOutputMarker } from '../../lib/dynamic-output-marker.js';
-import { pickGithubToken } from '../../lib/util/github-token-pool.js';
+import {
+  parseRateLimitHeaders,
+  pickGithubToken,
+  quarantine,
+  recordRateLimit,
+} from '../../lib/util/github-token-pool.js';
 import {
   rankedRegistryFullNames,
   type RegistryPayloadLite,
@@ -40,13 +45,12 @@ import {
 // tail) so every visible repo gets a fresh daily star point — the
 // prerequisite for `star-activity-deltas` to compute real 24h/7d/30d for
 // the whole homepage set (GitHub-direct velocity, OSS-Insight-independent).
-// Cost is 1 cheap `/repos/{owner}/{name}` call per repo; ~750 calls/day at
-// concurrency 8 is trivial for the 20-token pool.
-const STAR_ACTIVITY_LIMIT = Math.max(
+// Cost is 1 cheap `/repos/{owner}/{name}` call per repo; at most 3000/day.
+export const STAR_ACTIVITY_LIMIT = Math.max(
   1,
   Math.min(
     3000,
-    Number.parseInt(process.env.STAR_ACTIVITY_LIMIT ?? '800', 10) || 800,
+    Number.parseInt(process.env.STAR_ACTIVITY_LIMIT ?? '3000', 10) || 3000,
   ),
 );
 const CONCURRENCY = 8;
@@ -128,16 +132,19 @@ export function appendToday(
   };
 }
 
-async function fetchCurrentStars(
-  ctx: FetcherContext,
-  fullName: string,
-  token: string | undefined,
-): Promise<number | null> {
+export async function fetchCurrentStars(fullName: string): Promise<number | null> {
+  const token = pickGithubToken();
+  if (!token) return null;
   try {
     const response = await fetch(`https://api.github.com/repos/${fullName}`, {
       headers: ghHeaders(token),
       signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
     });
+    const rateLimit = parseRateLimitHeaders(response.headers);
+    if (rateLimit) {
+      recordRateLimit(token, rateLimit.remaining, rateLimit.resetUnixSec);
+    }
+    if (response.status === 401) quarantine(token);
     if (!response.ok) return null;
     const data = (await response.json()) as { stargazers_count?: number };
     if (typeof data.stargazers_count !== 'number') return null;
@@ -148,13 +155,11 @@ async function fetchCurrentStars(
 }
 
 async function appendOne(
-  ctx: FetcherContext,
   fullName: string,
-  token: string | undefined,
 ): Promise<'updated' | 'skipped'> {
   const slug = payloadSlug(fullName);
   const existing = await readDataStore<StarActivityPayload>(slug).catch(() => null);
-  const stars = await fetchCurrentStars(ctx, fullName, token);
+  const stars = await fetchCurrentStars(fullName);
   if (stars === null) return 'skipped';
   const next = appendToday(existing, fullName, stars);
   await writeDataStore(slug, next, { writer: 'star-activity' });
@@ -188,8 +193,8 @@ const fetcher: Fetcher = {
     const registry = await readDataStore<RegistryPayloadLite>('repo-registry').catch(
       () => null,
     );
-    // Full-registry coverage (2026-05-29): with STAR_ACTIVITY_LIMIT now
-    // defaulting to 800 (≥ the registry size), this snapshots EVERY registry
+    // Full-registry coverage: STAR_ACTIVITY_LIMIT matches the registry cap,
+    // so this snapshots EVERY registry
     // repo daily, not just the dropped tail — so `star-activity-deltas` has a
     // fresh latest point for the whole homepage set. Oldest-first ordering is
     // retained so that if the registry ever grows past the limit, the
@@ -213,7 +218,7 @@ const fetcher: Fetcher = {
         const fullName = queue.shift();
         if (!fullName) break;
         try {
-          const result = await appendOne(ctx, fullName, token);
+          const result = await appendOne(fullName);
           if (result === 'updated') updated += 1;
           else skipped += 1;
         } catch (err) {

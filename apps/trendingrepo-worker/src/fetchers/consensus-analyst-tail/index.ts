@@ -45,6 +45,7 @@ import {
   ItemReportSchema,
   SYSTEM_PROMPT,
   buildItemUserMessage,
+  normalizeItemReport,
   type AnalystUserMessageContext,
   type ItemReport,
 } from '../consensus-analyst/prompt.js';
@@ -144,6 +145,7 @@ const fetcher: Fetcher = {
     let totalCached = 0;
     let usedProvider: LlmProvider | undefined;
     let usedModel: string | undefined;
+    let repairedItems = 0;
 
     const queue: ConsensusItem[] = [...candidates];
     const sweepItem = async (): Promise<void> => {
@@ -167,7 +169,6 @@ const fetcher: Fetcher = {
               task_type: 'item',
               request_id: randomUUID(),
             },
-            (text) => ItemReportSchema.safeParse(parseJson(text)).success,
           );
           usedProvider = r.meta.provider;
           usedModel = r.meta.model;
@@ -178,16 +179,19 @@ const fetcher: Fetcher = {
           const parsed = parseJson(r.text);
           const validated = ItemReportSchema.safeParse(parsed);
           if (!validated.success) {
+            repairedItems += 1;
             ctx.log.warn(
               {
                 fullName: item.fullName,
                 issues: validated.error.issues.slice(0, 3),
               },
-              'consensus-analyst-tail: item report failed schema validation',
+              'consensus-analyst-tail: repaired item report with deterministic consensus facts',
             );
-            continue;
           }
-          items[item.fullName] = { fullName: item.fullName, ...validated.data };
+          items[item.fullName] = {
+            fullName: item.fullName,
+            ...normalizeItemReport(parsed, item),
+          };
         } catch (err) {
           ctx.log.warn(
             {
@@ -220,10 +224,13 @@ const fetcher: Fetcher = {
     const latestExisting = await loadExistingItems();
     const latestPayload = await readDataStore<VerdictsPayload>('consensus-verdicts');
     const mergedItems = { ...latestExisting, ...items };
+    const generator = repairedItems === freshCount
+      ? 'template'
+      : (usedProvider ?? getLlmProvider());
     const payload: VerdictsPayload = {
       computedAt: new Date().toISOString(),
-      generator: usedProvider ?? getLlmProvider(),
-      model: usedModel,
+      generator,
+      ...(generator !== 'template' && usedModel ? { model: usedModel } : {}),
       // Preserve the latest ribbon/usage from the existing payload — the tail
       // fetcher's job is item-coverage only, not ribbon regeneration.
       ribbon: latestPayload?.ribbon ?? {
@@ -244,6 +251,7 @@ const fetcher: Fetcher = {
     ctx.log.info(
       {
         freshThisRun: freshCount,
+        repairedItems,
         candidates: candidates.length,
         totalRetained: Object.keys(mergedItems).length,
         usage: { totalInput, totalOutput, totalCached },

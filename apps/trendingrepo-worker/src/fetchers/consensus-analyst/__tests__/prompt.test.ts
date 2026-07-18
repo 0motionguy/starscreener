@@ -5,6 +5,7 @@ import {
   ItemReportSchema,
   buildCitationCandidates,
   buildItemUserMessage,
+  normalizeItemReport,
 } from '../prompt.js';
 import type {
   ConsensusItem,
@@ -147,21 +148,21 @@ describe('ItemReportSchema (rolling-deploy compat)', () => {
   // dropped entirely. Verdict + scores stay strict — those must be present
   // for the ranking to be honest.
   it('defaults evidence to [] when omitted (Wave B lenience)', () => {
-    const { evidence: _omit, ...minusEvidence } = baseValid;
+    const minusEvidence = { ...baseValid, evidence: undefined };
     const r = ItemReportSchema.safeParse(minusEvidence);
     expect(r.success).toBe(true);
     if (r.success) expect(r.data.evidence).toEqual([]);
   });
 
   it('defaults contrarian to "" when omitted (Wave B lenience)', () => {
-    const { contrarian: _omit, ...minusContrarian } = baseValid;
+    const minusContrarian = { ...baseValid, contrarian: undefined };
     const r = ItemReportSchema.safeParse(minusContrarian);
     expect(r.success).toBe(true);
     if (r.success) expect(r.data.contrarian).toBe('');
   });
 
   it('still rejects when verdict is missing — verdict integrity is load-bearing for ranking', () => {
-    const { verdict: _omit, ...minusVerdict } = baseValid;
+    const minusVerdict = { ...baseValid, verdict: undefined };
     expect(ItemReportSchema.safeParse(minusVerdict).success).toBe(false);
   });
 
@@ -169,6 +170,85 @@ describe('ItemReportSchema (rolling-deploy compat)', () => {
     expect(
       ItemReportSchema.safeParse({ ...baseValid, verdict: 'maybe' }).success,
     ).toBe(false);
+  });
+});
+
+describe('normalizeItemReport', () => {
+  it('repairs the partial and null response shape observed in production', () => {
+    const item = makeItem('owner/repo', { gh: 2, hn: 4, dev: 8 });
+
+    const report = normalizeItemReport(
+      {
+        tagline: null,
+        summary: undefined,
+        scores: undefined,
+        evidence: null,
+        contrarian: null,
+        verdict: 'strong_consensus',
+      },
+      item,
+    );
+
+    expect(ItemReportSchema.safeParse(report).success).toBe(true);
+    expect(report.summary).toContain('owner/repo');
+    expect(report.scores).toEqual({
+      momentum: 75,
+      credibility: 80,
+      crossSource: 38,
+      developerAdoption: 98,
+      marketRelevance: 78,
+      hypeRisk: 20,
+    });
+    expect(report.verdict).toBe('strong');
+    expect(report.evidence).toEqual([]);
+    expect(report.contrarian).toBe('');
+  });
+
+  it('clamps optional text and rejects citations outside the item allowlist', () => {
+    const item = makeItem('owner/repo', { gh: 1, hn: 5 });
+    const allowed = buildCitationCandidates(item)[0]!;
+
+    const report = normalizeItemReport(
+      {
+        tagline: `  ${'x'.repeat(170)}  `,
+        summary: 'Valid model summary',
+        scores: {
+          momentum: 10,
+          credibility: 20,
+          crossSource: 30,
+          developerAdoption: 40,
+          marketRelevance: 50,
+          hypeRisk: 60,
+        },
+        evidence: ['signal', null, 3],
+        contrarian: 'risk',
+        verdict: 'early',
+        confidence: 70,
+        whyNow: 'today',
+        whatToDo: 'watch',
+        whatToDoDetail: 'monitor it',
+        citations: [
+          allowed,
+          { title: 'Untrusted', url: 'https://attacker.example/report' },
+        ],
+      },
+      item,
+    );
+
+    expect(report.tagline).toHaveLength(160);
+    expect(report.evidence).toEqual(['signal']);
+    expect(report.citations).toEqual([allowed]);
+    expect(report.summary).toBe('Valid model summary');
+    expect(report.scores.momentum).toBe(10);
+  });
+
+  it('maps an invalid model verdict from the authoritative consensus band', () => {
+    const item = { ...makeItem('owner/repo', { gh: 1 }), verdict: 'early_call' as const };
+    const report = normalizeItemReport({ verdict: 'maybe' }, item);
+
+    expect(report.verdict).toBe('early');
+    expect(report.whatToDo).toBe('watch');
+    expect(ItemReportSchema.safeParse(report).success).toBe(true);
   });
 });
 
@@ -211,6 +291,16 @@ describe('buildCitationCandidates', () => {
     const item = makeItem('owner/repo with spaces', { hn: 1 });
     const candidates = buildCitationCandidates(item);
     expect(candidates[0]?.url).toContain('owner%2Frepo%20with%20spaces');
+  });
+
+  it('clamps canonical citation titles before strict normalization', () => {
+    const fullName = `${'owner'.repeat(15)}/${'repo'.repeat(30)}`;
+    const item = makeItem(fullName, { gh: 1 });
+    const candidate = buildCitationCandidates(item)[0]!;
+
+    expect(candidate.title.length).toBeLessThanOrEqual(80);
+    expect(CitationSchema.safeParse(candidate).success).toBe(true);
+    expect(normalizeItemReport({ citations: [candidate] }, item).citations).toEqual([candidate]);
   });
 
   it('returns empty array when no external sources are present', () => {

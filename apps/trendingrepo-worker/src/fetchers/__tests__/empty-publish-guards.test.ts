@@ -233,6 +233,172 @@ describe('worker fetcher empty publish guards', () => {
     expect(result.errors.some((error) => error.stage === 'empty-verdicts')).toBe(true);
   });
 
+  it('consensus-analyst normalizes partial model output and publishes a healthy merge', async () => {
+    callLlmMock
+      .mockResolvedValueOnce({
+        text: '{"tagline":null,"verdict":"strong_consensus"}',
+        usage: { inputTokens: 10, outputTokens: 5, cachedInputTokens: 0 },
+        meta: { provider: 'nanogpt', model: 'moonshotai/kimi-k2.6' },
+      })
+      .mockResolvedValueOnce({
+        text: '{"headline":"Today in repos","bullets":["One","Two"]}',
+        usage: { inputTokens: 4, outputTokens: 2, cachedInputTokens: 0 },
+        meta: { provider: 'nanogpt', model: 'moonshotai/kimi-k2.6' },
+      });
+    readDataStoreMock.mockImplementation(async (key: string) => {
+      if (key === 'consensus-trending') {
+        const absent = { present: false, rank: null, score: null, normalized: 0 };
+        return {
+          itemCount: 1,
+          bandCounts: {
+            strong_consensus: 1,
+            early_call: 0,
+            divergence: 0,
+            external_only: 0,
+            single_source: 0,
+          },
+          sourceStats: {},
+          weights: {},
+          items: [
+            {
+              fullName: 'owner/repo',
+              rank: 1,
+              consensusScore: 90,
+              sourceCount: 1,
+              confidence: 90,
+              externalRank: 1,
+              oursRank: 1,
+              verdict: 'strong_consensus',
+              maxRankGap: 0,
+              sources: {
+                ours: { present: true, rank: 1, score: 90, normalized: 0.9 },
+                gh: { present: true, rank: 1, score: 90, normalized: 0.9 },
+                hf: absent,
+                hn: absent,
+                x: absent,
+                r: absent,
+                pdh: absent,
+                dev: absent,
+                bs: absent,
+              },
+            },
+          ],
+        };
+      }
+      if (key === 'consensus-verdicts') {
+        return {
+          items: {
+            'old/repo': {
+              fullName: 'old/repo',
+              summary: 'old',
+            },
+          },
+        };
+      }
+      return null;
+    });
+    const { default: fetcher } = await import('../consensus-analyst/index.js');
+
+    const result = await fetcher.run(makeContext());
+
+    expect(callLlmMock.mock.calls[0]).toHaveLength(2);
+    expect(callLlmMock.mock.calls[1]).toHaveLength(2);
+    expect(writeDataStoreMock).toHaveBeenCalledWith(
+      'consensus-verdicts',
+      expect.objectContaining({
+        status: 'ok',
+        items: expect.objectContaining({
+          'old/repo': expect.any(Object),
+          'owner/repo': expect.objectContaining({
+            summary: expect.stringContaining('owner/repo'),
+            verdict: 'strong',
+          }),
+        }),
+      }),
+    );
+    expect(result.redisPublished).toBe(true);
+    expect(result.errors).toEqual([]);
+  });
+
+  it('consensus-analyst-tail normalizes a partial tail item instead of dropping it', async () => {
+    callLlmMock.mockResolvedValue({
+      text: 'null',
+      usage: { inputTokens: 10, outputTokens: 5, cachedInputTokens: 0 },
+      meta: { provider: 'nanogpt', model: 'moonshotai/kimi-k2.6' },
+    });
+    const absent = { present: false, rank: null, score: null, normalized: 0 };
+    const items = Array.from({ length: 31 }, (_, index) => ({
+      fullName: index === 30 ? 'owner/tail-repo' : `owner/repo-${index}`,
+      rank: index + 1,
+      consensusScore: 70,
+      sourceCount: 1,
+      confidence: 65,
+      externalRank: index + 1,
+      oursRank: index + 1,
+      verdict: 'early_call' as const,
+      maxRankGap: 0,
+      sources: {
+        ours: { present: true, rank: index + 1, score: 70, normalized: 0.7 },
+        gh: { present: true, rank: index + 1, score: 70, normalized: 0.7 },
+        hf: absent,
+        hn: absent,
+        x: absent,
+        r: absent,
+        pdh: absent,
+        dev: absent,
+        bs: absent,
+      },
+    }));
+    readDataStoreMock.mockImplementation(async (key: string) => {
+      if (key === 'consensus-trending') {
+        return {
+          itemCount: items.length,
+          bandCounts: {
+            strong_consensus: 0,
+            early_call: items.length,
+            divergence: 0,
+            external_only: 0,
+            single_source: 0,
+          },
+          sourceStats: {},
+          weights: {},
+          items,
+        };
+      }
+      if (key === 'consensus-verdicts') {
+        return {
+          generator: 'kimi',
+          ribbon: { headline: 'Existing', bullets: ['One', 'Two'] },
+          items: {},
+          usage: {
+            totalInputTokens: 0,
+            totalOutputTokens: 0,
+            totalCachedInputTokens: 0,
+          },
+        };
+      }
+      return null;
+    });
+    const { default: fetcher } = await import('../consensus-analyst-tail/index.js');
+
+    const result = await fetcher.run(makeContext());
+
+    expect(callLlmMock.mock.calls[0]).toHaveLength(2);
+    expect(writeDataStoreMock).toHaveBeenCalledWith(
+      'consensus-verdicts',
+      expect.objectContaining({
+        generator: 'template',
+        items: {
+          'owner/tail-repo': expect.objectContaining({
+            verdict: 'early',
+            summary: expect.stringContaining('owner/tail-repo'),
+          }),
+        },
+      }),
+    );
+    expect(result.redisPublished).toBe(true);
+  });
+
   it('funding-news preserves the prior slug when every RSS feed fails', async () => {
     fetchWithTimeoutMock.mockRejectedValue(new Error('rss unavailable'));
     const { default: fetcher } = await import('../funding-news/index.js');

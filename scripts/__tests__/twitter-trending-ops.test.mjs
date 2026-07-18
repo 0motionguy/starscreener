@@ -1,7 +1,9 @@
 import assert from "node:assert/strict";
 import childProcess from "node:child_process";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { syncBuiltinESMExports } from "node:module";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { test } from "node:test";
 
 const read = (path) => readFile(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -22,7 +24,7 @@ test("host runner logs slot-qualified success only after confirmation", async ()
   const runner = await read("scripts/twitter-trending-run.mjs");
   const confirmationGuard = runner.indexOf("if (!cres.ok)");
   const successLog = runner.indexOf(
-    'log("posted", `slot=${SLOT ?? "unslotted"}`, tweetId);',
+    'log("posted", `slot=${intent.slot}`, intent.tweetId);',
   );
 
   assert.notEqual(confirmationGuard, -1, "missing confirmation failure guard");
@@ -89,35 +91,50 @@ test("X cookie rotation accepts secrets only on stdin and commits after verifica
   assert.doesNotMatch(preflight, /<auth_token> <ct0>/);
 });
 
-test("host runner fails when the posted tweet cannot be confirmed", async (t) => {
+test("host runner retries durable confirmation before proposing or posting again", async (t) => {
   const oldSecret = process.env.CRON_SECRET;
   const oldUrl = process.env.TRENDINGREPO_URL;
+  const oldIntentFile = process.env.TRENDING_POST_INTENT_FILE;
+  const tempDir = await mkdtemp(join(tmpdir(), "trendingrepo-x-intent-"));
+  const intentFile = join(tempDir, "pending.json");
   process.env.CRON_SECRET = "test-secret";
   process.env.TRENDINGREPO_URL = "http://test.invalid";
+  process.env.TRENDING_POST_INTENT_FILE = intentFile;
 
   const exits = [];
   const logs = [];
+  let posts = 0;
+  let failureExited;
+  let posted;
+  const failureExitReached = new Promise((resolve) => {
+    failureExited = resolve;
+  });
+  const postedReached = new Promise((resolve) => {
+    posted = resolve;
+  });
   t.mock.method(process, "exit", (code) => {
     exits.push(code);
+    if (code === 1) failureExited();
   });
   t.mock.method(console, "log", (...args) => {
-    logs.push(args.join(" "));
+    const line = args.join(" ");
+    logs.push(line);
+    if (line.includes("posted slot=unslotted 1234567890123456789")) posted();
   });
-  t.mock.method(childProcess, "execFileSync", (_file, args) =>
-    args[0] === "--compact"
-      ? "ok: true\nusername: trendingrepo\n"
-      : JSON.stringify({ data: { id: "1234567890123456789" } }),
-  );
+  t.mock.method(childProcess, "execFileSync", (_file, args) => {
+    if (args[0] === "--compact") return "ok: true\nusername: trendingrepo\n";
+    posts += 1;
+    return JSON.stringify({ data: { id: "1234567890123456789" } });
+  });
   syncBuiltinESMExports();
 
-  let request = 0;
-  let confirmed;
-  const confirmationReached = new Promise((resolve) => {
-    confirmed = resolve;
-  });
-  t.mock.method(globalThis, "fetch", async () => {
-    request += 1;
-    if (request === 1) {
+  let proposals = 0;
+  let confirmations = 0;
+  const confirmationWaiters = [];
+  t.mock.method(globalThis, "fetch", async (_url, init) => {
+    const body = JSON.parse(init.body);
+    if (!body.confirm) {
+      proposals += 1;
       return Response.json({
         post: true,
         fullName: "acme/repo",
@@ -126,26 +143,101 @@ test("host runner fails when the posted tweet cannot be confirmed", async (t) =>
         url: "https://trendingrepo.com/repo/acme/repo",
       });
     }
-    confirmed();
-    return new Response("ledger unavailable", { status: 503 });
+    confirmations += 1;
+    confirmationWaiters.shift()?.();
+    return confirmations === 1
+      ? new Response("ledger unavailable", { status: 503 })
+      : Response.json({ ok: true });
   });
 
   try {
+    const firstConfirmation = new Promise((resolve) => confirmationWaiters.push(resolve));
     await import(`../twitter-trending-run.mjs?confirm-failure=${Date.now()}`);
-    await confirmationReached;
-    await new Promise((resolve) => setImmediate(resolve));
+    await firstConfirmation;
+    await failureExitReached;
+
+    const pending = JSON.parse(await readFile(intentFile, "utf8"));
+    assert.equal(pending.tweetId, "1234567890123456789");
+    assert.deepEqual(pending.confirm.fullNames, ["acme/repo"]);
+
+    const secondConfirmation = new Promise((resolve) => confirmationWaiters.push(resolve));
+    await import(`../twitter-trending-run.mjs?confirm-retry=${Date.now()}`);
+    await secondConfirmation;
+    await postedReached;
+
     assert.deepEqual(exits, [1]);
-    assert.equal(
-      logs.some((line) => line.includes(" posted ")),
-      false,
-      "failed confirmation emitted a success marker",
-    );
+    assert.equal(proposals, 1, "retry requested a fresh proposal");
+    assert.equal(posts, 1, "retry posted a duplicate tweet");
+    assert.equal(confirmations, 2);
+    await assert.rejects(readFile(intentFile, "utf8"), { code: "ENOENT" });
+    assert.ok(logs.some((line) => line.includes("posted slot=unslotted 1234567890123456789")));
   } finally {
     if (oldSecret === undefined) delete process.env.CRON_SECRET;
     else process.env.CRON_SECRET = oldSecret;
     if (oldUrl === undefined) delete process.env.TRENDINGREPO_URL;
     else process.env.TRENDINGREPO_URL = oldUrl;
+    if (oldIntentFile === undefined) delete process.env.TRENDING_POST_INTENT_FILE;
+    else process.env.TRENDING_POST_INTENT_FILE = oldIntentFile;
     t.mock.restoreAll();
     syncBuiltinESMExports();
+    await rm(tempDir, { recursive: true, force: true });
+  }
+});
+
+test("host runner blocks when a prior post outcome is ambiguous", async (t) => {
+  const oldSecret = process.env.CRON_SECRET;
+  const oldIntentFile = process.env.TRENDING_POST_INTENT_FILE;
+  const tempDir = await mkdtemp(join(tmpdir(), "trendingrepo-x-ambiguous-"));
+  const intentFile = join(tempDir, "pending.json");
+  process.env.CRON_SECRET = "test-secret";
+  process.env.TRENDING_POST_INTENT_FILE = intentFile;
+  await writeFile(
+    intentFile,
+    JSON.stringify({
+      version: 1,
+      createdAt: "2026-07-18T08:47:00.000Z",
+      slot: "A",
+      confirm: { fullNames: ["acme/repo"], text: "acme/repo" },
+    }),
+  );
+
+  const exits = [];
+  const logs = [];
+  let twitterCalls = 0;
+  let fetchCalls = 0;
+  let blocked;
+  const blockedReached = new Promise((resolve) => {
+    blocked = resolve;
+  });
+  t.mock.method(process, "exit", (code) => {
+    exits.push(code);
+    if (code === 1) blocked();
+  });
+  t.mock.method(console, "log", (...args) => logs.push(args.join(" ")));
+  t.mock.method(childProcess, "execFileSync", () => {
+    twitterCalls += 1;
+    return "ok: true\nusername: trendingrepo\n";
+  });
+  t.mock.method(globalThis, "fetch", async () => {
+    fetchCalls += 1;
+    return Response.json({ post: false, reason: "no-candidates" });
+  });
+  syncBuiltinESMExports();
+
+  try {
+    await import(`../twitter-trending-run.mjs?ambiguous=${Date.now()}`);
+    await blockedReached;
+    assert.deepEqual(exits, [1]);
+    assert.equal(twitterCalls, 0);
+    assert.equal(fetchCalls, 0);
+    assert.ok(logs.some((line) => line.includes("pending post outcome unknown")));
+  } finally {
+    if (oldSecret === undefined) delete process.env.CRON_SECRET;
+    else process.env.CRON_SECRET = oldSecret;
+    if (oldIntentFile === undefined) delete process.env.TRENDING_POST_INTENT_FILE;
+    else process.env.TRENDING_POST_INTENT_FILE = oldIntentFile;
+    t.mock.restoreAll();
+    syncBuiltinESMExports();
+    await rm(tempDir, { recursive: true, force: true });
   }
 });

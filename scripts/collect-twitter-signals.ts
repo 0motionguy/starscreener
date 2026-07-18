@@ -6,7 +6,7 @@ import "./_server-only-shim";
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import pLimit from "p-limit";
 import { loadEnvConfig } from "@next/env";
 import {
@@ -1132,12 +1132,21 @@ async function cleanupForCliExit(): Promise<void> {
   }
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await cleanupForCliExit();
-    process.exit(process.exitCode ?? 0);
-  });
+// Entrypoint guard: the twitter-collector test suite imports helpers from
+// this module, so the CLI must only run when invoked directly
+// (`tsx scripts/collect-twitter-signals.ts`), never on import — otherwise
+// the toolbox provider's fail-loud env check kills the test process.
+// Case-insensitive compare so Windows drive-letter casing (c:\ vs C:\)
+// cannot skip the CLI. Pattern: backfill-history.mjs / pipeline-post.mjs.
+const cliEntryHref = process.argv[1] ? pathToFileURL(process.argv[1]).href : "";
+if (cliEntryHref.toLowerCase() === import.meta.url.toLowerCase()) {
+  main()
+    .catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await cleanupForCliExit();
+      process.exit(process.exitCode ?? 0);
+    });
+}

@@ -53,11 +53,11 @@ const phraseQuery: TwitterQuery = {
   rationale: "Quoted project name",
 };
 
-test("collect-twitter CLI defaults to nitter provider unless env overrides", () => {
+test("collect-twitter CLI defaults to toolbox provider unless env overrides", () => {
   const previous = process.env.TWITTER_COLLECTOR_PROVIDER;
   try {
     delete process.env.TWITTER_COLLECTOR_PROVIDER;
-    assert.equal(parseTwitterCollectorArgs([]).provider, "nitter");
+    assert.equal(parseTwitterCollectorArgs([]).provider, "toolbox");
   } finally {
     if (previous === undefined) {
       delete process.env.TWITTER_COLLECTOR_PROVIDER;

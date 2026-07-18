@@ -109,7 +109,6 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
   // weekly - slow-moving baselines
   { slug: "lmarena-text", fetcher: "lmarena", cadenceMin: 60 * 24 * 7, slowMoving: true, blocking: false },
-  { slug: "reddit-baselines", fetcher: "reddit-baselines", cadenceMin: 60 * 24 * 7, slowMoving: true },
 
 ];
 
@@ -146,13 +145,19 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
     slug: "reddit-mentions",
     fetcher: "reddit",
     reason:
-      "live Reddit collector is intentionally paused on HOSTUP; reddit-baselines remains active separately",
+      "live Reddit collector is intentionally paused on HOSTUP; Reddit is paused end-to-end, including the weekly baseline refresh",
   },
   {
     slug: "reddit-all-posts",
     fetcher: "reddit",
     reason:
       "live Reddit collector is intentionally paused on HOSTUP; do not treat the stale historical all-posts slug as worker-owned",
+  },
+  {
+    slug: "reddit-baselines",
+    fetcher: "reddit-baselines",
+    reason:
+      "Reddit collection is paused end-to-end on HOSTUP; the weekly baseline refresh pauses with the collectors and the last-good data/reddit-baselines.json snapshot keeps serving subreddit context.",
   },
   {
     slug: "funding-news-x",

@@ -1,73 +1,23 @@
-name: Refresh Reddit baselines
+name: Refresh Reddit baselines (paused)
+
+# Reddit collection is paused end-to-end on HOSTUP.
+# Keep this workflow dispatchable only as an operator-visible no-op so nobody
+# can accidentally run a stale baseline-refresh path while the topic is closed.
+# The real refresh chain (compute-reddit-baselines → scrape-reddit → data
+# commit) lives in git history on this file; restore it once OAuth/proxy
+# credentials are ready and the operator pause is lifted.
 
 on:
-  # Reddit live collection is intentionally paused/off in GitHub. HOSTUP worker
-  # owns the slow baseline slug; keep this workflow manual-only for operator
-  # backfills after OAuth/proxy credentials are ready.
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 permissions:
-  contents: write
-  pull-requests: write
-
-concurrency:
-  group: reddit-baselines-refresh
-  cancel-in-progress: false
+  contents: read
 
 jobs:
-  refresh:
-    # Paused with live Reddit collection. Baselines hit Reddit upstreams too.
-    if: ${{ false }}
+  paused:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          fetch-depth: 0
-
-      - name: Setup Node 20
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Compute Reddit baselines
-        env:
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
-        run: node scripts/compute-reddit-baselines.mjs
-
-      - name: Refresh Reddit mentions with fresh baselines
-        env:
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          REDDIT_USER_AGENT: ${{ secrets.REDDIT_USER_AGENT }}
-          REDDIT_USER_AGENTS: ${{ secrets.REDDIT_USER_AGENTS }}
-          # 2026-05-17: APIFY DISABLED (operator policy — see
-          # docs/POLICY-NO-APIFY.md). Baseline-refresh uses the public
-          # Reddit JSON path; last-good invariant preserves engaged data.
-        run: node scripts/scrape-reddit.mjs
-
-      - name: Compute commit timestamp
-        id: ts
-        run: echo "value=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
-
-      - name: Commit if changed
-        # Step-level timeout — git-commit-data invokes `gh pr merge --auto`
-        # which can block indefinitely waiting for required checks. Cap at
-        # 5 min so the rest of the job (which may run other workloads) isn't
-        # starved. Pattern source: #1529 (collect-twitter.yml).
-        timeout-minutes: 5
-        uses: ./.github/actions/git-commit-data
-        with:
-          gh-token: ${{ secrets.DATA_BOT_TOKEN }}
-          message: "chore(data): refresh reddit baselines ${{ steps.ts.outputs.value }}"
-          paths: |
-            data/reddit-baselines.json
-            data/reddit-mentions.json
-            data/reddit-all-posts.json
+      - name: Reddit collection paused
+        run: |
+          echo "Reddit collection is paused end-to-end on HOSTUP."
+          echo "No scraper, probe, baseline refresh, secrets, Redis writes, or data commits run from this workflow."

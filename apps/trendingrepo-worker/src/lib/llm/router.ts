@@ -194,23 +194,31 @@ async function attempt(
 export async function callLlm(
   opts: LlmCallOptions,
   telemetry: LlmTelemetry,
+  acceptsResult?: (text: string) => boolean,
 ): Promise<LlmCallResult> {
   const primary = getLlmProvider();
+  const fallback = getLlmFallbackProvider();
+  const configuredFallback =
+    fallback && fallback !== primary && isProviderConfigured(fallback)
+      ? fallback
+      : null;
+  let result: LlmCallResult;
   try {
-    return await attempt(primary, opts, telemetry);
+    result = await attempt(primary, opts, telemetry);
   } catch (err) {
-    const fallback = getLlmFallbackProvider();
     if (
-      fallback &&
-      fallback !== primary &&
-      RETRYABLE_FOR_FALLBACK.has(classifyError(err)) &&
-      isProviderConfigured(fallback)
+      configuredFallback &&
+      RETRYABLE_FOR_FALLBACK.has(classifyError(err))
     ) {
       // `attempt(primary)` already recorded the failure event; the fallback
       // attempt records its own. No swallowing — if the fallback also fails,
       // its error propagates.
-      return await attempt(fallback, opts, telemetry);
+      return await attempt(configuredFallback, opts, telemetry);
     }
     throw err;
   }
+  if (acceptsResult && !acceptsResult(result.text) && configuredFallback) {
+    return await attempt(configuredFallback, opts, telemetry);
+  }
+  return result;
 }

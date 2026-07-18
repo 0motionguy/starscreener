@@ -15,6 +15,7 @@
 // so the test touches no network, redis, or real keys.
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { ItemReportSchema } from '../../../fetchers/consensus-analyst/prompt.js';
 import type { LlmCallResult } from '../shared.js';
 
 // Mutable env returned by the mocked loadEnv — reset per test.
@@ -116,6 +117,34 @@ describe('callLlm provider fallback', () => {
     expect(recordLlmEventMock).toHaveBeenCalledTimes(2);
     expect(recordLlmEventMock.mock.calls[0]?.[0]).toMatchObject({ status: 'error', provider: 'kimi', error_code: 'auth' });
     expect(recordLlmEventMock.mock.calls[1]?.[0]).toMatchObject({ status: 'ok', provider: 'nanogpt' });
+  });
+
+  it('falls back when the primary output fails caller validation', async () => {
+    const callLlm = await loadCallLlm();
+    env.current = { LLM_PROVIDER: 'kimi', LLM_FALLBACK_PROVIDER: 'nanogpt', KIMI_API_KEY: 'k', NANOGPT_API_KEY: 'n' };
+    callKimiMock.mockResolvedValueOnce({ ...fakeResult('kimi'), text: '{"summary":"incomplete"}' });
+    callNanoGptMock.mockResolvedValueOnce({
+      ...fakeResult('nanogpt'),
+      text: JSON.stringify({
+        summary: 'Valid fallback report',
+        scores: { momentum: 80, credibility: 75, crossSource: 70, developerAdoption: 65, marketRelevance: 60, hypeRisk: 20 },
+        verdict: 'strong',
+        confidence: 85,
+        whyNow: 'Signals accelerated today.',
+        whatToDo: 'watch',
+        whatToDoDetail: 'Track adoption this week.',
+      }),
+    });
+
+    const r = await callLlm(
+      { systemPrompt: 's', userMessage: 'u' },
+      telemetry,
+      (text) => ItemReportSchema.safeParse(JSON.parse(text)).success,
+    );
+
+    expect(r.meta.provider).toBe('nanogpt');
+    expect(callKimiMock).toHaveBeenCalledTimes(1);
+    expect(callNanoGptMock).toHaveBeenCalledTimes(1);
   });
 
   it('rethrows when no fallback is configured', async () => {

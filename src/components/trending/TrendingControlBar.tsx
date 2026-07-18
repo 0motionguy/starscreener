@@ -1,7 +1,7 @@
 // TrendingControlBar — single consolidated filter strip BELOW FeaturedRepos.
 // Replaces the prior 3-bar stack (category-tabs / window switcher / language filter).
-// Operator decree: this is an AI-trending screener, no per-language slicing,
-// no Skills/Agents/LLMs/MCP category split — KEY IS TRENDING.
+// Operator decree: this is an AI-trending screener with no per-language
+// slicing. Repo-like Agents and Skills views remain inside this same bar.
 // Three controls in one bar: rank mode + time window + sort metric.
 
 import Link from "next/link";
@@ -26,6 +26,7 @@ function buildModeTabs(counts: Partial<Record<CategoryId, number>>): ModeTab[] {
     { id: "repos-gainer",    label: "Gainer",    cat: "repos",  rank: "gainer",    count: repoCount },
     { id: "repos-trend",     label: "Trend",     cat: "repos",  rank: "trend",     count: repoCount },
     { id: "agents",          label: "Agents",    cat: "agents", rank: "top",       count: counts.agents ?? null },
+    { id: "skills",          label: "Skills",    cat: "skills", rank: "top",       count: counts.skills ?? null },
     { id: "llms",            label: "LLMs",      cat: "llms",   rank: "top",       count: counts.llms ?? null },
     { id: "models",          label: "Models",    cat: "models", rank: "top",       count: counts.models ?? null },
   ];

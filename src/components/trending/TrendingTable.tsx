@@ -52,9 +52,9 @@ export function TrendingTable({
 
   // Non-repo categories (skills / mcp / llms) replace the 24h/7d/30d/Trend
   // columns with category-specific cells supplied by the per-category
-  // mappers via `repo.categoryColumns`. Repo + agents keep the original
+  // mappers via `repo.categoryColumns`. Repos + agents + skills keep the original
   // delta + sparkline layout because they have real timeseries data.
-  const isRepoLike = category === "repos" || category === "agents";
+  const isRepoLike = category === "repos" || category === "agents" || category === "skills";
   const sampleColumns = top.find((r) => r.categoryColumns && r.categoryColumns.length > 0)
     ?.categoryColumns ?? [];
   const extraHeaders = isRepoLike

@@ -6818,6 +6818,10 @@ a.repo-avatar:hover {
     gap: 6px;
     padding: 8px;
   }
+  .trending-controlbar .tcb-group {
+    flex-wrap: wrap;
+    width: 100%;
+  }
   .trending-controlbar .tcb-divider {
     flex-basis: 100%;
     height: 1px;

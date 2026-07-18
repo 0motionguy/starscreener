@@ -50,6 +50,24 @@ for (const route of PUBLIC_ROUTES) {
   });
 }
 
+const CATEGORY_REDIRECTS = [
+  { source: "/skills", target: "/?cat=skills" },
+  { source: "/agent-repos", target: "/?cat=agents" },
+];
+
+for (const route of CATEGORY_REDIRECTS) {
+  test(`${route.source} redirects to its GitHub-backed category`, async ({ request }) => {
+    const response = await request.get(route.source, {
+      maxRedirects: 0,
+      failOnStatusCode: false,
+    });
+    expect(response.status()).toBe(308);
+    const location = response.headers().location ?? "";
+    const resolved = new URL(location, "http://localhost");
+    expect(`${resolved.pathname}${resolved.search}`).toBe(route.target);
+  });
+}
+
 // ---------------------------------------------------------------------------
 // Session-gated routes — anon hit should either render 200 (if the route
 // renders an auth gate inline) or 302/307 redirect to /sign-in. Both are

@@ -27,6 +27,7 @@ export const NAV_COMMANDS: NavCommand[] = [
   { id: "drop", label: "Drop a repo", group: "Discover", href: "/drop", keywords: ["submit", "add", "track", "surface"] },
   // Homepage category views (?cat=) — NL like "show me agents" lands here.
   { id: "cat-agents", label: "Agents", group: "View", href: "/?cat=agents", keywords: ["agent repos", "agentic", "ai agents", "autonomous"] },
+  { id: "cat-skills", label: "Skills", group: "View", href: "/?cat=skills", keywords: ["agent skills", "claude skills", "codex skills", "skill packs"] },
   { id: "cat-llms", label: "LLMs", group: "View", href: "/?cat=llms", keywords: ["language models", "openrouter", "providers"] },
   { id: "cat-models", label: "Models", group: "View", href: "/?cat=models", keywords: ["ai models", "model adoption", "intelligence"] },
   { id: "cat-gainer", label: "Gainers", group: "View", href: "/?cat=gainer", keywords: ["top gainers", "rising", "movers"] },

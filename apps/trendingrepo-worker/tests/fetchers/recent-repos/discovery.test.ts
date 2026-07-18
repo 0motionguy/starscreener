@@ -66,8 +66,15 @@ describe('recent-repos discovery plan', () => {
   it('uses five general pages plus one page for each focused category', async () => {
     const { DISCOVERY_QUERIES } = await import('../../../src/fetchers/recent-repos/index.js');
 
-    expect(DISCOVERY_QUERIES.reduce((sum, query) => sum + query.pages, 0)).toBe(20);
-    expect(DISCOVERY_QUERIES.filter((query) => query.categoryId)).toHaveLength(15);
+    expect(DISCOVERY_QUERIES.reduce((sum, query) => sum + query.pages, 0)).toBe(21);
+    expect(DISCOVERY_QUERIES.filter((query) => query.categoryId)).toHaveLength(16);
+    expect(DISCOVERY_QUERIES).toContainEqual(
+      expect.objectContaining({
+        id: 'category:skills',
+        categoryId: 'skills',
+        qualifier: 'topic:agent-skills',
+      }),
+    );
     expect(
       DISCOVERY_QUERIES.filter((query) => query.categoryId).every(
         (query) => query.days === 30 && query.minStars === 5 && query.pages === 1,
@@ -222,7 +229,7 @@ describe('recent-repos discovery plan', () => {
     const payload = store.write.mock.calls[0]?.[1];
     expect(payload).toMatchObject({
       diagnostics: {
-        attemptedQueries: 18,
+        attemptedQueries: 19,
         succeededQueries: 1,
         incompleteQueries: 1,
       },

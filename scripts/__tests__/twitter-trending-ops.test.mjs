@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
+import childProcess from "node:child_process";
 import { readFile } from "node:fs/promises";
+import { syncBuiltinESMExports } from "node:module";
 import { test } from "node:test";
 
 const read = (path) => readFile(new URL(`../../${path}`, import.meta.url), "utf8");
@@ -38,4 +40,56 @@ test("HOSTUP cron dispatches five UTC slots on a non-UTC host", async () => {
   }
   assert.match(preflight, /^27 \* \* \* \* root .* --dispatch-utc/m);
   assert.match(preflightWrapper, /date -u \+%H/);
+});
+
+test("host runner fails when the posted tweet cannot be confirmed", async (t) => {
+  const oldSecret = process.env.CRON_SECRET;
+  const oldUrl = process.env.TRENDINGREPO_URL;
+  process.env.CRON_SECRET = "test-secret";
+  process.env.TRENDINGREPO_URL = "http://test.invalid";
+
+  const exits = [];
+  t.mock.method(process, "exit", (code) => {
+    exits.push(code);
+  });
+  t.mock.method(childProcess, "execFileSync", (_file, args) =>
+    args[0] === "--compact"
+      ? "ok: true\nusername: trendingrepo\n"
+      : JSON.stringify({ data: { id: "1234567890123456789" } }),
+  );
+  syncBuiltinESMExports();
+
+  let request = 0;
+  let confirmed;
+  const confirmationReached = new Promise((resolve) => {
+    confirmed = resolve;
+  });
+  t.mock.method(globalThis, "fetch", async () => {
+    request += 1;
+    if (request === 1) {
+      return Response.json({
+        post: true,
+        fullName: "acme/repo",
+        fullNames: ["acme/repo"],
+        text: "acme/repo\n+10 stars today",
+        url: "https://trendingrepo.com/repo/acme/repo",
+      });
+    }
+    confirmed();
+    return new Response("ledger unavailable", { status: 503 });
+  });
+
+  try {
+    await import(`../twitter-trending-run.mjs?confirm-failure=${Date.now()}`);
+    await confirmationReached;
+    await new Promise((resolve) => setImmediate(resolve));
+    assert.deepEqual(exits, [1]);
+  } finally {
+    if (oldSecret === undefined) delete process.env.CRON_SECRET;
+    else process.env.CRON_SECRET = oldSecret;
+    if (oldUrl === undefined) delete process.env.TRENDINGREPO_URL;
+    else process.env.TRENDINGREPO_URL = oldUrl;
+    t.mock.restoreAll();
+    syncBuiltinESMExports();
+  }
 });

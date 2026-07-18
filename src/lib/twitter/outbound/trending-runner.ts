@@ -20,6 +20,7 @@ import "server-only";
 
 import { getDataStore } from "@/lib/data-store";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { DataStoreFatalError } from "@/lib/errors";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
 import { computeDiscoveryScore, pickTopDiscoveryRepo } from "@/lib/scoring/discovery";
 import { isSpamRepo } from "@/lib/ranking/repo-quality";
@@ -194,8 +195,11 @@ async function readLedger(): Promise<TrendingLedger> {
   try {
     const res = await getDataStore().read<TrendingLedger>(TRENDING_LEDGER_SLUG);
     return res.data && Array.isArray(res.data.posts) ? res.data : { posts: [] };
-  } catch {
-    return { posts: [] };
+  } catch (err) {
+    throw new DataStoreFatalError(
+      "[twitter-trending] outbound ledger read failed; refusing to select without cap/cooldown state",
+      { cause: err instanceof Error ? err.message : String(err) },
+    );
   }
 }
 

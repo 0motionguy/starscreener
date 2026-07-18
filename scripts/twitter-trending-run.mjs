@@ -182,6 +182,9 @@ async function main() {
       },
     }),
   });
+  if (!cres.ok) {
+    throw new Error(`confirm HTTP ${cres.status}: ${(await cres.text()).slice(0, 200)}`);
+  }
   log("confirm:", cres.status, "->", members.join(", "));
   log("tweet: https://x.com/trendingrepo/status/" + tweetId);
 }

@@ -87,6 +87,78 @@ export const PACKS: PackSpec[] = [
     match: anyOf(/\bcli\b|dev ?tools?\b|developer tool|terminal\b|\beditor\b|debugger|linter|formatter/),
   },
   {
+    id: "local-llm",
+    hook: "TOP 5 LOCAL LLM REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: anyOf(/local[- ]llm|ollama|llama\.cpp|on-device (ai|llm)|local inference/),
+  },
+  {
+    id: "browser-automation",
+    hook: "TOP 5 BROWSER AUTOMATION REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: anyOf(/browser[- ]automation|playwright|puppeteer|selenium|web scraping|headless browser/),
+  },
+  {
+    id: "security",
+    hook: "TOP 5 SECURITY REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: anyOf(/\bsecurity\b|appsec|vulnerability|pentest|malware/),
+  },
+  {
+    id: "infrastructure",
+    hook: "TOP 5 INFRASTRUCTURE REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: anyOf(/infrastructure|devops|kubernetes|terraform|self-?hosted|homelab/),
+  },
+  {
+    id: "data",
+    hook: "TOP 5 DATA AND DATABASE REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: anyOf(/database|data[- ]engineering|analytics|vector (db|database)|etl\b|olap/),
+  },
+  {
+    id: "web-mobile",
+    hook: "TOP 5 WEB AND MOBILE REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: anyOf(/web[- ]framework|\bmobile\b|react native|flutter|swiftui|android|ios\b/),
+  },
+  {
+    id: "web3",
+    hook: "TOP 5 WEB3 REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: anyOf(/web3|blockchain|solana|ethereum|smart contract|defi\b/),
+  },
+  {
+    id: "rust",
+    hook: "TOP 5 RUST REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: (repo) => repo.language?.toLowerCase() === "rust" || anyOf(/rust[- ]ecosystem/)(repo),
+  },
+  {
+    id: "design-engineering",
+    hook: "TOP 5 DESIGN ENGINEERING REPOS THIS WEEK",
+    enabled: true,
+    size: 5,
+    window: "7d",
+    match: anyOf(/design[- ]engineering|design system|component library|ui kit|storybook/),
+  },
+  {
     id: "fresh-finds",
     hook: "5 GITHUB REPOS BLOWING UP BEFORE THE CROWD",
     enabled: true,
@@ -136,9 +208,21 @@ export function selectPackRepos(
   pack: PackSpec,
   cooldownFullNames: Set<string>,
 ): Repo[] {
-  const pool = repos.filter(
-    (r) => !isSpamRepo(r) && !cooldownFullNames.has(r.fullName) && pack.match(r),
-  );
+  const seenFullNames = new Set<string>();
+  const pool = repos.filter((r) => {
+    const fullName = r.fullName.toLowerCase();
+    const eligible =
+      !isSpamRepo(r) &&
+      !cooldownFullNames.has(fullName) &&
+      ((r.starsDelta7d ?? 0) > 0 ||
+        (r.starsDelta24h ?? 0) > 0 ||
+        (r.mentionCount24h ?? 0) > 0 ||
+        (r.socialBuzzScore ?? 0) > 0) &&
+      pack.match(r);
+    if (!eligible || seenFullNames.has(fullName)) return false;
+    seenFullNames.add(fullName);
+    return true;
+  });
   if (pool.length < pack.size) return [];
 
   const scores =

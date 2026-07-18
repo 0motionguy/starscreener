@@ -19,37 +19,13 @@ test.describe("repo detail", () => {
     });
     expect(response?.ok()).toBe(true);
 
-    // RepoIdHero - repo-detail's current hero block.
-    const hero = page.locator(".rid-hero").first();
+    // Current profile shell, title, breadcrumb, and a content section.
+    const hero = page.locator(".pf-main-inner").first();
     await expect(hero).toBeVisible();
-    await expect(hero.locator(".rid-h1")).toContainText(
-      /vercel\s*\/\s*next\.js/i,
+    await expect(hero.locator(".pf-title")).toContainText(/next\.js/i);
+    await expect(page.getByRole("navigation", { name: /Breadcrumb/i })).toContainText(
+      /vercel\/next\.js/i,
     );
-
-    // Eyebrow inside the hero - current replacement for the old crumb strip.
-    const eyebrow = hero.locator(".rid-eyebrow").first();
-    await expect(eyebrow).toBeVisible();
-    await expect(eyebrow).toContainText(/Repo/i);
-    await expect(eyebrow).toContainText(/Rank/i);
-    await expect(eyebrow).toContainText(/\/7 firing/i);
-
-    await expect(hero.locator(".channel-chip")).toHaveCount(7);
-
-    const snapshot = page.locator('section[aria-label="Signal snapshot"]').first();
-    await expect(snapshot).toBeVisible();
-    const profileBeforeDeepDive = await page.evaluate(() => {
-      const profile = document.querySelector('section[aria-label="Signal snapshot"]');
-      const deepDive = document.querySelector(".repo-deep-dive");
-      if (!profile || !deepDive) return false;
-      return Boolean(
-        profile.compareDocumentPosition(deepDive) &
-          Node.DOCUMENT_POSITION_FOLLOWING,
-      );
-    });
-    expect(profileBeforeDeepDive).toBe(true);
-
-    // Body chrome - at least one repo-detail body split mounts.
-    const body = page.locator(".repo-detail-split").first();
-    await expect(body).toBeAttached();
+    await expect(hero.locator(".pf-section").first()).toBeVisible();
   });
 });

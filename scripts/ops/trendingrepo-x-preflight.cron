@@ -1,3 +1,4 @@
-# TrendingRepo X posting pre-flight -- parity with /opt/aiso/x-session-check.sh (09:17 aiso, 09:27 ours).
+# TrendingRepo X posting pre-flight before the first 04:47 UTC slot.
 # Deployed from repo scripts/ops/trendingrepo-x-preflight.cron -> /etc/cron.d/trendingrepo-x-preflight (no dot in dest name; cron.d skips dotted files).
-27 9 * * * root /usr/local/bin/trendingrepo-x-preflight.sh >> /var/log/trendingrepo-x-preflight.log 2>&1
+# Run hourly on the non-UTC host; the wrapper proceeds only at 04:27 UTC.
+27 * * * * root /usr/local/bin/trendingrepo-x-preflight.sh --dispatch-utc >> /var/log/trendingrepo-x-preflight.log 2>&1

@@ -2,10 +2,8 @@
 //
 // Invariants:
 //   1. GET /ideas returns 200.
-//   2. The TerminalBar eyebrow "// IDEAS · HOT" mounts (default sort).
-//   3. Either the populated feed (data-testid="idea-feed") OR the
-//      "No ideas yet in this view" empty-state mono comment is visible —
-//      both are valid steady states depending on idea-store seed.
+//   2. The Ideas Board label and current heading mount.
+//   3. The ideas-list container is attached in populated and empty states.
 //
 // We deliberately do not assert idea card contents — those depend on
 // downstream reaction counts and Stripe-style hot scoring, which is
@@ -14,22 +12,16 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("ideas", () => {
-  test("renders eyebrow and feed-or-empty-state", async ({ page }) => {
+  test("renders the board heading and list", async ({ page }) => {
     const response = await page.goto("/ideas", {
       waitUntil: "domcontentloaded",
     });
     expect(response?.ok()).toBe(true);
 
-    // V2 TerminalBar eyebrow — default sort is HOT.
+    await expect(page.getByText(/IDEAS BOARD/i).first()).toBeVisible();
     await expect(
-      page.getByText(/\/\/\s*IDEAS\s*·\s*HOT/i).first(),
-    ).toBeVisible({ timeout: 10_000 });
-
-    // Either populated feed or empty state — both are valid.
-    const feedOrEmpty = page
-      .locator('[data-testid="idea-feed"]')
-      .or(page.getByText(/No ideas yet in this view/i))
-      .first();
-    await expect(feedOrEmpty).toBeAttached({ timeout: 10_000 });
+      page.getByRole("heading", { name: /Build the thing that doesn't exist yet/i }),
+    ).toBeVisible();
+    await expect(page.locator(".ideas-list").first()).toBeAttached();
   });
 });

@@ -51,6 +51,13 @@ export const DEFAULT_GITHUB_QUOTA = 5_000;
  *  PAT without forcing a process restart for recovery. */
 export const QUARANTINE_TTL_MS = 24 * 60 * 60 * 1000;
 
+export type GithubRateLimitResource = "search" | "core" | "graphql";
+
+export interface GithubResourceHint {
+  remaining: number | null;
+  resetUnixSec: number | null;
+}
+
 export interface TokenState {
   /** The token string. Never logged in full — see `redact()`. */
   readonly token: string;
@@ -65,6 +72,8 @@ export interface TokenState {
    * exhaustion.
    */
   resetUnixSec: number | null;
+  /** Per-GitHub-resource quota state. Top-level fields mirror core for legacy readers. */
+  resources: Partial<Record<GithubRateLimitResource, GithubResourceHint>>;
   /** Last response observation timestamp (ms). For debugging only. */
   lastObservedMs: number | null;
   /**
@@ -92,13 +101,18 @@ export interface GitHubTokenPool {
    * optimistic max). Throws if every token is exhausted (remaining<=0
    * and resetUnixSec is in the future).
    */
-  getNextToken(): string;
+  getNextToken(resource?: GithubRateLimitResource): string;
   /**
    * Update per-token state from response headers. Called from the adapter
    * after every GitHub response. Unknown tokens (e.g. someone bypassed
    * the pool) are ignored — the pool only tracks tokens it owns.
    */
-  recordRateLimit(token: string, remaining: number, resetUnixSec: number): void;
+  recordRateLimit(
+    token: string,
+    remaining: number,
+    resetUnixSec: number,
+    resource?: GithubRateLimitResource,
+  ): void;
   /**
    * Mark a token as quarantined for `QUARANTINE_TTL_MS` (default 24h).
    * Use when a 401 is observed — the PAT is invalid / revoked and shouldn't
@@ -143,6 +157,8 @@ export interface CreateGitHubTokenPoolOptions {
    * singleton path opts in.
    */
   hydrate?: boolean;
+  /** Test seam for exercising the production Redis wire contract. */
+  redisClient?: RedisClientLike;
 }
 
 // ---------------------------------------------------------------------------
@@ -193,6 +209,7 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
   private readonly states: TokenState[];
   private readonly index = new Map<string, TokenState>();
   private readonly now: () => number;
+  private readonly redisClient: RedisClientLike | null;
   /** Round-robin cursor used to break ties between equally-healthy tokens. */
   private cursor = 0;
   /**
@@ -207,13 +224,20 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
   private hydrationPromise: Promise<void> | null = null;
   private hasHydrated = false;
 
-  constructor(tokens: string[], now: () => number, hydrationEnabled = false) {
+  constructor(
+    tokens: string[],
+    now: () => number,
+    hydrationEnabled = false,
+    redisClient: RedisClientLike | null = null,
+  ) {
     this.now = now;
     this.hydrationEnabled = hydrationEnabled;
+    this.redisClient = redisClient;
     this.states = tokens.map((token) => ({
       token,
       remaining: null,
       resetUnixSec: null,
+      resources: {},
       lastObservedMs: null,
       quarantinedUntilMs: null,
       lowQuotaWarned: false,
@@ -229,7 +253,7 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
 
   snapshot(): readonly TokenState[] {
     // Return shallow clones so callers can't mutate internal state.
-    return this.states.map((s) => ({ ...s }));
+    return this.states.map((s) => ({ ...s, resources: { ...s.resources } }));
   }
 
   hydrationStatus(): {
@@ -244,7 +268,7 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     };
   }
 
-  getNextToken(): string {
+  getNextToken(resource: GithubRateLimitResource = "core"): string {
     if (this.states.length === 0) {
       throw new GitHubTokenPoolEmptyError();
     }
@@ -289,18 +313,23 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
         continue;
       }
 
+      const limit = state.resources[resource] ??
+        (resource === "core" && Object.keys(state.resources).length === 0
+          ? { remaining: state.remaining, resetUnixSec: state.resetUnixSec }
+          : null);
       const isExhausted =
-        state.remaining !== null &&
-        state.remaining <= 0 &&
-        state.resetUnixSec !== null &&
-        state.resetUnixSec > nowSec;
+        limit?.remaining !== null &&
+        limit?.remaining !== undefined &&
+        limit.remaining <= 0 &&
+        limit.resetUnixSec !== null &&
+        limit.resetUnixSec > nowSec;
 
       if (isExhausted) {
         if (
           soonestReset === null ||
-          (state.resetUnixSec !== null && state.resetUnixSec < soonestReset)
+          (limit.resetUnixSec !== null && limit.resetUnixSec < soonestReset)
         ) {
-          soonestReset = state.resetUnixSec;
+          soonestReset = limit.resetUnixSec;
         }
         continue;
       }
@@ -308,7 +337,7 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       // Unknown remaining → assume optimistic full quota so untested tokens
       // get a fair shot at being picked first.
       const effectiveRemaining =
-        state.remaining === null ? DEFAULT_GITHUB_QUOTA : state.remaining;
+        limit?.remaining == null ? DEFAULT_GITHUB_QUOTA : limit.remaining;
       candidates.push({ state, effectiveRemaining, idx: i });
     }
 
@@ -353,25 +382,38 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     return pick.state.token;
   }
 
-  recordRateLimit(token: string, remaining: number, resetUnixSec: number): void {
+  recordRateLimit(
+    token: string,
+    remaining: number,
+    resetUnixSec: number,
+    resource: GithubRateLimitResource = "core",
+  ): void {
     const state = this.index.get(token);
     if (!state) {
       // Caller used a token the pool doesn't own — silently ignore so
       // callers that bypass the pool don't pollute pool state.
       return;
     }
-    if (Number.isFinite(remaining)) {
-      state.remaining = Math.max(0, Math.floor(remaining));
-    }
-    if (Number.isFinite(resetUnixSec) && resetUnixSec > 0) {
-      state.resetUnixSec = Math.floor(resetUnixSec);
+    const resourceHint: GithubResourceHint = {
+      remaining: Number.isFinite(remaining)
+        ? Math.max(0, Math.floor(remaining))
+        : null,
+      resetUnixSec:
+        Number.isFinite(resetUnixSec) && resetUnixSec > 0
+          ? Math.floor(resetUnixSec)
+          : null,
+    };
+    state.resources[resource] = resourceHint;
+    if (resource === "core") {
+      state.remaining = resourceHint.remaining;
+      state.resetUnixSec = resourceHint.resetUnixSec;
     }
     state.lastObservedMs = this.now();
-    this._emitLowQuotaWarning(state);
+    this._emitLowQuotaWarning(state, resourceHint.remaining);
     // Fire-and-forget publish so sibling Vercel lambdas can build a
     // fleet-wide aggregate at /admin/pool-aggregate. Never blocks the
     // request and never throws if Redis is missing.
-    void publishTokenStateToRedis(state);
+    void publishTokenStateToRedis(state, this.redisClient, resource);
   }
 
   /**
@@ -381,22 +423,25 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
    * full 5000 quota). Without this, every subsequent `recordRateLimit`
    * call below 500 would page Sentry — noisy and useless.
    */
-  private _emitLowQuotaWarning(state: TokenState): void {
-    if (state.remaining === null) return;
-    if (state.remaining < 500 && !state.lowQuotaWarned) {
+  private _emitLowQuotaWarning(
+    state: TokenState,
+    remaining: number | null,
+  ): void {
+    if (remaining === null) return;
+    if (remaining < 500 && !state.lowQuotaWarned) {
       state.lowQuotaWarned = true;
       Sentry.captureMessage(
-        `[github-token-pool] Low quota: ${redactToken(state.token)} has ${state.remaining} remaining`,
+        `[github-token-pool] Low quota: ${redactToken(state.token)} has ${remaining} remaining`,
         {
           level: "warning",
           tags: {
             pool: "github",
             token: redactToken(state.token),
-            remaining: String(state.remaining),
+            remaining: String(remaining),
           },
         },
       );
-    } else if (state.remaining > 1000 && state.lowQuotaWarned) {
+    } else if (remaining > 1000 && state.lowQuotaWarned) {
       // Recovery: clear the flag so the next dip below 500 fires again.
       state.lowQuotaWarned = false;
     }
@@ -423,7 +468,7 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
       },
     );
     // Fire-and-forget publish — same rationale as recordRateLimit.
-    void publishTokenStateToRedis(state);
+    void publishTokenStateToRedis(state, this.redisClient);
   }
 
   /**
@@ -445,7 +490,7 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
 
     let client: RedisClientLike | null;
     try {
-      client = getDataStore().redisClient();
+      client = this.redisClient ?? getDataStore().redisClient();
     } catch {
       return { hydrated: 0, total };
     }
@@ -454,32 +499,65 @@ class DefaultGitHubTokenPool implements GitHubTokenPool {
     let hydrated = 0;
     for (const state of this.states) {
       const tokenLabel = redactToken(state.token);
-      let raw: unknown;
+      let hydratedToken = false;
+      let parsed: PublishedTokenState | null = null;
       try {
-        raw = await client.get(poolRedisKeyFor(tokenLabel));
+        const raw = await client.get(poolRedisKeyFor(tokenLabel));
+        if (raw !== null && raw !== undefined) {
+          parsed = parsePublishedTokenState(raw);
+        }
       } catch {
-        continue;
+        // Resource subkeys may still be available.
       }
-      if (raw === null || raw === undefined) continue;
-      const parsed = parsePublishedTokenState(raw);
-      if (!parsed) continue;
-      // Match by label — `tokenLabel` is the canonical Redis key, but we
-      // also defend against a payload that drifted from its key.
-      if (parsed.tokenLabel !== tokenLabel) continue;
 
-      if (parsed.remaining !== null) state.remaining = parsed.remaining;
-      if (parsed.resetUnixSec !== null) state.resetUnixSec = parsed.resetUnixSec;
-      if (parsed.lastObservedMs !== null) state.lastObservedMs = parsed.lastObservedMs;
-      // Only seed the quarantine if it's still in the future per OUR clock —
-      // a stale entry from before a quarantine TTL elapsed shouldn't lock
-      // out a freshly-rotated PAT.
-      if (
-        parsed.quarantinedUntilMs !== null &&
-        parsed.quarantinedUntilMs > this.now()
-      ) {
-        state.quarantinedUntilMs = parsed.quarantinedUntilMs;
+      // Match by label — the Redis key is canonical, but reject drifted data.
+      if (parsed?.tokenLabel === tokenLabel) {
+        const parsedResources = parsed.resources ?? {};
+        if (Object.keys(parsedResources).length > 0) {
+          state.resources = { ...state.resources, ...parsedResources };
+          const core = parsedResources.core;
+          if (core) {
+            state.remaining = core.remaining;
+            state.resetUnixSec = core.resetUnixSec;
+          }
+        } else if (parsed.remaining !== null || parsed.resetUnixSec !== null) {
+          const legacyCore = {
+            remaining: parsed.remaining,
+            resetUnixSec: parsed.resetUnixSec,
+          };
+          state.resources.core = legacyCore;
+          state.remaining = legacyCore.remaining;
+          state.resetUnixSec = legacyCore.resetUnixSec;
+        }
+        if (parsed.lastObservedMs !== null) {
+          state.lastObservedMs = parsed.lastObservedMs;
+        }
+        if (
+          parsed.quarantinedUntilMs !== null &&
+          parsed.quarantinedUntilMs > this.now()
+        ) {
+          state.quarantinedUntilMs = parsed.quarantinedUntilMs;
+        }
+        hydratedToken = true;
       }
-      hydrated++;
+
+      for (const resource of GITHUB_RATE_LIMIT_RESOURCES) {
+        try {
+          const hint = parseResourceHint(
+            await client.get(poolRedisResourceKeyFor(tokenLabel, resource)),
+          );
+          if (!hint) continue;
+          state.resources[resource] = hint;
+          if (resource === "core") {
+            state.remaining = hint.remaining;
+            state.resetUnixSec = hint.resetUnixSec;
+          }
+          hydratedToken = true;
+        } catch {
+          // One unavailable resource must not discard the other quota lanes.
+        }
+      }
+      if (hydratedToken) hydrated++;
     }
     this.hasHydrated = true;
     return { hydrated, total };
@@ -510,10 +588,89 @@ function parsePublishedTokenState(raw: unknown): PublishedTokenState | null {
     tokenLabel: r.tokenLabel,
     remaining: numOrNull(r.remaining),
     resetUnixSec: numOrNull(r.resetUnixSec),
+    resources: parseResourceHints(r.resources),
     lastObservedMs: numOrNull(r.lastObservedMs),
     quarantinedUntilMs: numOrNull(r.quarantinedUntilMs),
     lambdaId: typeof r.lambdaId === "string" ? r.lambdaId : "",
     writtenAt: typeof r.writtenAt === "string" ? r.writtenAt : "",
+  };
+}
+
+function isGithubRateLimitResource(
+  value: unknown,
+): value is GithubRateLimitResource {
+  return value === "search" || value === "core" || value === "graphql";
+}
+
+const GITHUB_RATE_LIMIT_RESOURCES = ["search", "core", "graphql"] as const;
+
+function parseResourceHints(
+  raw: unknown,
+): Partial<Record<GithubRateLimitResource, GithubResourceHint>> {
+  if (!raw || typeof raw !== "object") return {};
+  const input = raw as Record<string, unknown>;
+  const resources: Partial<
+    Record<GithubRateLimitResource, GithubResourceHint>
+  > = {};
+  for (const resource of GITHUB_RATE_LIMIT_RESOURCES) {
+    const rawHint = input[resource];
+    if (!rawHint || typeof rawHint !== "object") continue;
+    const hint = rawHint as Record<string, unknown>;
+    resources[resource] = {
+      remaining:
+        typeof hint.remaining === "number" && Number.isFinite(hint.remaining)
+          ? hint.remaining
+          : null,
+      resetUnixSec:
+        typeof hint.resetUnixSec === "number" &&
+        Number.isFinite(hint.resetUnixSec)
+          ? hint.resetUnixSec
+          : null,
+    };
+  }
+  return resources;
+}
+
+function parseResourceHint(raw: unknown): GithubResourceHint | null {
+  let value = raw;
+  if (typeof raw === "string") {
+    try {
+      value = JSON.parse(raw);
+    } catch {
+      return null;
+    }
+  }
+  if (!value || typeof value !== "object") return null;
+  const hint = value as Record<string, unknown>;
+  const remaining =
+    typeof hint.remaining === "number" && Number.isFinite(hint.remaining)
+      ? hint.remaining
+      : hint.remaining === null
+        ? null
+        : undefined;
+  const resetUnixSec =
+    typeof hint.resetUnixSec === "number" && Number.isFinite(hint.resetUnixSec)
+      ? hint.resetUnixSec
+      : hint.resetUnixSec === null
+        ? null
+        : undefined;
+  if (remaining === undefined || resetUnixSec === undefined) return null;
+  return { remaining, resetUnixSec };
+}
+
+function resourcesWithLegacyCore(
+  state: PublishedTokenState | null,
+): Partial<Record<GithubRateLimitResource, GithubResourceHint>> {
+  if (!state) return {};
+  if (state.resources && Object.keys(state.resources).length > 0) {
+    return state.resources;
+  }
+  if (state.remaining === null && state.resetUnixSec === null) return {};
+  return {
+    core: {
+      remaining: state.remaining,
+      resetUnixSec: state.resetUnixSec,
+    },
   };
 }
 
@@ -579,7 +736,12 @@ export function createGitHubTokenPool(
     options.onEmpty();
   }
 
-  return new DefaultGitHubTokenPool(tokens, now, options.hydrate === true);
+  return new DefaultGitHubTokenPool(
+    tokens,
+    now,
+    options.hydrate === true,
+    options.redisClient ?? null,
+  );
 }
 
 let singleton: GitHubTokenPool | null = null;
@@ -641,7 +803,11 @@ export function redactToken(token: string): string {
  */
 export function parseRateLimitHeaders(
   headers: Headers,
-): { remaining: number; resetUnixSec: number } | null {
+): {
+  remaining: number;
+  resetUnixSec: number;
+  resource: GithubRateLimitResource | null;
+} | null {
   const remainingStr = headers.get("x-ratelimit-remaining");
   const resetStr = headers.get("x-ratelimit-reset");
   if (remainingStr === null || resetStr === null) return null;
@@ -650,7 +816,20 @@ export function parseRateLimitHeaders(
   if (!Number.isFinite(remaining) || !Number.isFinite(resetUnixSec)) {
     return null;
   }
-  return { remaining, resetUnixSec };
+  const rawResource = headers.get("x-ratelimit-resource");
+  const resource = isGithubRateLimitResource(rawResource) ? rawResource : null;
+  return { remaining, resetUnixSec, resource };
+}
+
+export function githubRateLimitResourceFromPath(
+  pathOrUrl: string,
+): GithubRateLimitResource {
+  const pathname = pathOrUrl.startsWith("http")
+    ? new URL(pathOrUrl).pathname
+    : pathOrUrl.split("?")[0] || "/";
+  if (pathname === "/graphql") return "graphql";
+  if (pathname.startsWith("/search/")) return "search";
+  return "core";
 }
 
 // ---------------------------------------------------------------------------
@@ -669,6 +848,9 @@ export function parseRateLimitHeaders(
 /** Key prefix for per-token fleet-aggregate state. Read by the aggregator. */
 export const POOL_REDIS_KEY_PREFIX = "pool:github:tokens";
 
+/** Authoritative per-resource keys; deliberately outside the legacy sweeper prefix. */
+export const POOL_REDIS_RESOURCE_KEY_PREFIX = "pool:github:token-resources";
+
 /** TTL (seconds) on each per-token key. 30d covers a normal "operator forgot to rotate" window. */
 export const POOL_REDIS_TTL_SECONDS = 30 * 24 * 60 * 60;
 
@@ -681,6 +863,7 @@ export interface PublishedTokenState {
   tokenLabel: string;
   remaining: number | null;
   resetUnixSec: number | null;
+  resources?: Partial<Record<GithubRateLimitResource, GithubResourceHint>>;
   lastObservedMs: number | null;
   quarantinedUntilMs: number | null;
   lambdaId: string;
@@ -690,6 +873,13 @@ export interface PublishedTokenState {
 /** Build the Redis key that holds the latest state for one token label. */
 export function poolRedisKeyFor(tokenLabel: string): string {
   return `${POOL_REDIS_KEY_PREFIX}:${tokenLabel}`;
+}
+
+export function poolRedisResourceKeyFor(
+  tokenLabel: string,
+  resource: GithubRateLimitResource,
+): string {
+  return `${POOL_REDIS_RESOURCE_KEY_PREFIX}:${tokenLabel}:${resource}`;
 }
 
 function currentLambdaId(): string {
@@ -710,18 +900,50 @@ function currentLambdaId(): string {
  * GitHub call that triggered it. No-op when the data-store has no Redis
  * client (env-missing fallback).
  */
-function publishTokenStateToRedis(state: TokenState): void {
+async function publishTokenStateToRedis(
+  state: TokenState,
+  injectedClient: RedisClientLike | null = null,
+  resource?: GithubRateLimitResource,
+): Promise<void> {
   try {
-    const store = getDataStore();
-    const client = store.redisClient();
+    const client = injectedClient ?? getDataStore().redisClient();
     if (!client) return;
     const tokenLabel = redactToken(state.token);
+    const key = poolRedisKeyFor(tokenLabel);
+    const resourceHint = resource ? state.resources[resource] : undefined;
+    if (resource && resourceHint) {
+      try {
+        await client.set(
+          poolRedisResourceKeyFor(tokenLabel, resource),
+          JSON.stringify(resourceHint),
+          { ex: POOL_REDIS_TTL_SECONDS },
+        );
+      } catch {
+        // Keep the compatibility aggregate best-effort if the subkey fails.
+      }
+    }
+    let existing: PublishedTokenState | null = null;
+    try {
+      existing = parsePublishedTokenState(await client.get(key));
+    } catch {
+      // A failed read must not prevent publishing the local observation.
+    }
+    const existingResources = resourcesWithLegacyCore(existing);
+    const resources = { ...existingResources, ...state.resources };
+    const core = resources.core;
     const payload: PublishedTokenState = {
       tokenLabel,
-      remaining: state.remaining,
-      resetUnixSec: state.resetUnixSec,
-      lastObservedMs: state.lastObservedMs,
-      quarantinedUntilMs: state.quarantinedUntilMs,
+      remaining: core?.remaining ?? state.remaining,
+      resetUnixSec: core?.resetUnixSec ?? state.resetUnixSec,
+      resources,
+      lastObservedMs: Math.max(
+        existing?.lastObservedMs ?? 0,
+        state.lastObservedMs ?? 0,
+      ) || null,
+      quarantinedUntilMs: Math.max(
+        existing?.quarantinedUntilMs ?? 0,
+        state.quarantinedUntilMs ?? 0,
+      ) || null,
       lambdaId: currentLambdaId(),
       writtenAt: new Date().toISOString(),
     };
@@ -730,7 +952,7 @@ function publishTokenStateToRedis(state: TokenState): void {
     // through the raw Redis client rather than store.write().
     const json = JSON.stringify(payload);
     void Promise.resolve(
-      client.set(poolRedisKeyFor(tokenLabel), json, {
+      client.set(key, json, {
         ex: POOL_REDIS_TTL_SECONDS,
       }),
     ).catch(() => {

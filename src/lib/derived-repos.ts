@@ -451,6 +451,10 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
       : { ...r, ownerAvatarUrl: `https://github.com/${r.owner}.png` },
   );
 
+  // 1.95 Quality gate — exclude piracy/crack/warez/darknet spam before
+  // classification and scoring so junk rows cannot distort category cohorts.
+  repos = filterSpamRepos(repos);
+
   // 2. Classify first so scoreBatch's per-category averages use the real
   //    topic-derived categoryIds instead of the "other" placeholder.
   const classifications = classifyBatch(repos);
@@ -486,12 +490,6 @@ export const getDerivedRepos = cache(function getDerivedReposImpl(): Repo[] {
 
   // 3.7 ProductHunt launch (sparse — most repos keep producthunt undefined).
   repos = decorateWithProductHunt(repos);
-
-  // 3.8 Quality gate — drop piracy/crack/warez/darknet spam BEFORE ranking so
-  // it never occupies a rank slot or a board row on any surface (homepage
-  // tabs, categories, RSS, the X poster's candidate pool). Precise name+desc
-  // signature; legit look-alikes (CrackMapExec, crack-detection) survive.
-  repos = filterSpamRepos(repos);
 
   // 4. Rank by momentum desc, tracking per-category position.
   const sorted = [...repos].sort((a, b) => b.momentumScore - a.momentumScore);

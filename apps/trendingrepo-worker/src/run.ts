@@ -40,16 +40,7 @@ export async function runFetcher(
 ): Promise<RunResult> {
   const log = getLogger();
   const dryRun = opts.dryRun === true;
-  const startedAt = new Date().toISOString();
   const t0 = Date.now();
-
-  if (fetcher.requiresFirecrawl && !process.env.FIRECRAWL_API_KEY) {
-    log.warn(
-      { fetcher: fetcher.name },
-      'fetcher requires FIRECRAWL_API_KEY but env is empty - skipping',
-    );
-    return emptyResult(fetcher.name, startedAt);
-  }
 
   // Move 1, Phase 3 — bind static SourceContract at run time. Used for
   // diagnostics today (run-summary line + ctx availability), freshness/cost
@@ -184,19 +175,6 @@ function expectsRedisPublish(contract: SourceContract | undefined): boolean {
 function hasPrimaryOutputKeys(keys: PrimaryOutputKeys): boolean {
   if (Array.isArray(keys)) return keys.length > 0;
   return typeof keys.pattern === 'string' && keys.pattern.length > 0;
-}
-
-function emptyResult(name: string, startedAt: string): RunResult {
-  return {
-    fetcher: name,
-    startedAt,
-    finishedAt: new Date().toISOString(),
-    itemsSeen: 0,
-    itemsUpserted: 0,
-    metricsWritten: 0,
-    redisPublished: false,
-    errors: [],
-  };
 }
 
 function throwOnUseRedisHandle(): RedisHandle {

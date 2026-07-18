@@ -6,7 +6,7 @@ import "./_server-only-shim";
 
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import pLimit from "p-limit";
 import { loadEnvConfig } from "@next/env";
 import {
@@ -1132,12 +1132,14 @@ async function cleanupForCliExit(): Promise<void> {
   }
 }
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await cleanupForCliExit();
-    process.exit(process.exitCode ?? 0);
-  });
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main()
+    .catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    })
+    .finally(async () => {
+      await cleanupForCliExit();
+      process.exit(process.exitCode ?? 0);
+    });
+}

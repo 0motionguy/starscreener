@@ -1,14 +1,15 @@
-# TrendingRepo 3x/day X autopilot slots (local box time) — dormant until
+# TrendingRepo 5x/day X autopilot UTC dispatcher — dormant until
 # trendingrepo-refresh-x-cookies.sh arms TWITTER_OUTBOUND_MODE=live.
 # Deployed from repo scripts/ops/trendingrepo-x-autopilot.cron -> /etc/cron.d/trendingrepo-x-autopilot.
 # Wrapper logs internally to /var/log/trendingrepo-x-autopilot.log (matches preflight RUN_LOG).
 #
 # Content-calendar slots (resolveSlotFormat in content-calendar.ts):
-#   A 08:47 — criteria-copy trending single, daily
-#   B 12:47 — rotating themed pack (Mon agents / Tue rag / Wed mcp / Thu
-#             self-hosted / Fri fresh-finds / Sat devtools / Sun weekly-top10)
-#   C 17:47 — alternating discovery-single / trending-single
-# Each posts one tweet; cap (TRENDING_POST_MAX_PER_DAY=3) + 14d cooldown dedupe.
-47 8  * * * root /usr/local/bin/trendingrepo-x-autopilot.sh --slot A
-47 12 * * * root /usr/local/bin/trendingrepo-x-autopilot.sh --slot B
-47 17 * * * root /usr/local/bin/trendingrepo-x-autopilot.sh --slot C
+#   D 04:47 — discovery single
+#   A 08:47 — TOP single
+#   B 12:47 — rotating AI/tooling pack
+#   C 17:47 — alternating GAINER / sustained TREND single
+#   E 21:47 — rotating builder-ecosystem pack
+# Each posts one tweet; cap (TRENDING_POST_MAX_PER_DAY=5) + 14d cooldown dedupe.
+# HOSTUP uses CEST/CET and its Vixie cron ignores per-file timezone settings,
+# so the wrapper checks the UTC hour and no-ops outside the five mapped slots.
+47 * * * * root /usr/local/bin/trendingrepo-x-autopilot.sh --dispatch-utc

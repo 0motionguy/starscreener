@@ -26,6 +26,7 @@ import { KpiBand } from "@/components/ui/KpiBand";
 import { VerdictRibbon } from "@/components/ui/VerdictRibbon";
 import { AlertInbox } from "@/components/alerts/AlertInbox";
 import { AlertTriggerCard } from "@/components/alerts/AlertTriggerCard";
+import { AuthGateButton } from "@/components/auth/AuthGateButton";
 import { useToggleAlertRule } from "@/lib/hooks/useToggleAlertRule";
 
 const USER_FETCH_INIT: RequestInit = {
@@ -319,12 +320,13 @@ export default function AlertsClient() {
               }}
             >
               These rules live in this browser only.{" "}
-              <Link
-                href="/sign-in?redirect_url=%2Fyou%2Falerts"
+              <AuthGateButton
+                className="auth-gate-text-button"
+                redirectUrl="/you/alerts"
                 style={{ color: "var(--v4-acc)", textDecoration: "underline" }}
               >
                 Sign in
-              </Link>{" "}
+              </AuthGateButton>{" "}
               for email + webhook delivery, quiet hours, and up to 60 rules
               on Pro.
             </p>

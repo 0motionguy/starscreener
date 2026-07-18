@@ -17,7 +17,7 @@
 //   primary min to avoid fallback:     final >= 0.1 (raw pre-clamp)
 //   secondary min confidence:          0.15
 //
-// Fallback when nothing fires: "devtools" with confidence 0.
+// Fallback when nothing fires: "other" with confidence 0.
 
 import type { Repo } from "../../types";
 import type {
@@ -41,7 +41,7 @@ const SCORE_OWNER_PREFIX = 50;
 const PRIMARY_MIN_CONFIDENCE = 0.1;
 const SECONDARY_MIN_CONFIDENCE = 0.15;
 
-const FALLBACK_CATEGORY: PipelineCategoryId = "devtools";
+const FALLBACK_CATEGORY: PipelineCategoryId = "other";
 
 // ---------------------------------------------------------------------------
 // Internals

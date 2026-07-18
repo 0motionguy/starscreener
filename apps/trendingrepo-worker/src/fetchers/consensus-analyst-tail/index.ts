@@ -167,6 +167,7 @@ const fetcher: Fetcher = {
               task_type: 'item',
               request_id: randomUUID(),
             },
+            (text) => ItemReportSchema.safeParse(parseJson(text)).success,
           );
           usedProvider = r.meta.provider;
           usedModel = r.meta.model;

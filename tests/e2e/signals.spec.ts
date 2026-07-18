@@ -12,31 +12,18 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("signals", () => {
-  test("renders V4 PageHead, primary-feeds section, and source panels", async ({
+  test("renders the market cockpit and live source links", async ({
     page,
   }) => {
-    const response = await page.goto("/signals", {
+    const response = await page.goto("/market-signals", {
       waitUntil: "domcontentloaded",
     });
     expect(response?.ok()).toBe(true);
 
-    // V4 PageHead crumb — replaces the V3 // MARKET SIGNALS eyebrow.
     await expect(
-      page.getByText(/SIGNAL\s*·\s*TERMINAL/i).first(),
-    ).toBeVisible({ timeout: 10_000 });
-
-    // SectionHead that owns the source-panel grid (replaces V3 //
-    // VOLUME · PER SOURCE chart-card title).
-    await expect(
-      page.getByText(/Primary feeds/i).first(),
+      page.getByRole("heading", { name: /Market signals.*cockpit/i }),
     ).toBeVisible();
-
-    // At least one source panel header is attached. Single alternation
-    // regex so the match is one network-stable lookup. SourceFeedPanel
-    // titles are uppercase with spaces / dots / dashes.
-    const sourceLabel = page
-      .getByText(/\b(HACKER NEWS|GITHUB|REDDIT|BLUESKY|DEV\.TO|CLAUDE|OPENAI)\b/i)
-      .first();
-    await expect(sourceLabel).toBeAttached();
+    await expect(page.getByText(/Live sources/i).first()).toBeVisible();
+    await expect(page.locator('a[data-source="github"]')).toBeAttached();
   });
 });

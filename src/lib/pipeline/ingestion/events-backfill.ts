@@ -176,7 +176,12 @@ export async function backfillFromEvents(
     if (activeToken && pool) {
       const parsedRl = parseRateLimitHeaders(res.headers);
       if (parsedRl) {
-        pool.recordRateLimit(activeToken, parsedRl.remaining, parsedRl.resetUnixSec);
+        pool.recordRateLimit(
+          activeToken,
+          parsedRl.remaining,
+          parsedRl.resetUnixSec,
+          parsedRl.resource ?? "core",
+        );
       }
     }
     const parsedRl = parseRateLimitHeaders(res.headers);

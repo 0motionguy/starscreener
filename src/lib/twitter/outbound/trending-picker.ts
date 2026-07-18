@@ -1,4 +1,4 @@
-// Pure selection logic for the 3x/day trending autopilot. Given the
+// Pure selection logic for the 5x/day trending autopilot. Given the
 // already-ranked repo list (best first) plus the current cooldown + daily-cap
 // state, pick the single repo to post next — or null when the cap is hit or
 // every top repo is still cooling down. Kept pure so the dedupe/cap math is
@@ -36,7 +36,7 @@ export function selectTrendingPost(
     // Defense in depth: never tweet piracy/crack/warez spam even if it slips
     // into the candidate pool from a source that skipped the getDerivedRepos gate.
     if (isSpamRepo(repo)) continue;
-    if (!state.cooldownFullNames.has(repo.fullName)) return repo;
+    if (!state.cooldownFullNames.has(repo.fullName.toLowerCase())) return repo;
   }
   return null;
 }

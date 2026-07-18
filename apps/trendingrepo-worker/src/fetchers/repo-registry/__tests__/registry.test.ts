@@ -70,6 +70,19 @@ describe('buildRegistry', () => {
     expect(out.repos['stale/two']).toBeDefined();
   });
 
+  it('retains up to 3000 repos by default', () => {
+    const rows = Array.from({ length: 2001 }, (_, i) => ({
+      repo_name: `owner/repo-${i}`,
+      stars: String(i),
+    }));
+    const out = buildRegistry(
+      null,
+      { ...EMPTY, trending: trending(rows) },
+      T1,
+    );
+    expect(out.count).toBe(2001);
+  });
+
   it('ignores malformed names (no slash)', () => {
     const out = buildRegistry(null, { ...EMPTY, trending: trending([{ repo_name: 'noslash', stars: '1' }, { repo_name: 'ok/repo', stars: '1' }]) }, T1);
     expect(Object.keys(out.repos)).toEqual(['ok/repo']);

@@ -1,6 +1,6 @@
 // POST /api/cron/twitter-trending
 //
-// The 3x/day trending-single autopilot's server side. The box-host runner
+// The 5x/day trending autopilot's server side. The box-host runner
 // (scripts/twitter-trending-run.mjs) drives it in two phases:
 //   - propose:  POST with no body            -> {ok, post, fullName, text, url, reason}
 //   - confirm:  POST { confirm:{fullName, tweetId, text} } -> commits ledger + audit
@@ -27,7 +27,8 @@ export const runtime = "nodejs";
 // v2 additive contract: propose takes {slot}, confirm takes fullNames[] +
 // format/packId so pack members each enter cooldown. A v1 runner sending
 // bare {confirm:{fullName,...}} still works.
-const SlotSchema = z.enum(["A", "B", "C"]);
+const SlotSchema = z.enum(["A", "B", "C", "D", "E"]);
+const RankerSchema = z.enum(["top", "gainer", "trend", "discovery"]);
 const TrendingRequestSchema = z
   .object({
     slot: SlotSchema.optional(),
@@ -41,6 +42,7 @@ const TrendingRequestSchema = z
           .enum(["trending_single", "discovery_single", "trending_pack"])
           .optional(),
         packId: z.string().min(1).optional(),
+        ranker: RankerSchema.optional(),
         source: z.enum(["llm", "deterministic"]).optional(),
       })
       .optional(),
@@ -79,6 +81,7 @@ async function handle(request: NextRequest): Promise<NextResponse> {
       text: c.text ?? "",
       format: c.format,
       packId: c.packId,
+      ranker: c.ranker,
       source: c.source,
     });
     return NextResponse.json({ ok: true, confirmed: fullNames });
@@ -87,7 +90,10 @@ async function handle(request: NextRequest): Promise<NextResponse> {
   // Slot comes from the body ({slot:"B"}) or ?slot= for curl-friendliness.
   const q = request.nextUrl.searchParams.get("slot");
   const slot =
-    parsed.data.slot ?? (q === "A" || q === "B" || q === "C" ? q : undefined);
+    parsed.data.slot ??
+    (q === "A" || q === "B" || q === "C" || q === "D" || q === "E"
+      ? q
+      : undefined);
   const plan = await proposeTrendingPost(Date.now(), slot);
   return NextResponse.json({ ok: true, ...plan });
 }

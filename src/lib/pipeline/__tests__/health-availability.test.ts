@@ -362,6 +362,18 @@ test("/api/worker/health: star velocity backbone uses fast refresh cadence", () 
   assert.equal(velocityRefresh?.freshness_budget_ms, 60 * 60 * 1000);
 });
 
+test("/api/worker/health: velocity backfill follows its six-hour schedule", () => {
+  const spec = WORKER_HEALTH_SPECS.find(
+    (item) => item.slug === "worker-health:velocity-backfill",
+  );
+  const contract = SOURCE_CONTRACTS.find(
+    (source) => source.id === "velocity-backfill",
+  );
+
+  assert.equal(spec?.cadenceMin, 6 * 60);
+  assert.equal(contract?.freshness_budget_ms, 12 * 60 * 60 * 1000);
+});
+
 test("/api/worker/health: on-demand twitter drain is not a source freshness proxy", () => {
   const drain = SOURCE_CONTRACTS.find(
     (source) => source.id === "drop-twitter-drain",

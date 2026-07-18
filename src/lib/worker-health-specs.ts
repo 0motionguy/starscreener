@@ -97,7 +97,7 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
   // daily - operator-curated mirrors + once-a-day enrichment
   { slug: "manual-repos", fetcher: "manual-repos", cadenceMin: 60 * 24 },
   { slug: "worker-health:star-activity", fetcher: "star-activity", cadenceMin: 60 * 24 },
-  { slug: "worker-health:velocity-backfill", fetcher: "velocity-backfill", cadenceMin: 60 * 24 },
+  { slug: "worker-health:velocity-backfill", fetcher: "velocity-backfill", cadenceMin: 6 * 60 },
   { slug: "worker-health:repo-community-profile", fetcher: "repo-community-profile", cadenceMin: 60 },
   { slug: "revenue-manual-matches", fetcher: "revenue-manual-matches", cadenceMin: 60 * 24 },
   { slug: "npm-packages", fetcher: "npm-packages", cadenceMin: 60 * 24 },
@@ -109,7 +109,6 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
   // weekly - slow-moving baselines
   { slug: "lmarena-text", fetcher: "lmarena", cadenceMin: 60 * 24 * 7, slowMoving: true, blocking: false },
-  { slug: "reddit-baselines", fetcher: "reddit-baselines", cadenceMin: 60 * 24 * 7, slowMoving: true },
 
 ];
 
@@ -146,7 +145,13 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
     slug: "reddit-mentions",
     fetcher: "reddit",
     reason:
-      "live Reddit collector is intentionally paused on HOSTUP; reddit-baselines remains active separately",
+      "live Reddit collector is intentionally paused on HOSTUP",
+  },
+  {
+    slug: "reddit-baselines",
+    fetcher: "reddit-baselines",
+    reason:
+      "Reddit collection is paused end-to-end; baseline refresh remains operator-disabled until credentials and provider policy are restored.",
   },
   {
     slug: "reddit-all-posts",

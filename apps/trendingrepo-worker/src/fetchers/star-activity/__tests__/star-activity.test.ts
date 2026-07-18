@@ -1,5 +1,56 @@
 import { describe, expect, it } from 'vitest';
-import { appendToday, type StarActivityPayload } from '../index.js';
+import {
+  appendToday,
+  fetchCurrentStars,
+  STAR_ACTIVITY_LIMIT,
+  type StarActivityPayload,
+} from '../index.js';
+import { _resetGithubTokenPoolForTests } from '../../../lib/util/github-token-pool.js';
+
+it('covers the expanded 3000-repo registry by default', () => {
+  expect(STAR_ACTIVITY_LIMIT).toBe(3000);
+});
+
+it('quarantines a 401 token and rotates the next repo request', async () => {
+  const originalFetch = globalThis.fetch;
+  const originalPool = process.env.GH_TOKEN_POOL;
+  const originalGithubToken = process.env.GITHUB_TOKEN;
+  const originalGithubTokenPool = process.env.GITHUB_TOKEN_POOL;
+  const authHeaders: string[] = [];
+  delete process.env.GITHUB_TOKEN;
+  delete process.env.GITHUB_TOKEN_POOL;
+  process.env.GH_TOKEN_POOL = 'alpha-token,bravo-token';
+  _resetGithubTokenPoolForTests();
+  let call = 0;
+  globalThis.fetch = async (_input, init) => {
+    authHeaders.push(new Headers(init?.headers).get('authorization') ?? '');
+    call += 1;
+    if (call === 1) return new Response('', { status: 401 });
+    return new Response(JSON.stringify({ stargazers_count: 42 }), {
+      status: 200,
+      headers: {
+        'content-type': 'application/json',
+        'x-ratelimit-remaining': '4998',
+        'x-ratelimit-reset': '2000000000',
+      },
+    });
+  };
+
+  try {
+    await expect(fetchCurrentStars('owner/first')).resolves.toBeNull();
+    await expect(fetchCurrentStars('owner/second')).resolves.toBe(42);
+    expect(authHeaders).toEqual(['Bearer alpha-token', 'Bearer bravo-token']);
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (originalPool === undefined) delete process.env.GH_TOKEN_POOL;
+    else process.env.GH_TOKEN_POOL = originalPool;
+    if (originalGithubToken === undefined) delete process.env.GITHUB_TOKEN;
+    else process.env.GITHUB_TOKEN = originalGithubToken;
+    if (originalGithubTokenPool === undefined) delete process.env.GITHUB_TOKEN_POOL;
+    else process.env.GITHUB_TOKEN_POOL = originalGithubTokenPool;
+    _resetGithubTokenPoolForTests();
+  }
+});
 
 describe('appendToday', () => {
   const NOW = '2026-05-27T04:17:00.000Z';

@@ -1,8 +1,8 @@
-// Server-side brain of the 3x/day X autopilot. The box-host runner
+// Server-side brain of the 5x/day X autopilot. The box-host runner
 // (scripts/twitter-trending-run.mjs) can't import app code — the `twitter` CLI
 // lives on the host, not in the container — so it talks to this over HTTP:
 //
-//   1. POST /api/cron/twitter-trending { slot?: "A"|"B"|"C" }
+//   1. POST /api/cron/twitter-trending { slot?: "A"|"B"|"C"|"D"|"E" }
 //        -> proposeTrendingPost(): resolves the content-calendar format for
 //           the slot (single with criteria copy / discovery single / themed
 //           pack), checks the durable Redis ledger for cooldown + daily cap,
@@ -20,10 +20,19 @@ import "server-only";
 
 import { getDataStore } from "@/lib/data-store";
 import { getDerivedRepos } from "@/lib/derived-repos";
+import { DataStoreFatalError } from "@/lib/errors";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
-import { pickTopDiscoveryRepo } from "@/lib/scoring/discovery";
+import { computeDiscoveryScore, pickTopDiscoveryRepo } from "@/lib/scoring/discovery";
 import { isSpamRepo } from "@/lib/ranking/repo-quality";
+import { sustainedTrendScore } from "@/lib/ranking/trend-score";
 import { polishTweet } from "@/lib/llm/copywriter";
+import { refreshTrendingFromStore } from "@/lib/trending";
+import { refreshRecentReposFromStore } from "@/lib/recent-repos";
+import { refreshRepoMetadataFromStore } from "@/lib/repo-metadata";
+import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/registry";
+import { refreshStarActivityDeltasFromStore } from "@/lib/star-activity-deltas";
+import { refreshTwitterSignalsFromStore } from "@/lib/twitter";
+import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import type { Repo } from "@/lib/types";
 
 import { composeTrendingPack, composeTrendingSingle } from "./composer";
@@ -31,6 +40,7 @@ import {
   resolveSlotFormat,
   type SlotFormatKind,
   type SlotId,
+  type TrendingRanker,
 } from "./content-calendar";
 import { getPack, selectPackRepos } from "./packs";
 import { selectTrendingPost } from "./trending-picker";
@@ -54,6 +64,7 @@ export interface TrendingLedgerPost {
   format?: string;
   /** v2 — set when format === "trending_pack". */
   packId?: string;
+  ranker?: TrendingRanker;
 }
 export interface TrendingLedger {
   posts: TrendingLedgerPost[];
@@ -65,6 +76,7 @@ export interface TrendingProposal {
   /** Resolved content format for this slot (v2; absent pre-calendar). */
   format?: SlotFormatKind;
   packId?: string;
+  ranker?: TrendingRanker;
   repoId?: string;
   /** Single-format repo (kept for runner v1 compatibility). */
   fullName?: string;
@@ -84,6 +96,7 @@ export interface TrendingConfirm {
   text: string;
   format?: SlotFormatKind;
   packId?: string;
+  ranker?: TrendingRanker;
   source?: string;
 }
 
@@ -111,7 +124,7 @@ export function computeLedgerState(
   const todayTweetIds = new Set<string>();
   for (const p of ledger.posts ?? []) {
     const t = Date.parse(p.ts);
-    if (Number.isFinite(t) && t >= cutoff) cooldownFullNames.add(p.fullName);
+    if (Number.isFinite(t) && t >= cutoff) cooldownFullNames.add(p.fullName.toLowerCase());
     if (p.date === today) todayTweetIds.add(p.tweetId);
   }
   return { cooldownFullNames, postedTodayCount: todayTweetIds.size };
@@ -122,6 +135,10 @@ export function appendLedgerPost(
   ledger: TrendingLedger,
   post: TrendingLedgerPost,
 ): TrendingLedger {
+  const duplicate = (ledger.posts ?? []).some(
+    (p) => p.tweetId === post.tweetId && p.fullName.toLowerCase() === post.fullName.toLowerCase(),
+  );
+  if (duplicate) return ledger;
   return { posts: [...(ledger.posts ?? []), post].slice(-LEDGER_MAX) };
 }
 
@@ -130,7 +147,31 @@ export function appendLedgerPost(
  * with real 24h movement. Mirrors the site's TOP board so we tweet what the
  * fixed ranking says is hottest.
  */
-export function rankTrendingCandidates(repos: Repo[]): Repo[] {
+export function rankTrendingCandidates(
+  repos: Repo[],
+  ranker: TrendingRanker = "top",
+): Repo[] {
+  if (ranker === "gainer") {
+    return repos.filter((r) => (r.starsDelta24h ?? 0) > 0).sort(
+      (a, b) =>
+        (b.starsDelta24h ?? 0) - (a.starsDelta24h ?? 0) ||
+        (b.starsDelta7d ?? 0) - (a.starsDelta7d ?? 0),
+    );
+  }
+  if (ranker === "trend") {
+    const ranked = [...repos].sort(
+      (a, b) => sustainedTrendScore(b) - sustainedTrendScore(a),
+    );
+    return ranked[0] && sustainedTrendScore(ranked[0]) > 0
+      ? ranked
+      : rankTrendingCandidates(repos, "top");
+  }
+  if (ranker === "discovery") {
+    const scores = computeDiscoveryScore(repos);
+    return repos.filter((r) => (scores.get(r.id) ?? 0) > 0).sort(
+      (a, b) => (scores.get(b.id) ?? 0) - (scores.get(a.id) ?? 0),
+    );
+  }
   const movers = repos.filter((r) => (r.starsDelta24h ?? 0) > 0);
   const pool = movers.length > 0 ? movers : repos;
   const scores = computeTopComposite(pool, "24h");
@@ -139,7 +180,7 @@ export function rankTrendingCandidates(repos: Repo[]): Repo[] {
 
 function maxPerDay(): number {
   const n = Number.parseInt(process.env.TRENDING_POST_MAX_PER_DAY ?? "", 10);
-  return Number.isFinite(n) && n > 0 ? n : 3;
+  return Number.isFinite(n) && n > 0 ? n : 5;
 }
 
 function singleMediaPath(repo: Repo): string {
@@ -151,11 +192,28 @@ function singleMediaPath(repo: Repo): string {
 // ---------------------------------------------------------------------------
 
 async function readLedger(): Promise<TrendingLedger> {
+  const store = getDataStore();
   try {
-    const res = await getDataStore().read<TrendingLedger>(TRENDING_LEDGER_SLUG);
-    return res.data && Array.isArray(res.data.posts) ? res.data : { posts: [] };
-  } catch {
-    return { posts: [] };
+    const res = await store.read<TrendingLedger>(TRENDING_LEDGER_SLUG);
+    const ledger =
+      res.data && Array.isArray(res.data.posts)
+        ? res.data
+        : res.source === "missing"
+          ? { posts: [] }
+          : null;
+
+    if (!ledger) {
+      throw new Error(`invalid outbound ledger from ${res.source}`);
+    }
+    if (res.source !== "redis") {
+      await store.write(TRENDING_LEDGER_SLUG, ledger);
+    }
+    return ledger;
+  } catch (err) {
+    throw new DataStoreFatalError(
+      "[twitter-trending] outbound ledger read failed; refusing to select without cap/cooldown state",
+      { cause: err instanceof Error ? err.message : String(err) },
+    );
   }
 }
 
@@ -165,8 +223,13 @@ interface LedgerState {
 }
 
 /** Single with criteria copy — the classic path and every format's fallback. */
-function proposeSingle(repos: Repo[], state: LedgerState, cap: number): TrendingProposal {
-  const ranked = rankTrendingCandidates(repos);
+function proposeSingle(
+  repos: Repo[],
+  state: LedgerState,
+  cap: number,
+  ranker: TrendingRanker = "top",
+): TrendingProposal {
+  const ranked = rankTrendingCandidates(repos, ranker);
   if (ranked.length === 0) return { post: false, reason: "no-candidates" };
   const repo = selectTrendingPost(ranked, state, cap);
   if (!repo) return { post: false, reason: "all-top-repos-in-cooldown" };
@@ -174,6 +237,7 @@ function proposeSingle(repos: Repo[], state: LedgerState, cap: number): Trending
   return {
     post: true,
     format: "trending_single",
+    ranker,
     repoId: repo.id,
     fullName: repo.fullName,
     fullNames: [repo.fullName],
@@ -210,6 +274,15 @@ export async function proposeTrendingPost(
   nowMs: number = Date.now(),
   slot?: SlotId,
 ): Promise<TrendingProposal> {
+  await Promise.allSettled([
+    refreshTrendingFromStore(),
+    refreshRecentReposFromStore(),
+    refreshRepoMetadataFromStore(),
+    refreshRepoRegistryFromStore(),
+    refreshStarActivityDeltasFromStore(),
+    refreshTwitterSignalsFromStore(),
+    refreshAllMentionStores(),
+  ]);
   const repos = getDerivedRepos();
   const cap = maxPerDay();
   const state = computeLedgerState(await readLedger(), nowMs);
@@ -219,7 +292,7 @@ export async function proposeTrendingPost(
 
   const resolved = slot
     ? resolveSlotFormat(nowMs, slot)
-    : ({ format: "trending_single" } as const);
+    : ({ format: "trending_single", ranker: "top" } as const);
 
   if (resolved.format === "trending_pack") {
     const pack = getPack(resolved.packId ?? "");
@@ -231,6 +304,7 @@ export async function proposeTrendingPost(
         post: true,
         format: "trending_pack",
         packId: pack.id,
+        ranker: resolved.ranker ?? "top",
         fullName: slugs[0],
         fullNames: slugs,
         text: composed.text,
@@ -243,7 +317,7 @@ export async function proposeTrendingPost(
 
   if (resolved.format === "discovery_single") {
     const pool = repos.filter(
-      (r) => !isSpamRepo(r) && !state.cooldownFullNames.has(r.fullName),
+      (r) => !isSpamRepo(r) && !state.cooldownFullNames.has(r.fullName.toLowerCase()),
     );
     const gem = pickTopDiscoveryRepo(pool);
     if (gem) {
@@ -251,6 +325,7 @@ export async function proposeTrendingPost(
       return withPolish({
         post: true,
         format: "discovery_single",
+        ranker: "discovery",
         repoId: gem.id,
         fullName: gem.fullName,
         fullNames: [gem.fullName],
@@ -262,7 +337,7 @@ export async function proposeTrendingPost(
     // No eligible gem today — fall through to single.
   }
 
-  return withPolish(proposeSingle(repos, state, cap));
+  return withPolish(proposeSingle(repos, state, cap, resolved.ranker));
 }
 
 /** Commit a confirmed post to the durable ledger + audit trail. */
@@ -272,8 +347,9 @@ export async function confirmTrendingPost(
 ): Promise<void> {
   const format = confirm.format ?? "trending_single";
   let ledger = await readLedger();
+  let changed = false;
   for (const fullName of confirm.fullNames) {
-    ledger = appendLedgerPost(ledger, {
+    const next = appendLedgerPost(ledger, {
       date: utcDate(nowMs),
       ts: new Date(nowMs).toISOString(),
       fullName,
@@ -281,8 +357,12 @@ export async function confirmTrendingPost(
       text: confirm.text,
       format,
       ...(confirm.packId ? { packId: confirm.packId } : {}),
+      ...(confirm.ranker ? { ranker: confirm.ranker } : {}),
     });
+    changed ||= next !== ledger;
+    ledger = next;
   }
+  if (!changed) return;
   await getDataStore().write(TRENDING_LEDGER_SLUG, ledger);
 
   // Copy audit trail — append-only, capped, best-effort (never blocks confirm).
@@ -296,6 +376,7 @@ export async function confirmTrendingPost(
         tweetId: confirm.tweetId,
         format,
         ...(confirm.packId ? { packId: confirm.packId } : {}),
+        ...(confirm.ranker ? { ranker: confirm.ranker } : {}),
         ...(confirm.source ? { source: confirm.source } : {}),
         fullNames: confirm.fullNames,
         text: confirm.text,

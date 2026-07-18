@@ -11,7 +11,7 @@ import {
   listProviders,
   sortModels,
   valueScore,
-} from "../models";
+} from "../model-helpers";
 
 function m(overrides: Partial<ModelMeta> & { model_id: string }): ModelMeta {
   return {

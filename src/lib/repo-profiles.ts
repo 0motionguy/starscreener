@@ -32,6 +32,17 @@ export interface RepoProfileSurface {
   productHuntLaunchId: string | null;
 }
 
+export interface RepoExpertTrendBrief {
+  provider: "kimi";
+  model: string;
+  generatedAt: string;
+  headline: string;
+  summary: string;
+  drivers: string[];
+  evidence: string[];
+  caveats: string[];
+}
+
 export interface RepoProfile {
   fullName: string;
   rank: number | null;
@@ -43,6 +54,7 @@ export interface RepoProfile {
   nextScanAfter: string | null;
   surfaces: RepoProfileSurface;
   aisoScan: AisoToolsScan | null;
+  expertTrendBrief?: RepoExpertTrendBrief | null;
   error: string | null;
 }
 
@@ -53,10 +65,12 @@ export interface RepoProfilesFile {
     source: string;
     limit: number;
     maxScans: number;
+    dailyScanBudget?: number;
     scanned: number;
     queued: number;
     noWebsite: number;
     failed: number;
+    expertBriefs?: number;
   };
   profiles: RepoProfile[];
 }

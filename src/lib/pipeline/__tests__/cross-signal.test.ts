@@ -3,6 +3,10 @@ import assert from "node:assert/strict";
 
 import type { Repo } from "../../types";
 import { getDevtoLeaderboard } from "../../devto";
+import {
+  _setArxivRecentForTests,
+  _resetArxivRecentForTests,
+} from "../../arxiv";
 import { attachCrossSignal, getChannelStatus, __test } from "../cross-signal";
 
 const { githubComponent, hnComponent, blueskyComponent, devtoComponent, twitterComponent } = __test;
@@ -186,6 +190,7 @@ test("getChannelStatus: stable + unknown repo lights nothing", () => {
     bluesky: false,
     devto: false,
     twitter: false,
+    arxiv: false,
   });
 });
 
@@ -201,9 +206,10 @@ test("getChannelStatus: hot status lights github", () => {
   assert.equal(status.bluesky, false);
   assert.equal(status.devto, false);
   assert.equal(status.twitter, false);
+  assert.equal(status.arxiv, false);
 });
 
-test("attachCrossSignal: score + firing range is 0-6 (six channels)", () => {
+test("attachCrossSignal: score + firing range is 0-7 (seven channels)", () => {
   const repos = [
     makeRepo({
       fullName: "ghost/repo-breakout",
@@ -212,12 +218,12 @@ test("attachCrossSignal: score + firing range is 0-6 (six channels)", () => {
   ];
   const out = attachCrossSignal(repos);
   assert.ok(
-    (out[0].crossSignalScore ?? 0) <= 6.0,
-    `score must be in 0..6, got ${out[0].crossSignalScore}`,
+    (out[0].crossSignalScore ?? 0) <= 7.0,
+    `score must be in 0..7, got ${out[0].crossSignalScore}`,
   );
   assert.ok(
-    (out[0].channelsFiring ?? 0) <= 6,
-    `firing count must be in 0..6, got ${out[0].channelsFiring}`,
+    (out[0].channelsFiring ?? 0) <= 7,
+    `firing count must be in 0..7, got ${out[0].channelsFiring}`,
   );
 });
 
@@ -225,4 +231,149 @@ test("getChannelStatus: HN-mentioned real repo lights hn", () => {
   const repo = makeRepo({ fullName: "anthropics/claude-code" });
   const status = getChannelStatus(repo);
   assert.equal(status.hn, true);
+});
+
+// ---------------------------------------------------------------------------
+// arxivComponent + arXiv channel fusion (synthetic fixture, no Redis)
+// ---------------------------------------------------------------------------
+
+const { arxivComponent } = __test;
+
+function arxivPaper(overrides: {
+  arxivId: string;
+  linked: string[];
+  publishedAt: string;
+}) {
+  return {
+    arxivId: overrides.arxivId,
+    title: "t",
+    summary: "s",
+    authors: [],
+    categories: [],
+    primaryCategory: null,
+    absUrl: "",
+    pdfUrl: "",
+    publishedAt: overrides.publishedAt,
+    updatedAt: overrides.publishedAt,
+    linkedRepos: overrides.linked.map((fullName) => ({
+      fullName,
+      matchType: "slug",
+      confidence: 0.9,
+    })),
+  };
+}
+
+function setArxivRecent(papers: ReturnType<typeof arxivPaper>[]): void {
+  _setArxivRecentForTests({
+    fetchedAt: new Date().toISOString(),
+    source: "test",
+    count: papers.length,
+    linkedRepoCount: papers.reduce((n, p) => n + p.linkedRepos.length, 0),
+    papers,
+  });
+}
+
+test("arxivComponent: unknown repo returns 0", () => {
+  _resetArxivRecentForTests();
+  assert.equal(arxivComponent("nobody/here", Date.now()), 0);
+});
+
+test("arxivComponent: one recent linking paper → 0.7, two → 1.0", () => {
+  const now = Date.parse("2026-07-09T00:00:00Z");
+  const recent = "2026-07-01T00:00:00Z";
+  setArxivRecent([
+    arxivPaper({ arxivId: "1", linked: ["acme/solo"], publishedAt: recent }),
+    arxivPaper({ arxivId: "2", linked: ["acme/duo"], publishedAt: recent }),
+    arxivPaper({ arxivId: "3", linked: ["acme/duo"], publishedAt: recent }),
+  ]);
+  assert.equal(arxivComponent("acme/solo", now), 0.7);
+  assert.equal(arxivComponent("acme/duo", now), 1.0);
+  _resetArxivRecentForTests();
+});
+
+test("arxivComponent: a semi-recent (30-90d) linking paper → 0.4 floor", () => {
+  const now = Date.parse("2026-07-09T00:00:00Z");
+  setArxivRecent([
+    arxivPaper({
+      arxivId: "semi",
+      linked: ["acme/semi"],
+      // ~60 days before now — inside the 90d stale window, past the 30d
+      // recent window.
+      publishedAt: "2026-05-10T00:00:00Z",
+    }),
+  ]);
+  assert.equal(arxivComponent("acme/semi", now), 0.4);
+  _resetArxivRecentForTests();
+});
+
+test("arxivComponent: an ancient (>90d) linking paper decays off entirely → 0", () => {
+  const now = Date.parse("2026-07-09T00:00:00Z");
+  setArxivRecent([
+    arxivPaper({
+      arxivId: "ancient",
+      linked: ["acme/legacy"],
+      // ~189 days before now — an old citation must NOT keep the channel
+      // lit forever (the P2 fix).
+      publishedAt: "2026-01-01T00:00:00Z",
+    }),
+  ]);
+  assert.equal(arxivComponent("acme/legacy", now), 0);
+  _resetArxivRecentForTests();
+});
+
+test("attachCrossSignal: an arXiv-linked repo lights the arxiv channel and adds to the score", () => {
+  const now = Date.parse("2026-07-09T00:00:00Z");
+  setArxivRecent([
+    arxivPaper({
+      arxivId: "x",
+      linked: ["acme/researchy"],
+      publishedAt: "2026-07-05T00:00:00Z",
+    }),
+  ]);
+  const out = attachCrossSignal(
+    [makeRepo({ fullName: "acme/researchy" })],
+    now,
+  );
+  assert.equal(out[0].channelStatus?.arxiv, true);
+  assert.ok((out[0].channelsFiring ?? 0) >= 1);
+  assert.ok((out[0].crossSignalScore ?? 0) >= 0.7);
+  _resetArxivRecentForTests();
+});
+
+// ---------------------------------------------------------------------------
+// twitterSourceFirstCount: stale-scan gate (Wave 4 — honest degrade)
+// ---------------------------------------------------------------------------
+
+const { twitterSourceFirstCount } = __test;
+
+test("twitter source-first count zeroes out when the scan is older than 72h", () => {
+  const now = Date.parse("2026-07-09T12:00:00.000Z");
+  const fresh = {
+    mentionCount24h: 12,
+    lastScannedAt: "2026-07-09T02:00:00.000Z", // 10h old
+  };
+  const stale = {
+    mentionCount24h: 12,
+    lastScannedAt: "2026-05-01T00:00:00.000Z", // 69 days old
+  };
+  const boundaryFresh = {
+    mentionCount24h: 5,
+    lastScannedAt: new Date(now - 71 * 60 * 60 * 1000).toISOString(),
+  };
+  assert.equal(twitterSourceFirstCount(fresh, now), 12);
+  assert.equal(twitterSourceFirstCount(stale, now), 0);
+  assert.equal(twitterSourceFirstCount(boundaryFresh, now), 5);
+});
+
+test("twitter source-first count is 0 without metrics or a parseable timestamp", () => {
+  const now = Date.parse("2026-07-09T12:00:00.000Z");
+  assert.equal(twitterSourceFirstCount(undefined, now), 0);
+  assert.equal(
+    twitterSourceFirstCount({ mentionCount24h: 9, lastScannedAt: null }, now),
+    0,
+  );
+  assert.equal(
+    twitterSourceFirstCount({ mentionCount24h: 9, lastScannedAt: "not-a-date" }, now),
+    0,
+  );
 });

@@ -72,7 +72,7 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
   // few-hours cadence
   { slug: "producthunt-launches", fetcher: "producthunt", cadenceMin: 360, blocking: false },
-  { slug: "funding-news", fetcher: "funding-news", cadenceMin: 180 },
+  { slug: "funding-news", fetcher: "funding-news", cadenceMin: 360 },
   { slug: "collection-rankings", fetcher: "collection-rankings", cadenceMin: 360, blocking: false },
   { slug: "funding-news-crunchbase", fetcher: "crunchbase", cadenceMin: 180 },
   { slug: "funding-news-sec", fetcher: "sec-form-d", cadenceMin: 180 },
@@ -109,6 +109,7 @@ export const WORKER_HEALTH_SPECS: ReadonlyArray<SlugHealthSpec> = [
 
   // weekly - slow-moving baselines
   { slug: "lmarena-text", fetcher: "lmarena", cadenceMin: 60 * 24 * 7, slowMoving: true, blocking: false },
+  { slug: "reddit-baselines", fetcher: "reddit-baselines", cadenceMin: 60 * 24 * 7, slowMoving: true },
 
 ];
 
@@ -139,25 +140,19 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
     slug: "openrouter-usage",
     fetcher: "openrouter-usage",
     reason:
-      "OpenRouter removed the keyless /api/frontend RSC routes this fetcher relied on (verified 404 on 2026-06-10; the slug had no OPENROUTER_API_KEY for the official datasets endpoint). The cache-preserve guard keeps the last-known-good weekly chart visible, but the producer cannot refresh — pause it from the blocking gate until either an OpenRouter data key is provisioned or the official datasets aggregation is implemented (see fetcher TODO).",
+      "OpenRouter removed the keyless /api/frontend RSC routes this fetcher relied on (verified 404 on 2026-06-10; the slug had no OPENROUTER_API_KEY for the official datasets endpoint). The cache-preserve guard keeps the last-known-good weekly chart visible, but the producer cannot refresh — pause it from the blocking gate until either an OpenRouter data key is provisioned or the official datasets aggregation is implemented (see fetcher notes).",
   },
   {
     slug: "reddit-mentions",
     fetcher: "reddit",
     reason:
-      "Reddit collection is intentionally paused end-to-end on HOSTUP; stale historical mentions must not be treated as worker-owned",
+      "live Reddit collector is intentionally paused on HOSTUP; reddit-baselines remains active separately",
   },
   {
     slug: "reddit-all-posts",
     fetcher: "reddit",
     reason:
       "live Reddit collector is intentionally paused on HOSTUP; do not treat the stale historical all-posts slug as worker-owned",
-  },
-  {
-    slug: "reddit-baselines",
-    fetcher: "reddit-baselines",
-    reason:
-      "Reddit baselines are intentionally paused with the rest of Reddit; the fetcher hits Reddit upstreams and must not keep the topic alive",
   },
   {
     slug: "funding-news-x",
@@ -187,7 +182,7 @@ export const WORKER_HEALTH_DISABLED_SPECS: ReadonlyArray<DisabledSlugHealthSpec>
     slug: "huggingface-trending",
     fetcher: "scrape-huggingface",
     reason:
-      "workflow-owned script output; no registered live worker producer, disabled from live worker and cron freshness until ported to HOSTUP",
+      "workflow-owned script output; no registered live worker producer, tracked by cron freshness",
   },
   {
     slug: "trending-mcp",

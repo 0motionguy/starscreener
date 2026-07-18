@@ -162,6 +162,7 @@ function mockScore(repoId: string): RepoScore {
       issueActivity: 50,
       communityHealth: 70,
       categoryMomentum: 55,
+      crossSignal: 0,
     },
     weights: {
       starVelocity24h: 0.1,
@@ -174,6 +175,7 @@ function mockScore(repoId: string): RepoScore {
       issueActivity: 0.1,
       communityHealth: 0.1,
       categoryMomentum: 0.1,
+      crossSignal: 0,
     },
     modifiers: {
       decayFactor: 1,

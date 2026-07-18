@@ -48,7 +48,10 @@ export function renderBreakoutAlert(
   repo: Repo,
 ): RenderedEmail {
   const repoLink = `https://github.com/${repo.fullName}`;
-  const detailLink = `${SITE}/repo/${repo.owner}/${repo.name}`;
+  // Build from the canonical fullName for consistency with every other repo
+  // link (render-digest, newsletter) — avoids a `/repo//` shape if owner/name
+  // are ever empty on the repo.
+  const detailLink = `${SITE}/repo/${repo.fullName}`;
   const subject = `🚀 ${repo.fullName} — ${event.trigger.replace(/_/g, " ")}`;
   const referenceId = `sse-${event.ruleId}-${event.repoId}-${event.firedAt}`;
 

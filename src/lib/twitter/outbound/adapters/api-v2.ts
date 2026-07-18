@@ -1,18 +1,20 @@
 // Twitter API v2 adapter — posts via direct fetch() calls so the
 // project doesn't take a hard dep on a third-party SDK.
 //
-// Auth model: OAuth 2.0 user-context bearer token. The operator
-// generates a long-lived token via the Twitter developer console for
-// (sprint 5.6: imports placed below file header)
-//
-// the TrendingRepo posting account and puts it in TWITTER_OAUTH2_USER_TOKEN.
-// Refresh-token rotation is a P1 follow-up — for v1, when the token
-// expires the operator regenerates it manually.
+// Auth model: OAuth 2.0 user-context. Two modes:
+//   - tokenProvider (preferred): refresh-token rotation via
+//     ../oauth.ts — tokens self-renew, 401s trigger one refresh+retry.
+//   - bearerToken: static TWITTER_OAUTH2_USER_TOKEN. Kept for simple
+//     setups, but X expires these (~2h) so posting decays until the
+//     operator regenerates the token manually.
 //
 // Rate limits (as of 2026): Twitter's free tier caps at ~17 posts/day.
-// Our cron schedule (1 daily thread of ~5 posts + 1 weekly recap of
-// ~5 posts + per-published-idea posts at 1/account/day) sits well
-// under that ceiling.
+// Our cron schedule (1 daily thread of up to 12 posts = 1 intro + 10
+// items + 1 idea, + 1 weekly recap of up to ~5 posts on Fridays, +
+// per-published-idea posts at 1/account/day) can reach ~17 on a Friday —
+// right at the ceiling. A mid-thread 429 is therefore realistic, which is
+// why postThread attaches partialPosts to the thrown error (see below) so
+// already-posted repos still enter the cooldown.
 
 import { FatalConfigError, TransientHttpError } from "@/lib/errors";
 import type {
@@ -20,6 +22,7 @@ import type {
   AdapterThreadResult,
   ComposedPost,
   OutboundAdapter,
+  OutboundTokenProvider,
 } from "../types";
 
 const API_BASE = "https://api.twitter.com/2";
@@ -30,7 +33,18 @@ interface TwitterTweetResponse {
 }
 
 export interface ApiV2AdapterOptions {
-  bearerToken: string;
+  /**
+   * Static access token. Simple but decays — X user-context tokens
+   * expire (~2h), after which every post 401s until the operator
+   * regenerates it. Prefer `tokenProvider`.
+   */
+  bearerToken?: string;
+  /**
+   * Refresh-capable token source (OAuth2 rotation). When set it wins
+   * over `bearerToken`, and a 401 mid-thread triggers one
+   * invalidate-and-refresh retry before the error surfaces.
+   */
+  tokenProvider?: OutboundTokenProvider;
   /**
    * Username for building shareable URLs. Optional — when missing we
    * still publish, we just can't construct a public URL for the audit
@@ -45,17 +59,26 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
   readonly name = "twitter_api_v2";
   readonly publishes = true;
 
-  private readonly bearerToken: string;
+  private readonly bearerToken: string | null;
+  private readonly tokenProvider: OutboundTokenProvider | null;
   private readonly username: string | null;
   private readonly fetchImpl: typeof fetch;
 
   constructor(opts: ApiV2AdapterOptions) {
-    if (!opts.bearerToken) {
-      throw new FatalConfigError("ApiV2OutboundAdapter: bearerToken is required");
+    if (!opts.bearerToken && !opts.tokenProvider) {
+      throw new FatalConfigError(
+        "ApiV2OutboundAdapter: either bearerToken or tokenProvider is required",
+      );
     }
-    this.bearerToken = opts.bearerToken;
+    this.bearerToken = opts.bearerToken ?? null;
+    this.tokenProvider = opts.tokenProvider ?? null;
     this.username = opts.username ?? null;
     this.fetchImpl = opts.fetchImpl ?? fetch;
+  }
+
+  private async currentToken(): Promise<string> {
+    if (this.tokenProvider) return this.tokenProvider.getAccessToken();
+    return this.bearerToken as string;
   }
 
   async postThread(thread: ComposedPost[]): Promise<AdapterThreadResult> {
@@ -70,24 +93,34 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
       if (previousId) {
         body.reply = { in_reply_to_tweet_id: previousId };
       }
-      const res = await this.fetchImpl(`${API_BASE}/tweets`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${this.bearerToken}`,
-        },
-        body: JSON.stringify(body),
-      });
+
+      const send = (token: string) =>
+        this.fetchImpl(`${API_BASE}/tweets`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(body),
+        });
+
+      let res = await send(await this.currentToken());
+      if (res.status === 401 && this.tokenProvider) {
+        // Token died between the provider's expiry estimate and now —
+        // force a rotation and retry this post once before giving up.
+        res = await send(await this.tokenProvider.invalidateAndRefresh());
+      }
 
       if (!res.ok) {
-        // Throw so the cron route records the run as `error` with the
-        // failing message. Partial-thread state is recorded too — the
-        // results list gets appended for every post we attempted.
+        // Throw so the cron route records the run as `error`. Attach the
+        // posts published SO FAR (`results`) as partialPosts — the route's
+        // catch reads them to still cool-down the repos that DID post, so
+        // a mid-thread failure can't re-feature them tomorrow.
         const text = await res.text();
         throw new TransientHttpError(
           `Twitter API ${res.status} on post "${post.kind}": ${text.slice(0, 200)}`,
           res.status,
-          { kind: post.kind },
+          { kind: post.kind, partialPosts: [...results] },
         );
       }
 
@@ -97,7 +130,7 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
         throw new TransientHttpError(
           `Twitter API returned no id for post "${post.kind}": ${JSON.stringify(payload).slice(0, 200)}`,
           0,
-          { kind: post.kind },
+          { kind: post.kind, partialPosts: [...results] },
         );
       }
       if (!previousId) firstId = id;

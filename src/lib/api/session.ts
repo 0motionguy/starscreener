@@ -172,8 +172,15 @@ export function verifySession(token: string | null | undefined): SessionPayload 
 
 /**
  * Derive a stable userId from an email, or generate a random one when no
- * email is provided. The email path uses HMAC so knowing an email alone
- * doesn't let an attacker predict or forge the resulting userId.
+ * email is provided.
+ *
+ * LEGACY-RESOLUTION ONLY for the email path: minting sessions from
+ * client-supplied emails was removed from /api/auth/session (identity
+ * takeover — anyone knowing an email could mint that user's id). The email
+ * derivation remains solely so existing `u_<hmac>` records stay resolvable
+ * (tier read-through in lib/pricing/tier-resolve, weekly-digest candidate
+ * matching). New identities are either `c_<clerkUserId>` (Clerk-verified,
+ * see lib/auth/user-id) or the anonymous branch below.
  *
  * Caller MUST have already checked that SESSION_SECRET is configured.
  */

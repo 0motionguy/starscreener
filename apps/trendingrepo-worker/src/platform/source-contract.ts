@@ -65,7 +65,6 @@ export type AuthScheme =
   | 'reddit_oauth_client_credentials'
   | 'apify_token'
   | 'twitter_web_cookies'
-  | 'firecrawl'
   | 'supabase_service'
   | 'none';
 

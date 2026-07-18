@@ -190,6 +190,55 @@ export function extractRoundType(text: string): FundingRoundType | null {
 }
 
 // ---------------------------------------------------------------------------
+// Non-funding gate + funding-cue detection
+// ---------------------------------------------------------------------------
+//
+// The AMOUNT_PATTERN happily matches dollar figures in market-research
+// ("Light Field Technology Market to Reach US$ 440.3 Million by 2032"),
+// earnings, and stock-move headlines. Those carry a capitalized phrase +
+// an amount, so the naive company+amount => "medium" rule mislabels them as
+// funding deals — one such headline was the top mover on /funding. Two
+// guards fix this at the root:
+//   1. isNonFundingHeadline() rejects market-size / forecast / CAGR /
+//      earnings / stock-move headlines outright.
+//   2. hasFundingCue() requires an actual funding verb/noun (raise, secure,
+//      round, seed, series, backed-by, led-by, invest, acquire, ...). An
+//      amount alone (million/billion) is NOT a cue.
+//
+// Mirror of the same two helpers in scripts/scrape-funding-news.mjs — keep
+// both in sync (the scraper is the producer, this is the read-time guard).
+
+const NON_FUNDING_HEADLINE_PATTERNS: RegExp[] = [
+  // Market-research / forecast reports: "... Market to Reach US$ X by 2032",
+  // "Market Size", "Market Share", CAGR, growth-rate outlooks.
+  /\bmarket\b[^.]*\b(?:size|share|worth|value|valuation|revenue|outlook|report|analysis|forecast|to\s+reach|to\s+hit|to\s+surpass|to\s+cross|projected|expected|anticipated|estimated|growth)\b/i,
+  /\bCAGR\b/i,
+  /\bto\s+(?:reach|hit|surpass|cross|exceed)\s+(?:US)?\$?\s?[\d.,]+\s*(?:billion|million|trillion|[bmt])\b[^.]*\bby\s+\d{4}\b/i,
+  /\b(?:projected|expected|anticipated|estimated|forecast(?:ed)?|poised|set|slated)\s+to\s+(?:reach|hit|grow|surpass|cross|exceed|witness)\b/i,
+  /\bgrowth\s+(?:rate|forecast|outlook)\b/i,
+  // Earnings / financial results.
+  /\b(?:quarterly|annual|Q[1-4])\s+(?:earnings|results|revenue|report)\b/i,
+  /\bearnings\s+(?:report|call|beat|miss|per\s+share)\b/i,
+  /\breports?\s+(?:record\s+)?(?:revenue|earnings|profit|loss)\b/i,
+  // Public-market / stock moves.
+  /\b(?:shares?|stock)\s+(?:rose|fell|jumps?|jumped|surges?|surged|drops?|dropped|gains?|gained|slumps?|slumped|tumbles?|tumbled|soars?|soared|plunges?|plunged|rally|rallied|climbs?|climbed|slid|sinks?|sank)\b/i,
+  /\bmarket\s+cap(?:italization)?\b/i,
+];
+
+const FUNDING_CUE_PATTERN =
+  /\braises?\b|\braised\b|\braising\b|\bsecures?\b|\bsecured\b|\bcloses?\b|\bclosed\b|\bclosing\b|\blands?\b|\blanded\b|\bnabs?\b|\bnabbed\b|\bbags?\b|\bbagged\b|\bhauls?\b|\bfunding\b|\bfunded\b|\bpre[-\s]?seed\b|\bseed\b|\bseries\s+[a-k]\b|\bround\b|\binvestment\b|\binvests?\b|\binvested\b|\binvesting\b|\bbacked\b|\bbacking\b|\bled\s+by\b|\bventure\b|\bcapital\s+raise\b|\bfinancing\b|\bacquires?\b|\bacquired\b|\bacquisition\b/i;
+
+/** True when the headline is a market-research / earnings / stock story, not a raise. */
+export function isNonFundingHeadline(headline: string): boolean {
+  return NON_FUNDING_HEADLINE_PATTERNS.some((re) => re.test(headline));
+}
+
+/** True when the text carries an explicit funding cue (verb/noun, not just an amount). */
+export function hasFundingCue(text: string): boolean {
+  return FUNDING_CUE_PATTERN.test(text);
+}
+
+// ---------------------------------------------------------------------------
 // Company name extraction
 // ---------------------------------------------------------------------------
 
@@ -375,11 +424,25 @@ export function extractFundingFromHeadline(
 ): FundingExtraction | null {
   const combined = `${headline} ${description}`;
 
+  // Reject market-research / earnings / stock-move headlines outright — their
+  // dollar figures are market sizes or share prices, never a raise.
+  if (isNonFundingHeadline(headline)) {
+    return null;
+  }
+
   const companyName = extractCompanyName(headline);
   const amount = extractAmount(combined);
   const roundType = extractRoundType(combined);
 
   if (!companyName && !amount && !roundType) {
+    return null;
+  }
+
+  // A real funding story carries a funding cue. A round type already implies
+  // one; otherwise require an explicit verb/noun (raise/secure/round/seed/
+  // backed-by/...). An amount alone (million/billion) is not a cue — that's
+  // what let market-size headlines through as "medium" confidence.
+  if (roundType === null && !hasFundingCue(combined)) {
     return null;
   }
 

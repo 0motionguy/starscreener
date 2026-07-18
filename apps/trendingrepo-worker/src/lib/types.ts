@@ -162,7 +162,6 @@ export interface Fetcher {
   schedule: string;
   /** Default false. Set true to receive a live SupabaseClient on ctx.db. */
   requiresDb?: boolean;
-  requiresFirecrawl?: boolean;
   /**
    * Override the global 24h `since` window. Useful for fetchers whose
    * upstream API benefits from a different lookback (e.g. weekly digests,

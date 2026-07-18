@@ -35,6 +35,14 @@ export interface ScoringInput {
   // Social
   socialBuzzScore: number;
 
+  // Cross-signal fusion (optional — present on the second scoring pass in
+  // derived-repos, after decorateWithCrossSignal has run; absent on pass 1
+  // and on callers without cross-signal data, where the component scores 0).
+  /** Sum of the 7 channel components, range 0..7 (cross-signal.ts). */
+  crossSignalScore?: number;
+  /** Count of channels with a non-zero component, range 0..7. */
+  crossSignalChannelsFiring?: number;
+
   // Community health signals (optional binary flags)
   hasReadme?: boolean;
   hasLicense?: boolean;
@@ -120,6 +128,28 @@ export function componentCategoryMomentum(input: ScoringInput): number {
   return logNorm(input.categoryAvgStarVelocity7d ?? 0, 250);
 }
 
+/**
+ * Cross-signal fusion — is the repo trending across independent surfaces
+ * (GitHub + Reddit + HN + Bluesky + Devto + Twitter + arXiv), not just one?
+ *
+ * `crossSignalScore` sums 7 step-function channels (each 0/0.4/0.7/1.0), so
+ * the theoretical max is 7 — but in practice even breakout repos rarely
+ * light more than 4 channels at once. Saturating at 4 gives genuinely
+ * multi-surface repos the full 0-100 range instead of clustering under 40.
+ *
+ * A small breadth bonus rewards diversity over depth: 3 channels at 0.4
+ * (three independent communities) beats one channel at 1.2 — corroboration
+ * across surfaces is the product's core trust signal.
+ */
+export function componentCrossSignal(input: ScoringInput): number {
+  const score = input.crossSignalScore ?? 0;
+  if (score <= 0) return 0;
+  const base = linearNorm(score, 0, 4);
+  const firing = input.crossSignalChannelsFiring ?? 0;
+  const breadthBonus = firing >= 3 ? 10 : firing === 2 ? 5 : 0;
+  return clamp(base + breadthBonus, 0, 100);
+}
+
 // ---------------------------------------------------------------------------
 // Aggregate + rounding
 // ---------------------------------------------------------------------------
@@ -144,5 +174,6 @@ export function computeAllComponents(input: ScoringInput): ScoreComponents {
     issueActivity: round1(componentIssueActivity(input)),
     communityHealth: round1(componentCommunityHealth(input)),
     categoryMomentum: round1(componentCategoryMomentum(input)),
+    crossSignal: round1(componentCrossSignal(input)),
   };
 }

@@ -78,6 +78,22 @@ const RSS_FEEDS = {
   "ai-snake-oil": "https://www.normaltech.ai/feed",
   "generative-value": "https://www.generativevalue.com/feed",
   "import-ai": "https://importai.substack.com/feed",
+  // Wave-4 (2026-05-23): funding-dense sources. Every item from these feeds
+  // is funding/VC by category, so they're added to AI_TAGGED_SOURCES below
+  // to skip the AI-keyword gate (the page covers AI + tech, not AI-only).
+  "crunchbase-news": "https://news.crunchbase.com/feed/",
+  "tc-venture": "https://techcrunch.com/category/venture/feed/",
+  "tc-fundraising": "https://techcrunch.com/category/fundraising/feed/",
+  "tc-seed": "https://techcrunch.com/tag/seed-funding/feed/",
+  "tc-series-a": "https://techcrunch.com/tag/series-a/feed/",
+  "term-sheet": "https://termsheet.substack.com/feed",
+  "tech-funding-news": "https://techfundingnews.com/feed",
+  "alleywatch": "https://www.alleywatch.com/feed/",
+  "yc-blog": "https://www.ycombinator.com/blog/rss",
+  // Wave-4 (2026-05-23): tech-business category feeds (AI gate still applies).
+  "vb-business": "https://venturebeat.com/category/business/feed/",
+  "vb-enterprise": "https://venturebeat.com/category/enterprise/feed/",
+  e27: "https://e27.co/feed/",
 };
 
 // AI-tagged sources skip the AI-keyword gate (publisher already classified).
@@ -96,6 +112,17 @@ const AI_TAGGED_SOURCES = new Set([
   "ai-snake-oil",
   "generative-value",
   "import-ai",
+  // Wave-4 (2026-05-23): funding-native — every item is funding/VC by
+  // category. Skip the AI gate so non-AI rounds also surface on /funding.
+  "crunchbase-news",
+  "tc-venture",
+  "tc-fundraising",
+  "tc-seed",
+  "tc-series-a",
+  "term-sheet",
+  "tech-funding-news",
+  "alleywatch",
+  "yc-blog",
 ]);
 
 // AI-funding-only mode: non-AI-tagged feeds must show an AI marker in
@@ -509,13 +536,52 @@ function extractInvestorsFromText(text) {
   return found;
 }
 
+// Non-funding gate + funding-cue detection. Mirror of the same two helpers
+// in src/lib/funding/extract.ts — keep both in sync. Rationale: the amount
+// regex matches dollar figures in market-research ("... Market to Reach US$
+// 440.3 Million by 2032"), earnings, and stock-move headlines, which then
+// pass the naive company+amount => "medium" rule and surface as funding
+// deals. Two guards fix it: reject non-funding headlines outright, and
+// require an explicit funding cue (an amount alone is not a cue).
+const NON_FUNDING_HEADLINE_PATTERNS = [
+  /\bmarket\b[^.]*\b(?:size|share|worth|value|valuation|revenue|outlook|report|analysis|forecast|to\s+reach|to\s+hit|to\s+surpass|to\s+cross|projected|expected|anticipated|estimated|growth)\b/i,
+  /\bCAGR\b/i,
+  /\bto\s+(?:reach|hit|surpass|cross|exceed)\s+(?:US)?\$?\s?[\d.,]+\s*(?:billion|million|trillion|[bmt])\b[^.]*\bby\s+\d{4}\b/i,
+  /\b(?:projected|expected|anticipated|estimated|forecast(?:ed)?|poised|set|slated)\s+to\s+(?:reach|hit|grow|surpass|cross|exceed|witness)\b/i,
+  /\bgrowth\s+(?:rate|forecast|outlook)\b/i,
+  /\b(?:quarterly|annual|Q[1-4])\s+(?:earnings|results|revenue|report)\b/i,
+  /\bearnings\s+(?:report|call|beat|miss|per\s+share)\b/i,
+  /\breports?\s+(?:record\s+)?(?:revenue|earnings|profit|loss)\b/i,
+  /\b(?:shares?|stock)\s+(?:rose|fell|jumps?|jumped|surges?|surged|drops?|dropped|gains?|gained|slumps?|slumped|tumbles?|tumbled|soars?|soared|plunges?|plunged|rally|rallied|climbs?|climbed|slid|sinks?|sank)\b/i,
+  /\bmarket\s+cap(?:italization)?\b/i,
+];
+
+const FUNDING_CUE_PATTERN =
+  /\braises?\b|\braised\b|\braising\b|\bsecures?\b|\bsecured\b|\bcloses?\b|\bclosed\b|\bclosing\b|\blands?\b|\blanded\b|\bnabs?\b|\bnabbed\b|\bbags?\b|\bbagged\b|\bhauls?\b|\bfunding\b|\bfunded\b|\bpre[-\s]?seed\b|\bseed\b|\bseries\s+[a-k]\b|\bround\b|\binvestment\b|\binvests?\b|\binvested\b|\binvesting\b|\bbacked\b|\bbacking\b|\bled\s+by\b|\bventure\b|\bcapital\s+raise\b|\bfinancing\b|\bacquires?\b|\bacquired\b|\bacquisition\b/i;
+
+function isNonFundingHeadline(headline) {
+  return NON_FUNDING_HEADLINE_PATTERNS.some((re) => re.test(headline));
+}
+
+function hasFundingCue(text) {
+  return FUNDING_CUE_PATTERN.test(text);
+}
+
 function extractFunding(headline, description) {
   const combined = `${headline} ${description}`;
+
+  // Reject market-research / earnings / stock-move headlines outright.
+  if (isNonFundingHeadline(headline)) return null;
+
   const companyName = extractCompanyName(headline);
   const amount = extractAmount(combined);
   const roundType = extractRoundType(combined);
 
   if (!companyName && !amount && !roundType) return null;
+
+  // Require an explicit funding cue when there's no round type — an amount
+  // alone (million/billion) is not a funding signal.
+  if (roundType === null && !hasFundingCue(combined)) return null;
 
   let confidence = "none";
   if (companyName && amount && roundType) confidence = "high";
@@ -769,7 +835,10 @@ async function main() {
     mergedSignals = mergeAndKeepLastN(existingSignals, allSignals, {
       idKey: "id",
       scoreKey: "publishedAt",
-      keepN: 50,
+      // 250 = ~6-7 items per source at 39 sources. Was 50 (only top scorers),
+      // which crowded out lower-volume sources like crunchbase-news / yc-blog
+      // and prevented their items from reaching TOOLBOX dual-write.
+      keepN: 250,
     });
   }
 
@@ -909,5 +978,7 @@ export {
   extractCompanyName,
   extractTags,
   extractFunding,
+  isNonFundingHeadline,
+  hasFundingCue,
   parseRssItems,
 };

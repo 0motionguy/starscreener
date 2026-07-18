@@ -5,6 +5,7 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
 import {
+  applyMentionsLastGoodGuard,
   buildRepoAliasMatchers,
   extractRepoMentions,
   mergeAllPosts,
@@ -370,4 +371,86 @@ test("scrubStaleProjectNameLinks: removes old project-name links that current ru
       confidence: 0.93,
     },
   ]);
+});
+
+// ---------------------------------------------------------------------------
+// Mentions last-good guard ("reddit zeros" postmortem, 2026-07-09)
+// ---------------------------------------------------------------------------
+
+function mkMentionsPayload(overrides = {}) {
+  return {
+    fetchedAt: "2026-07-09T00:00:00.000Z",
+    cold: false,
+    effectiveFetchMode: "oauth",
+    scannedPostsTotal: 1000,
+    mentions: {},
+    mentionsByRepoId: {},
+    allPosts: [],
+    topPosts: [],
+    leaderboard: [],
+    ...overrides,
+  };
+}
+
+test("mentions guard: empty new scan preserves the existing signal sections", () => {
+  const existing = mkMentionsPayload({
+    fetchedAt: "2026-07-08T00:00:00.000Z",
+    mentions: { "acme/rocket": { count7d: 3, upvotes7d: 40, posts: [] } },
+    mentionsByRepoId: { "acme--rocket": { count7d: 3, upvotes7d: 40, posts: [] } },
+    leaderboard: [{ fullName: "acme/rocket", count7d: 3, upvotes7d: 40 }],
+  });
+  const degraded = mkMentionsPayload({ effectiveFetchMode: "rss-atom" });
+
+  const { payload, guardTripped } = applyMentionsLastGoodGuard(degraded, existing);
+  assert.equal(guardTripped, true);
+  assert.deepEqual(Object.keys(payload.mentions), ["acme/rocket"]);
+  assert.equal(payload.leaderboard.length, 1);
+  // Freshness stays honest: the preserved data keeps its ORIGINAL fetchedAt.
+  assert.equal(payload.fetchedAt, "2026-07-08T00:00:00.000Z");
+  assert.equal(payload.lastDegradedScanAt, "2026-07-09T00:00:00.000Z");
+  assert.equal(payload.lastGoodGuardTripped, true);
+  // Scan metadata reflects THIS run.
+  assert.equal(payload.effectiveFetchMode, "rss-atom");
+});
+
+test("mentions guard: a run WITH mentions always writes through (shrinkage allowed)", () => {
+  const existing = mkMentionsPayload({
+    mentions: {
+      "acme/rocket": { count7d: 3, upvotes7d: 40, posts: [] },
+      "beta/ship": { count7d: 2, upvotes7d: 10, posts: [] },
+    },
+  });
+  const fresh = mkMentionsPayload({
+    mentions: { "acme/rocket": { count7d: 1, upvotes7d: 5, posts: [] } },
+  });
+  const { payload, guardTripped } = applyMentionsLastGoodGuard(fresh, existing);
+  assert.equal(guardTripped, false);
+  assert.deepEqual(Object.keys(payload.mentions), ["acme/rocket"]);
+});
+
+test("mentions guard: cold start (no existing file) writes the empty scan", () => {
+  const degraded = mkMentionsPayload();
+  const { payload, guardTripped } = applyMentionsLastGoodGuard(degraded, null);
+  assert.equal(guardTripped, false);
+  assert.deepEqual(payload.mentions, {});
+});
+
+// ---------------------------------------------------------------------------
+// RSS-fallback rows still produce MENTIONS (the fix for the dark channel)
+// ---------------------------------------------------------------------------
+
+test("extractRepoMentions matches rss-atom-shaped posts (score 0, no engagement)", () => {
+  const tracked = new Set(["acme/rocket"]);
+  const rssPost = {
+    id: "t3_rss1",
+    title: "acme/rocket just shipped agent support",
+    selftext: "",
+    url: "https://github.com/acme/rocket",
+    score: 0,
+    num_comments: 0,
+    _source: "rss-atom",
+  };
+  const hits = extractRepoMentions(rssPost, tracked, []);
+  assert.equal(hits.size, 1);
+  assert.equal(Array.from(hits.values())[0].fullName, "acme/rocket");
 });

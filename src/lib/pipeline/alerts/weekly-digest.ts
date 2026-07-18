@@ -111,7 +111,15 @@ export function mergeProfileEmailsIntoUserEmailMap(
 
   for (const profile of input.profiles) {
     const email = profile.email?.trim();
-    const candidates = [profile.profileId, profile.clerkUserId];
+    // Candidate id forms, newest first: profile row id, raw Clerk id, the
+    // canonical `c_<clerkUserId>` (see lib/auth/user-id — kept as a literal
+    // prefix here so this pipeline lib stays Clerk-import-free), and the
+    // legacy email-derived id appended below.
+    const candidates = [
+      profile.profileId,
+      profile.clerkUserId,
+      `c_${profile.clerkUserId}`,
+    ];
     if (email && email.includes("@") && input.deriveUserIdFromEmail) {
       try {
         candidates.push(input.deriveUserIdFromEmail(email));
@@ -178,18 +186,45 @@ export function collectAlertsByUser(
  *   1. `movementStatus === "breakout"` wins over all non-breakouts.
  *   2. Higher `momentumScore` wins ties.
  *   3. Higher `starsDelta7d` breaks remaining ties.
+ *   4. `fullName` alphabetical is the FINAL deterministic tiebreak — without
+ *      it, repos with equal score fell through to input (array) order, so the
+ *      "top N" reshuffled run-to-run and the top-5 (per-user digest) wasn't a
+ *      stable prefix of the top-10 (newsletter). Both digest surfaces call
+ *      this, so they now agree on ordering, differing only in depth.
+ *
+ * Also deduplicates by lowercased `fullName` and drops repos with a malformed
+ * `fullName` (missing owner or name) so no downstream `/repo/…` link can be
+ * built as `/repo//` or `/repo/undefined/…`.
  */
 export function pickTopBreakouts(repos: Repo[], limit = 5): Repo[] {
-  const ranked = [...repos].sort((a, b) => {
+  const seen = new Set<string>();
+  const clean: Repo[] = [];
+  for (const r of repos) {
+    const key = r.fullName?.toLowerCase();
+    // Require a well-formed owner/name — the URL is built from this.
+    if (!key || !isWellFormedFullName(key)) continue;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    clean.push(r);
+  }
+  const ranked = clean.sort((a, b) => {
     const aB = a.movementStatus === "breakout" ? 1 : 0;
     const bB = b.movementStatus === "breakout" ? 1 : 0;
     if (aB !== bB) return bB - aB;
     if (a.momentumScore !== b.momentumScore) {
       return b.momentumScore - a.momentumScore;
     }
-    return (b.starsDelta7d ?? 0) - (a.starsDelta7d ?? 0);
+    const delta = (b.starsDelta7d ?? 0) - (a.starsDelta7d ?? 0);
+    if (delta !== 0) return delta;
+    return a.fullName.localeCompare(b.fullName);
   });
   return ranked.slice(0, Math.max(0, limit));
+}
+
+/** `owner/name` with both segments non-empty and exactly one slash. */
+function isWellFormedFullName(lower: string): boolean {
+  const parts = lower.split("/");
+  return parts.length === 2 && parts[0]!.length > 0 && parts[1]!.length > 0;
 }
 
 function toBreakoutSummary(repo: Repo): RepoBreakoutSummary {

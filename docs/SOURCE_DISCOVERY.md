@@ -69,6 +69,28 @@ Primary code paths:
 - repo detail mention feed: [`src/app/repo/[owner]/[name]/page.tsx`](../src/app/repo/[owner]/[name]/page.tsx)
 - mention markers on repo charts: [`src/components/repo-detail/MentionMarkers.tsx`](../src/components/repo-detail/MentionMarkers.tsx)
 
+### arXiv research-citation channel (2026-07)
+
+The seventh cross-signal channel (`arxiv`) lights when a repo is linked from
+a recent arXiv paper — the strongest "genuinely-novel AI/ML" signal we have.
+Papers are linked to repos in [`scripts/scrape-arxiv.mjs`](../scripts/scrape-arxiv.mjs)
+via `extractGithubRepoFullNames` (github.com URLs) **and**
+`extractTrackedBareRefs` (bare `owner/repo` slugs against the tracked set) —
+the bare-slug pass is what recovers the common "we release owner/repo"
+abstract mentions the URL-only pass dropped. The channel tiers on recent-link
+count + citation velocity / social mentions from `arxiv-enriched`.
+
+### Deferred: HuggingFace per-repo channel
+
+HF trending is collected (`src/lib/huggingface.ts`) but is **not** wired as a
+cross-signal channel: HF model IDs are model repos (`org/model`), not GitHub
+repos — only ~3/1000 trending models have an id that exactly matches a tracked
+GitHub `fullName`, and ~157 merely share an owner. A useful HF→GitHub bridge
+needs model-card link parsing (the card often links the GitHub repo) or an
+`arxiv:` tag cross-reference through the shared paper. Until that bridge
+exists, an HF channel would be too noisy; the owner-level overlap could later
+feed a category-momentum nudge rather than a per-repo channel.
+
 ## External references
 
 - Bluesky search operators: https://bsky.social/about/blog/05-31-2024-search

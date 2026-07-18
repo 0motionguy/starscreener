@@ -31,6 +31,7 @@ import {
 } from "@/lib/og-primitives";
 import { OG_CACHE_HEADERS, OG_COLORS } from "@/lib/seo";
 import { refreshTrendingFromStore } from "@/lib/trending";
+import { isLlmModelRepo } from "@/lib/twitter/outbound/packs";
 import type { Repo } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -91,7 +92,17 @@ function renderRepoCard(repo: Repo, avatarUri: string | null): ReactElement {
 
   const [owner = "", name = ""] = repo.fullName.split("/");
   const nameFontSize = name.length <= 14 ? 74 : name.length <= 22 ? 58 : 44;
-  const chips: Array<{ label: string; dotColor?: string }> = [];
+
+  // hf_models archetype (CE-5): LLM / model repos pick up the Hugging Face
+  // yellow — same predicate the llm-models pack uses, so a repo that appears
+  // on the pack card carries the same accent on its own share card.
+  const isModelRepo = isLlmModelRepo(repo);
+  const accent = isModelRepo ? OG_COLORS.hf : OG_COLORS.brand;
+
+  const chips: Array<{ label: string; dotColor?: string; accent?: boolean }> = [];
+  if (isModelRepo) {
+    chips.push({ label: "LLM / MODEL", accent: true });
+  }
   if (repo.language) {
     chips.push({
       label: repo.language,
@@ -103,7 +114,7 @@ function renderRepoCard(repo: Repo, avatarUri: string | null): ReactElement {
   }
 
   return (
-    <CardFrame>
+    <CardFrame accent={accent}>
       {/* Header */}
       <div
         style={{
@@ -200,11 +211,12 @@ function renderRepoCard(repo: Repo, avatarUri: string | null): ReactElement {
                 gap: 9,
                 padding: "8px 18px",
                 borderRadius: 999,
-                border: `1px solid ${OG_COLORS.border}`,
-                backgroundColor: OG_COLORS.bgSecondary,
+                border: `1px solid ${chip.accent ? OG_COLORS.hf : OG_COLORS.border}`,
+                backgroundColor: chip.accent ? OG_COLORS.hfDim : OG_COLORS.bgSecondary,
                 fontFamily: "Geist Mono",
                 fontSize: 17,
-                color: OG_COLORS.textSecondary,
+                fontWeight: chip.accent ? 700 : 400,
+                color: chip.accent ? OG_COLORS.hf : OG_COLORS.textSecondary,
               }}
             >
               {chip.dotColor ? <Dot size={11} color={chip.dotColor} /> : null}

@@ -9,9 +9,10 @@
 // Hooks are functions of the actual member count, so headline numbers always
 // match what the card renders.
 //
-// v1 is repo-trending content only (owner directive). Funding / LLM-model /
-// model-release packs are registered but `enabled: false` until their data
-// surfaces are wired.
+// v1+ is repo-trending content (owner directive). The llm-models pack runs
+// off the same derived corpus (no extra data surface; its predicate also
+// drives the hf_models card archetype, CE-5). Funding stays `enabled: false`
+// until its data surface ships.
 
 import type { Repo } from "@/lib/types";
 import { computeTopComposite } from "@/lib/scoring/top-composite";
@@ -47,6 +48,15 @@ function hay(repo: Repo): string {
 
 function anyOf(re: RegExp): (repo: Repo) => boolean {
   return (repo) => re.test(hay(repo));
+}
+
+/**
+ * LLM / model-weights predicate — exported because the hf_models OG card
+ * archetype (CE-5) shares it, so pack membership and card styling never
+ * disagree about what counts as a model repo.
+ */
+export function isLlmModelRepo(repo: Repo): boolean {
+  return /\bllm\b|language model|\bweights\b|inference/.test(hay(repo));
 }
 
 export const PACKS: PackSpec[] = [
@@ -114,7 +124,16 @@ export const PACKS: PackSpec[] = [
     window: "7d",
     match: () => true,
   },
-  // --- deferred until their data surfaces ship (owner: repo content first) --
+  {
+    id: "llm-models",
+    hook: (n) => `TOP ${n} NEW LLM MODEL REPOS`,
+    enabled: true,
+    size: 5,
+    minSize: 3,
+    window: "7d",
+    match: isLlmModelRepo,
+  },
+  // --- deferred until its data surface ships (owner: repo content first) ---
   {
     id: "funding",
     hook: (n) => `TOP ${n} FUNDED OSS REPOS THIS WEEK`,
@@ -122,14 +141,6 @@ export const PACKS: PackSpec[] = [
     size: 5,
     window: "7d",
     match: (repo) => Boolean(repo.funding),
-  },
-  {
-    id: "llm-models",
-    hook: (n) => `TOP ${n} NEW LLM MODEL REPOS`,
-    enabled: false,
-    size: 5,
-    window: "7d",
-    match: anyOf(/\bllm\b|language model|\bweights\b|inference/),
   },
 ];
 

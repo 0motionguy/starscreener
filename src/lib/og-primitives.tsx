@@ -195,9 +195,12 @@ export function NotFoundCard({
  */
 export function CardFrame({
   padding = "48px 72px 56px 72px",
+  accent = OG_COLORS.brand,
   children,
 }: {
   padding?: string;
+  /** AccentStrip color — card archetypes (e.g. hf_models) restyle the frame. */
+  accent?: string;
   children: ReactNode;
 }): ReactElement {
   return (
@@ -215,7 +218,7 @@ export function CardFrame({
       }}
     >
       {children}
-      <AccentStrip />
+      <AccentStrip color={accent} />
     </div>
   );
 }

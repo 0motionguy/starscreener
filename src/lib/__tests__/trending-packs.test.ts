@@ -49,7 +49,7 @@ test("every enabled pack id resolves via getPack; disabled ones don't", () => {
     assert.equal(getPack(p.id)?.id, p.id);
   }
   assert.equal(getPack("funding"), undefined); // registered but disabled
-  assert.equal(getPack("llm-models"), undefined);
+  assert.equal(getPack("llm-models")?.id, "llm-models"); // CE-5: graduated to enabled
   assert.equal(getPack("nope"), undefined);
 });
 
@@ -100,6 +100,29 @@ test("selectPackRepos returns [] for a thin pack (caller falls back to single)",
     makeRepo({ fullName: `acme/agent${i}`, topics: ["agents"], starsDelta24h: 10 }),
   );
   assert.deepEqual(selectPackRepos(agents, getPack("ai-agents")!, NO_COOLDOWN), []);
+});
+
+test("llm-models matches via the shared hf_models predicate, minSize 3 floor", () => {
+  const models = Array.from({ length: 3 }, (_, i) =>
+    makeRepo({
+      fullName: `acme/model${i}`,
+      description: "Fast LLM inference engine",
+      starsDelta7d: 40 + i,
+    }),
+  );
+  const noise = [
+    makeRepo({ fullName: "acme/css-lib", description: "CSS utilities", starsDelta7d: 900 }),
+    makeRepo({ fullName: "acme/game", description: "A voxel game", starsDelta7d: 800 }),
+  ];
+  const pack = getPack("llm-models")!;
+
+  // 3 matches ride (minSize 3); noise never sneaks in.
+  const picked = selectPackRepos([...models, ...noise], pack, NO_COOLDOWN);
+  assert.equal(picked.length, 3);
+  assert.ok(picked.every((r) => r.fullName.startsWith("acme/model")));
+
+  // 2 matches < minSize -> [] so slot C falls back to a single.
+  assert.deepEqual(selectPackRepos(models.slice(0, 2), pack, NO_COOLDOWN), []);
 });
 
 test("weekly-top10 matches everything and returns 10", () => {

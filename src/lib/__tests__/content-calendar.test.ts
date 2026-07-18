@@ -41,9 +41,12 @@ test("slot B rotates the themed pack by UTC weekday", () => {
   }
 });
 
-test("slot C alternates discovery (even UTC date) / trending single (odd)", () => {
+test("slot C alternates discovery (even UTC date) / llm-models pack (odd)", () => {
   assert.equal(resolveSlotFormat(MON, "C", undefined).format, "discovery_single"); // 6th
-  assert.equal(resolveSlotFormat(TUE, "C", undefined).format, "trending_single"); // 7th
+  assert.deepEqual(resolveSlotFormat(TUE, "C", undefined), {
+    format: "trending_pack",
+    packId: "llm-models",
+  }); // 7th
 });
 
 test("X_CALENDAR_OVERRIDE remaps a slot/day cell", () => {

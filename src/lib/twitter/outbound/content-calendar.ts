@@ -8,7 +8,9 @@
 //                     Thu self-hosted / Fri fresh-finds / Sat devtools /
 //                     Sun weekly-top10 (full 10-row card)
 //   slot C (17:47)  alternates discovery_single (even UTC days) /
-//                   trending_single (odd) — the "next gem" surface
+//                   llm-models themed pack (odd) — the "next gem" surface;
+//                   the thin-pack guard falls back to a trending single
+//                   when fewer than minSize LLM repos qualify
 //
 // X_CALENDAR_OVERRIDE (optional JSON, box env) can remap any slot/day:
 //   {"B":{"0":{"format":"trending_single"}}}   // Sundays: no pack
@@ -68,7 +70,7 @@ export function resolveSlotFormat(
     const dayOfMonth = new Date(nowMs).getUTCDate();
     return dayOfMonth % 2 === 0
       ? { format: "discovery_single" }
-      : { format: "trending_single" };
+      : { format: "trending_pack", packId: "llm-models" };
   }
   return { format: "trending_single" };
 }

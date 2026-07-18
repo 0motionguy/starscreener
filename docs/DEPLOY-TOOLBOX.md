@@ -127,8 +127,9 @@ grep '^TRENDING_POST_MAX_PER_DAY=5$' /opt/trendingrepo/.env.production
 ```
 
 The installer backs up the production env, installs both cron definitions and
-their host wrappers, and raises the explicit daily cap to five. It deliberately
-does not arm `TWITTER_OUTBOUND_MODE=live`.
+their host wrappers, raises the explicit daily cap to five, and recreates the
+app container so it loads the updated env. It deliberately does not arm
+`TWITTER_OUTBOUND_MODE=live`.
 
 ## Post-deploy verification
 

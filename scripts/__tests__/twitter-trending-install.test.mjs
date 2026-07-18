@@ -21,6 +21,10 @@ test("HOSTUP installer deploys the five-slot autopilot and raises its cap", asyn
   }
 
   assert.match(installer, /TRENDING_POST_MAX_PER_DAY=5/);
+  assert.match(
+    installer,
+    /docker compose -f "\$COMPOSE_FILE" up -d --force-recreate trendingrepo/,
+  );
   assert.doesNotMatch(installer, /TWITTER_OUTBOUND_MODE=live/);
   assert.match(packageJson, /twitter-trending-install\.test\.mjs/);
 });

@@ -5,7 +5,9 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 ENV_FILE=/opt/trendingrepo/.env.production
+COMPOSE_FILE=/opt/trendingrepo/docker-compose.trendingrepo.yml
 [ -f "$ENV_FILE" ] || { echo "missing $ENV_FILE" >&2; exit 1; }
+[ -f "$COMPOSE_FILE" ] || { echo "missing $COMPOSE_FILE" >&2; exit 1; }
 
 install -d -m 0755 /opt/trendingrepo-cron/scripts
 install -m 0755 "$ROOT/scripts/twitter-trending-run.mjs" /opt/trendingrepo-cron/scripts/twitter-trending-run.mjs
@@ -22,6 +24,7 @@ else
   printf '\nTRENDING_POST_MAX_PER_DAY=5\n' >>"$ENV_FILE"
 fi
 chmod 0600 "$ENV_FILE"
+docker compose -f "$COMPOSE_FILE" up -d --force-recreate trendingrepo
 
-echo "installed TrendingRepo X autopilot (five UTC slots, cap 5)"
+echo "installed TrendingRepo X autopilot (five UTC slots, cap 5; app recreated)"
 echo "outbound mode unchanged; verify with trendingrepo-x-autopilot.sh --slot D --dry-run"

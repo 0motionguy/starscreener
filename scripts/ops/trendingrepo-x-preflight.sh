@@ -4,7 +4,7 @@
 #
 # Guards the 5x/day trendingrepo autopilot (twitter-trending-run.mjs):
 #   1) cookie session still authenticated (twitter-cli feed, read-only)
-#   2) outcome: a post actually landed in the last 26h (only when mode=live)
+#   2) outcome: every prior UTC-day slot was confirmed (only when mode=live)
 # Mode-aware: TWITTER_OUTBOUND_MODE != live -> informational only, never
 # pages, so dry-run Phase B/C can never false-alarm #toolbox-critical.
 #
@@ -24,7 +24,6 @@ fi
 ENV_FILE=/opt/trendingrepo/.env.production        # mode + app config
 COOKIE_FILE=/opt/trendingrepo-twitter/.env        # canonical @trendingrepo store (trending-twitter-login / refresh script)
 RUN_LOG=/var/log/trendingrepo-x-autopilot.log # posting wrapper logs here (Phase C)
-OUTCOME_WINDOW_H=26
 . /opt/toolbox/.env 2>/dev/null || true
 
 ts() { date -u +%FT%TZ; }
@@ -77,23 +76,20 @@ else
   fi
 fi
 
-# --- 2) outcome check (any post in the last ${OUTCOME_WINDOW_H}h) --------
+# --- 2) outcome check (every prior UTC-day slot confirmed) ---------------
 if [ "$LIVE" = 1 ]; then
-  # Only a real success line counts (runner logs `posted <19-digit id>`);
-  # matching "tweet"/"confirm" loosely let DRY-RUN lines fake a green outcome.
-  last=$(grep -aE "posted [0-9]{15,}" "$RUN_LOG" 2>/dev/null | tail -1 | awk '{print $1}')
-  if [ -n "$last" ]; then
-    last_s=$(date -u -d "$last" +%s 2>/dev/null || echo 0)
-    age_h=$(( ( $(date -u +%s) - last_s ) / 3600 ))
-    if [ "$last_s" = 0 ] || [ "$age_h" -gt "$OUTCOME_WINDOW_H" ]; then
-      alert "no post landed in ${age_h}h (window ${OUTCOME_WINDOW_H}h) - check $RUN_LOG"
-      fail=1
-    else
-      echo "$(ts) last post: ${age_h}h ago - OK"
+  prior_day=$(date -u -d 'yesterday' +%F)
+  missing=""
+  for slot in D A B C E; do
+    if ! grep -aEq "^${prior_day}T[^ ]+Z posted slot=${slot} [0-9]{15,20}$" "$RUN_LOG" 2>/dev/null; then
+      missing="${missing}${missing:+,}${slot}"
     fi
-  else
-    alert "posting log missing/empty at $RUN_LOG - autopilot cron never ran?"
+  done
+  if [ -n "$missing" ]; then
+    alert "missing confirmed posts for prior UTC day $prior_day slots=$missing - check $RUN_LOG"
     fail=1
+  else
+    echo "$(ts) prior UTC day $prior_day slots D/A/B/C/E confirmed - OK"
   fi
 else
   echo "$(ts) outcome check: SKIP (mode=$MODE)"

@@ -162,8 +162,6 @@ async function main() {
     log("no tweet id in CLI response:", out.slice(0, 200));
     process.exit(1);
   }
-  log("posted", tweetId);
-
   // 5. Confirm — commit the durable ledger + audit so cooldown/cap hold.
   //    v2 body (fullNames/format/packId); the endpoint also accepts the old
   //    {fullName} shape, so a stale runner and a new app stay compatible.
@@ -185,6 +183,7 @@ async function main() {
   if (!cres.ok) {
     throw new Error(`confirm HTTP ${cres.status}: ${(await cres.text()).slice(0, 200)}`);
   }
+  log("posted", `slot=${SLOT ?? "unslotted"}`, tweetId);
   log("confirm:", cres.status, "->", members.join(", "));
   log("tweet: https://x.com/trendingrepo/status/" + tweetId);
 }

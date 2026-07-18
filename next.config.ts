@@ -43,6 +43,16 @@ const nextConfig: NextConfig = {
   // changing in a future Next minor.
   experimental: {
     optimizePackageImports: ["lucide-react", "recharts"],
+    // Serialize static export to a single worker. On high-core hosts (the
+    // 16-core HOSTUP build box) Next 15 spawns one export worker per CPU, and
+    // the `/(home)/page` route-group index intermittently races its client
+    // reference manifest: "Invariant: Expected clientReferenceManifest to be
+    // defined" — the build aborts on `/` only. Low-core CI (2-4 cores) rarely
+    // trips it, so it passes there and fails on the box. One worker removes the
+    // race deterministically; the only cost is slower build-time static gen
+    // (166 pages serial), which is not user-facing. Runtime behavior of `/`
+    // (ISR revalidate=1800) is unchanged.
+    cpus: 1,
   },
   // Inject the root package.json version into the client bundle as
   // NEXT_PUBLIC_APP_VERSION so any client component can read the release

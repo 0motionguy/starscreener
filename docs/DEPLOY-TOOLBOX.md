@@ -50,6 +50,17 @@ git fetch origin bot/swarm-a6-producthunt-reader
 # image tag on docker-compose.trendingrepo.yml back to :vps-v1 (which
 # doesn't exist) and breaks subsequent `docker compose up`s.
 git checkout <newCommitSha> -- apps/trendingrepo-worker/src/ src/
+
+# MANDATORY deletion sync. `git checkout <sha> -- <path>` ADDS/UPDATES files
+# but NEVER deletes ones the target commit removed. When a file is moved or
+# deleted between the box branch and <sha>, the stale copy lingers in the
+# working tree and the build silently uses BOTH. This bit us 2026-07-18: a
+# move of `src/app/page.tsx` -> `src/app/(home)/page.tsx` left two pages
+# resolving to `/`, and `next build` died with
+#   InvariantError: Expected clientReferenceManifest to be defined
+# on `/(home)/page` only (CI passed — low-core CI never staged the stale file).
+# Always prune what <sha> deleted, relative to the box's current branch:
+git diff --name-only --diff-filter=D "$(git rev-parse HEAD)" <newCommitSha> -- src/ apps/trendingrepo-worker/src/ | xargs -r git rm -f
 ```
 
 If only one of (worker, app) changed, you can scope the checkout further, e.g. `-- apps/trendingrepo-worker/src/fetchers/<name>/`.
@@ -123,13 +134,18 @@ cd /opt/trendingrepo
 git checkout <newCommitSha> -- scripts/twitter-trending-run.mjs scripts/ops/
 sudo scripts/ops/install-trendingrepo-x-autopilot.sh
 sudo /usr/local/bin/trendingrepo-x-autopilot.sh --slot D --dry-run
-grep '^TRENDING_POST_MAX_PER_DAY=5$' /opt/trendingrepo/.env.production
+grep '^TRENDING_POST_MAX_PER_DAY=7$' /opt/trendingrepo/.env.production
 ```
 
 The installer backs up the production env, installs both cron definitions and
-their host wrappers, raises the explicit daily cap to five, and recreates the
+their host wrappers, raises the explicit daily cap to seven, and recreates the
 app container so it loads the updated env. It deliberately does not arm
 `TWITTER_OUTBOUND_MODE=live`.
+
+The autopilot posts 7x/day: `--dispatch-utc` maps UTC hours to slots
+D=04, A=08, F=10, B=12, G=14, C=17, E=21. Slots F (daily weekly-top10 10-repo
+leaderboard card) and G (sustained-growth TREND single) were added 2026-07-18;
+dry-run both after install to confirm the app route accepts them.
 
 ## Post-deploy verification
 

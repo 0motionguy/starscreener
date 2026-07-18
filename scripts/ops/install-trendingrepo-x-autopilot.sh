@@ -26,5 +26,5 @@ fi
 chmod 0600 "$ENV_FILE"
 docker compose -f "$COMPOSE_FILE" up -d --force-recreate trendingrepo
 
-echo "installed TrendingRepo X autopilot (five UTC slots, cap 5; app recreated)"
+echo "installed TrendingRepo X autopilot (seven UTC slots, cap 7; app recreated)"
 echo "outbound mode unchanged; verify with trendingrepo-x-autopilot.sh --slot D --dry-run"

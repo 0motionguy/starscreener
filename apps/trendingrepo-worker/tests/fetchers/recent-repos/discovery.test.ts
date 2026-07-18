@@ -148,6 +148,40 @@ describe('recent-repos discovery plan', () => {
     expect(store.write).not.toHaveBeenCalled();
   });
 
+  it('does not fall back to anonymous search when the configured pool is exhausted', async () => {
+    const previousTokens = {
+      GITHUB_TOKEN: process.env.GITHUB_TOKEN,
+      GH_TOKEN_POOL: process.env.GH_TOKEN_POOL,
+      GITHUB_TOKEN_POOL: process.env.GITHUB_TOKEN_POOL,
+    };
+    const existing = repo('kept/repo', 10, '2026-07-01T00:00:00.000Z');
+    store.read.mockResolvedValue({ fetchedAt: '2026-07-01T00:00:00.000Z', items: [existing] });
+    const json = vi.fn(async <T>() => ({ data: { items: [] } as T, cached: false }));
+    const pool = await import('../../../src/lib/util/github-token-pool.js');
+
+    try {
+      delete process.env.GITHUB_TOKEN;
+      process.env.GH_TOKEN_POOL = 'exhausted-token';
+      delete process.env.GITHUB_TOKEN_POOL;
+      pool._resetGithubTokenPoolForTests();
+      pool.recordRateLimit('exhausted-token', 0, Math.floor(Date.now() / 1000) + 3600);
+      const { default: fetcher } = await import('../../../src/fetchers/recent-repos/index.js');
+
+      const result = await fetcher.run(context(json));
+
+      expect(result.itemsSeen).toBe(1);
+      expect(result.redisPublished).toBe(false);
+      expect(json).not.toHaveBeenCalled();
+      expect(store.write).not.toHaveBeenCalled();
+    } finally {
+      for (const [name, value] of Object.entries(previousTokens)) {
+        if (value === undefined) delete process.env[name];
+        else process.env[name] = value;
+      }
+      pool._resetGithubTokenPoolForTests();
+    }
+  });
+
   it('merges prior rows when only part of the query plan succeeds', async () => {
     const existing = repo('kept/repo', 10, '2026-07-01T00:00:00.000Z');
     store.read.mockResolvedValue({ fetchedAt: '2026-07-01T00:00:00.000Z', items: [existing] });

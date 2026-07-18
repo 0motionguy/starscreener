@@ -12,7 +12,11 @@
 import type { Fetcher, FetcherContext, RunResult } from '../../lib/types.js';
 import { readDataStore, writeDataStore } from '../../lib/redis.js';
 import { RateLimitQuarantineError, TransientHttpError } from '../../lib/errors.js';
-import { pickGithubToken, quarantine } from '../../lib/util/github-token-pool.js';
+import {
+  getGithubTokens,
+  pickGithubToken,
+  quarantine,
+} from '../../lib/util/github-token-pool.js';
 import { caseInsensitiveKey, mergeAndCap } from '../../lib/util/cache-merge.js';
 
 const API_URL = 'https://api.github.com/search/repositories';
@@ -192,8 +196,12 @@ async function fetchPage(
   ctx: FetcherContext,
   url: string,
 ): Promise<GithubSearchResponse> {
+  const hasConfiguredTokens = getGithubTokens().length > 0;
   for (let attempt = 0; attempt < 2; attempt += 1) {
     const token = pickGithubToken() ?? undefined;
+    if (!token && hasConfiguredTokens) {
+      throw new RateLimitQuarantineError('GitHub token pool exhausted');
+    }
     try {
       const { data } = await ctx.http.json<GithubSearchResponse>(url, {
         headers: requestHeaders(token),

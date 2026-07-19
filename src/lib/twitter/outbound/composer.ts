@@ -331,6 +331,9 @@ export function composeIdeaPublishedPost(idea: PublicIdea): ComposedPost {
 // unfurls from the trendingrepo.com link — not from emoji in the body.
 const SINGLE_TWEET_MAX = 270;
 
+/** Text budget for a single/discovery post (URL travels separately, 24 chars). */
+export const SINGLE_TEXT_BUDGET = SINGLE_TWEET_MAX - URL_BUDGET;
+
 /**
  * Reduce a string to printable ASCII: NFKD-fold accents (café -> cafe),
  * drop emoji / smart punctuation / any other non-ASCII, then collapse the
@@ -406,6 +409,29 @@ export function composeTrendingSingle(repo: Repo): ComposedPost {
     text: truncateAscii(`${headline}${descLine}`, textBudget),
     url,
   };
+}
+
+/**
+ * Append a maker @mention to a composed single/discovery tweet, budget-safe.
+ * The tag is added AFTER any LLM polish so the copywriter's mention-ban stays
+ * strict and the handle can never be dropped or mutated by the model. If the
+ * text plus "\n\nby @handle" would bust `maxLen` (the text budget), the tail is
+ * trimmed so the tag still fits — the maker mention earns its space over the
+ * last few chars of description. No-ops when there's no handle or too little
+ * room. Returns text whose length never exceeds `maxLen`.
+ */
+export function appendMakerTag(
+  text: string,
+  handle: string | null,
+  maxLen: number = SINGLE_TEXT_BUDGET,
+): string {
+  if (!handle) return text;
+  const suffix = `\n\nby @${handle}`;
+  if (text.length + suffix.length <= maxLen) return `${text}${suffix}`;
+  const room = maxLen - suffix.length;
+  // Not worth mangling the post for a tag if almost nothing survives.
+  if (room < 24) return text;
+  return `${truncateAscii(text, room)}${suffix}`;
 }
 
 // ---------------------------------------------------------------------------

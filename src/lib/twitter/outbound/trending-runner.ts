@@ -33,9 +33,19 @@ import { refreshRepoRegistryFromStore } from "@/lib/derived-repos/loaders/regist
 import { refreshStarActivityDeltasFromStore } from "@/lib/star-activity-deltas";
 import { refreshTwitterSignalsFromStore } from "@/lib/twitter";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
+import {
+  getRepoCommunityProfile,
+  refreshRepoCommunityProfileFromStore,
+} from "@/lib/repo-community-profile";
 import type { Repo } from "@/lib/types";
 
-import { composeTrendingPack, composeTrendingSingle } from "./composer";
+import {
+  appendMakerTag,
+  composeTrendingPack,
+  composeTrendingSingle,
+  SINGLE_TEXT_BUDGET,
+} from "./composer";
+import { resolveRepoHandle } from "./handles";
 import {
   resolveSlotFormat,
   type SlotFormatKind,
@@ -269,6 +279,43 @@ async function withPolish(p: TrendingProposal): Promise<TrendingProposal> {
     : { ...p, source: "deterministic" };
 }
 
+/**
+ * Resolve the owner's X handle from the community-profile slug (self-declared
+ * GitHub `twitter_username`, already batched into Redis by the
+ * repo-community-profile worker) plus the curated AI-lab override map. Never
+ * throws — a missing profile just means no tag.
+ */
+async function resolveMakerHandle(fullName: string): Promise<string | null> {
+  try {
+    await refreshRepoCommunityProfileFromStore(fullName);
+    const tw =
+      getRepoCommunityProfile(fullName)?.ownerProfile?.twitterUsername ?? null;
+    return resolveRepoHandle(fullName, tw);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Append the maker @mention to a single/discovery post AFTER polish so the
+ * copywriter's mention-ban stays strict and the handle ships verbatim. Packs
+ * are skipped — tagging every member reads as spam — and the format check
+ * short-circuits before any I/O for them.
+ */
+async function withMaker(p: TrendingProposal): Promise<TrendingProposal> {
+  if (!p.post || !p.text || !p.fullName) return p;
+  if (p.format === "trending_pack") return p;
+  const handle = await resolveMakerHandle(p.fullName);
+  if (!handle) return p;
+  const tagged = appendMakerTag(p.text, handle, SINGLE_TEXT_BUDGET);
+  return tagged === p.text ? p : { ...p, text: tagged };
+}
+
+/** withPolish then maker-tag — the finalize step for every proposed post. */
+async function finalize(p: TrendingProposal): Promise<TrendingProposal> {
+  return withMaker(await withPolish(p));
+}
+
 /** Decide + compose the next tweet without committing anything. */
 export async function proposeTrendingPost(
   nowMs: number = Date.now(),
@@ -300,7 +347,7 @@ export async function proposeTrendingPost(
     if (pack && members.length > 0) {
       const composed = composeTrendingPack(members, pack);
       const slugs = members.map((r) => r.fullName);
-      return withPolish({
+      return finalize({
         post: true,
         format: "trending_pack",
         packId: pack.id,
@@ -322,7 +369,7 @@ export async function proposeTrendingPost(
     const gem = pickTopDiscoveryRepo(pool);
     if (gem) {
       const composed = composeTrendingSingle(gem);
-      return withPolish({
+      return finalize({
         post: true,
         format: "discovery_single",
         ranker: "discovery",
@@ -337,7 +384,7 @@ export async function proposeTrendingPost(
     // No eligible gem today — fall through to single.
   }
 
-  return withPolish(proposeSingle(repos, state, cap, resolved.ranker));
+  return finalize(proposeSingle(repos, state, cap, resolved.ranker));
 }
 
 /** Commit a confirmed post to the durable ledger + audit trail. */

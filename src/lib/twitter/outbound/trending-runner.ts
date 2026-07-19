@@ -34,6 +34,7 @@ import { refreshStarActivityDeltasFromStore } from "@/lib/star-activity-deltas";
 import { refreshTwitterSignalsFromStore } from "@/lib/twitter";
 import { refreshAllMentionStores } from "@/lib/refresh-mentions";
 import {
+  fetchRepoCommunityProfileLive,
   getRepoCommunityProfile,
   refreshRepoCommunityProfileFromStore,
 } from "@/lib/repo-community-profile";
@@ -45,7 +46,7 @@ import {
   composeTrendingSingle,
   SINGLE_TEXT_BUDGET,
 } from "./composer";
-import { resolveRepoHandle } from "./handles";
+import { resolveRepoHandle, sanitizeHandle } from "./handles";
 import {
   resolveSlotFormat,
   type SlotFormatKind,
@@ -280,17 +281,34 @@ async function withPolish(p: TrendingProposal): Promise<TrendingProposal> {
 }
 
 /**
- * Resolve the owner's X handle from the community-profile slug (self-declared
- * GitHub `twitter_username`, already batched into Redis by the
- * repo-community-profile worker) plus the curated AI-lab override map. Never
- * throws — a missing profile just means no tag.
+ * Resolve the owner's X handle for a picked repo. Order:
+ *   1. Curated AI-lab map (zero I/O) — labs whose GitHub handle is blank.
+ *   2. The batched community-profile slug (fast, but the worker only profiles
+ *      the dropped tail — trending picks are usually absent here).
+ *   3. A LIVE GitHub owner fetch — the poster picks trending repos, which the
+ *      batch never covers, so without this the tag almost never fires. Deduped
+ *      + rate-limited inside fetchRepoCommunityProfileLive; also warms the slug
+ *      for the repo's profile page. Best-effort — any failure means no tag.
+ * Never throws — a missing handle just means an untagged (still valid) post.
  */
 async function resolveMakerHandle(fullName: string): Promise<string | null> {
+  // 1. Curated AI-lab owner — resolves with no network at all.
+  const curated = resolveRepoHandle(fullName, null);
+  if (curated) return curated;
+
   try {
+    // 2. Batched slug (cheap in-memory read after the refresh).
     await refreshRepoCommunityProfileFromStore(fullName);
-    const tw =
+    let tw =
       getRepoCommunityProfile(fullName)?.ownerProfile?.twitterUsername ?? null;
-    return resolveRepoHandle(fullName, tw);
+
+    // 3. Live owner fetch when the batch hasn't profiled this trending repo.
+    if (!tw) {
+      const live = await fetchRepoCommunityProfileLive(fullName);
+      tw = live?.ownerProfile?.twitterUsername ?? null;
+    }
+
+    return sanitizeHandle(tw);
   } catch {
     return null;
   }

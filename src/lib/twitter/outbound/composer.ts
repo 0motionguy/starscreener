@@ -435,6 +435,76 @@ export function appendMakerTag(
 }
 
 // ---------------------------------------------------------------------------
+// Model spotlight — WS2: a proper model-launch / adoption post
+// ---------------------------------------------------------------------------
+
+export interface ModelSpotlight {
+  name: string;
+  provider: string;
+  /** USD per million input tokens (0 = free tier). */
+  inputPricePerMillion: number;
+  /** USD per million output tokens (0 = free tier). */
+  outputPricePerMillion: number;
+  contextLength: number;
+  /** OpenRouter weekly usage rank (1 = most used), when known. */
+  usageRank?: number | null;
+  /** WoW usage change as a fraction (0.44 = +44%), when known. */
+  wowChange?: number | null;
+  /** True when the model first appeared in the catalog recently. */
+  isNew?: boolean;
+}
+
+/** "128000" -> "128K", "1000000" -> "1M", else the raw count. */
+function formatContext(tokens: number): string {
+  if (tokens >= 1_000_000) return `${Math.round(tokens / 1_000_000)}M`;
+  if (tokens >= 1_000) return `${Math.round(tokens / 1_000)}K`;
+  return `${Math.max(0, Math.round(tokens))}`;
+}
+
+/**
+ * Compose a model-spotlight tweet (ASCII, <=270 effective incl. the 23-char
+ * t.co link). Sells the *reason to care now* — a fresh launch, a usage rank, or
+ * a WoW spike — over the raw catalog line:
+ *
+ *   Kimi K2 (Moonshot AI)
+ *
+ *   256K context | $0.60/M in, $2.50/M out
+ *   New on OpenRouter | #3 by usage this week | +44% WoW
+ *
+ * The provider @mention is appended by the runner via appendMakerTag (same
+ * post-polish path as repo maker-tagging), never here — keeps the copy pure.
+ */
+export function composeModelSpotlight(m: ModelSpotlight): ComposedPost {
+  const name = toAscii(m.name);
+  const provider = toAscii(m.provider);
+  const head = provider ? `${name} (${provider})` : name;
+
+  const priceIn =
+    m.inputPricePerMillion > 0 ? `$${m.inputPricePerMillion.toFixed(2)}/M in` : "free in";
+  const priceOut =
+    m.outputPricePerMillion > 0 ? `$${m.outputPricePerMillion.toFixed(2)}/M out` : "free out";
+  const specLine = `${formatContext(m.contextLength)} context | ${priceIn}, ${priceOut}`;
+
+  const signals: string[] = [];
+  if (m.isNew) signals.push("New on OpenRouter");
+  if (typeof m.usageRank === "number" && m.usageRank > 0 && m.usageRank <= 20) {
+    signals.push(`#${m.usageRank} by usage this week`);
+  }
+  if (typeof m.wowChange === "number" && m.wowChange >= 0.15) {
+    signals.push(`+${Math.round(m.wowChange * 100)}% WoW`);
+  }
+
+  const lines = [head, "", specLine];
+  if (signals.length > 0) lines.push(signals.join(" | "));
+
+  return {
+    kind: "model_spotlight",
+    text: truncateAscii(lines.join("\n"), SINGLE_TEXT_BUDGET),
+    url: absoluteUrl("/?cat=models"),
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Content engine v2 — Twitter-register compression + themed pack composer
 // ---------------------------------------------------------------------------
 

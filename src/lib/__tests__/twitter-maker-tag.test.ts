@@ -8,9 +8,15 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { appendMakerTag, SINGLE_TEXT_BUDGET } from "../twitter/outbound/composer";
+import {
+  appendMakerTag,
+  composeModelSpotlight,
+  SINGLE_TEXT_BUDGET,
+} from "../twitter/outbound/composer";
 import {
   AI_LAB_HANDLES,
+  PROVIDER_HANDLES,
+  resolveProviderHandle,
   resolveRepoHandle,
   sanitizeHandle,
 } from "../twitter/outbound/handles";
@@ -80,4 +86,57 @@ test("appendMakerTag skips when almost nothing would survive the trim", () => {
   const text = "y".repeat(40);
   // maxLen 30: suffix (12) leaves room 18 (<24) -> not worth mangling, skip.
   assert.equal(appendMakerTag(text, "OpenAI", 30), text);
+});
+
+test("resolveProviderHandle maps model providers to verified handles", () => {
+  assert.equal(resolveProviderHandle("moonshotai"), "Kimi_Moonshot");
+  assert.equal(resolveProviderHandle("moonshot"), "Kimi_Moonshot");
+  assert.equal(resolveProviderHandle("Anthropic"), "AnthropicAI"); // case-insensitive
+  assert.equal(resolveProviderHandle("deepseek"), "deepseek_ai");
+  // Unknown provider / nullish -> no tag (never guesses).
+  assert.equal(resolveProviderHandle("some-startup"), null);
+  assert.equal(resolveProviderHandle(""), null);
+  assert.equal(resolveProviderHandle(null), null);
+  // Every mapped handle is itself legal.
+  for (const h of Object.values(PROVIDER_HANDLES)) {
+    assert.equal(sanitizeHandle(h), h, `provider handle invalid: ${h}`);
+  }
+});
+
+test("composeModelSpotlight sells the reason to care, budget-safe", () => {
+  const post = composeModelSpotlight({
+    name: "Kimi K2",
+    provider: "Moonshot AI",
+    inputPricePerMillion: 0.6,
+    outputPricePerMillion: 2.5,
+    contextLength: 256_000,
+    usageRank: 3,
+    wowChange: 0.44,
+    isNew: true,
+  });
+  assert.equal(post.kind, "model_spotlight");
+  assert.ok(post.text.startsWith("Kimi K2 (Moonshot AI)"));
+  assert.ok(post.text.includes("256K context"));
+  assert.ok(post.text.includes("$0.60/M in"));
+  assert.ok(post.text.includes("$2.50/M out"));
+  assert.ok(post.text.includes("New on OpenRouter"));
+  assert.ok(post.text.includes("#3 by usage this week"));
+  assert.ok(post.text.includes("+44% WoW"));
+  // +24 t.co URL still clears 280.
+  assert.ok(post.text.length <= SINGLE_TEXT_BUDGET);
+});
+
+test("composeModelSpotlight handles free models and no signals", () => {
+  const post = composeModelSpotlight({
+    name: "DeepSeek V3",
+    provider: "DeepSeek",
+    inputPricePerMillion: 0,
+    outputPricePerMillion: 0,
+    contextLength: 128_000,
+  });
+  assert.ok(post.text.includes("free in"));
+  assert.ok(post.text.includes("free out"));
+  assert.ok(post.text.includes("128K context"));
+  // No usageRank / wowChange / isNew -> only 3 lines (head, blank, spec).
+  assert.equal(post.text.split("\n").length, 3);
 });

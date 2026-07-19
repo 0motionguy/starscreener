@@ -40,6 +40,28 @@ export const AI_LAB_HANDLES: Readonly<Record<string, string>> = {
   "deepseek-ai": "deepseek_ai",
 };
 
+/**
+ * Model provider (OpenRouter `provider` string, lowercased) -> verified X
+ * handle. Provider strings differ from GitHub org logins (a model's provider
+ * is "moonshotai" or "anthropic", not the repo owner), so this is its own map.
+ * Same verification bar as AI_LAB_HANDLES — only handles confirmed correct.
+ */
+export const PROVIDER_HANDLES: Readonly<Record<string, string>> = {
+  openai: "OpenAI",
+  anthropic: "AnthropicAI",
+  google: "GoogleDeepMind",
+  "google-deepmind": "GoogleDeepMind",
+  meta: "AIatMeta",
+  "meta-llama": "AIatMeta",
+  mistral: "MistralAI",
+  mistralai: "MistralAI",
+  deepseek: "deepseek_ai",
+  moonshot: "Kimi_Moonshot",
+  moonshotai: "Kimi_Moonshot",
+  qwen: "Alibaba_Qwen",
+  alibaba: "Alibaba_Qwen",
+};
+
 const HANDLE_RE = /^[A-Za-z0-9_]{1,15}$/;
 
 /**
@@ -68,4 +90,16 @@ export function resolveRepoHandle(
   const curated = AI_LAB_HANDLES[owner];
   if (curated) return curated;
   return sanitizeHandle(githubTwitterUsername);
+}
+
+/**
+ * Resolve a model provider's verified X handle for model-spotlight posts.
+ * Returns a bare handle or null when the provider isn't in the verified map
+ * (better no tag than a wrong one).
+ */
+export function resolveProviderHandle(
+  provider: string | null | undefined,
+): string | null {
+  if (!provider) return null;
+  return PROVIDER_HANDLES[provider.trim().toLowerCase()] ?? null;
 }

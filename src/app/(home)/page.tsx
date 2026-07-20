@@ -32,7 +32,6 @@ import {
   HERO_CATEGORIES as STARS_HERO_CATEGORIES,
 } from "@/lib/stars-by-category";
 import { StarsByCategoryHero } from "@/components/charts/StarsByCategoryHero";
-import { AnswerSurfacesNav } from "@/components/seo/AnswerSurfacesNav";
 import {
   LlmsLeaderboardTable,
   FeaturedLlms,
@@ -274,13 +273,6 @@ export default async function TrendingHubPage({ searchParams }: Props) {
   return (
     <div className="route-shell">
       <TrendingHubHero category={category} window={timeWindow} counts={switcherCounts} />
-
-      {/* Internal-link widget — flows PageRank from home (the highest-PR page
-          on the site) to the answer-surface LEAVES (/best/<topic>, /categories/<id>,
-          /glossary/<term>) that GSC's deep audit on 2026-06-01 flagged as the
-          biggest indexing gap. Renders only on the default repos tab so the
-          /?cat=models data-first layout stays clean. */}
-      {category === "repos" ? <AnswerSurfacesNav /> : null}
 
       {isModels ? null : category === "llms" ? (
         <FeaturedLlms rows={aaRows} />

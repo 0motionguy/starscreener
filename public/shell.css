@@ -16141,6 +16141,7 @@ th.sortable.active .aa-th-arrow {
 .mapp-header { display: none; }
 .mapp-bottom-nav { display: none; }
 .mapp-sheet-root { display: none; }
+.mapp-radar { display: none; }
 
 @media (max-width: 767.98px) {
   /* Content clears the fixed bottom nav + the home-indicator inset. */
@@ -16292,7 +16293,7 @@ th.sortable.active .aa-th-arrow {
   .mapp-on .ticker,
   .mapp-on .statusbar { display: none; }
   .mapp-on .app { grid-template-rows: 0 0 1fr 0; }
-  .mapp-on .main { padding-top: calc(var(--mapp-header-h) + var(--mapp-safe-top) + 10px); }
+  .mapp-on .main { padding-top: calc(var(--mapp-header-h) + var(--mapp-safe-top) + 6px); }
 
   .mapp-header {
     position: fixed; top: 0; left: 0; right: 0; z-index: var(--mapp-z-nav);
@@ -16306,7 +16307,7 @@ th.sortable.active .aa-th-arrow {
     font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-faint);
   }
   .mapp-header-title {
-    font-family: var(--font-display); font-size: 17px; font-weight: 700; letter-spacing: -0.01em;
+    font-family: var(--font-display); font-size: 15px; font-weight: 700; letter-spacing: -0.01em;
     color: var(--fg-bright); line-height: 1.1;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
@@ -16390,6 +16391,69 @@ th.sortable.active .aa-th-arrow {
     background: var(--accent-wash); border: 1px solid var(--accent-line); border-radius: var(--r-2);
     color: var(--accent); font-size: 14px;
   }
+
+  /* ── Radar feed (replaces the desktop home composition on mobile) ── */
+  .mapp-on .mapp-hide { display: none; }
+  .mapp-on .mapp-radar { display: flex; flex-direction: column; gap: 6px; }
+
+  .mapp-seg {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; padding: 3px;
+    background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2);
+  }
+  .mapp-seg-item {
+    display: flex; align-items: center; justify-content: center; min-height: 30px;
+    border-radius: var(--r-1); color: var(--fg-muted); text-decoration: none; cursor: pointer;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+  }
+  .mapp-seg-item.on { background: var(--accent); color: var(--bg); }
+  .mapp-seg-item:not(.on):hover { color: var(--fg); background: var(--surface-2); }
+
+  .mapp-feed { display: flex; flex-direction: column; gap: 5px; }
+  .mapp-feed-empty {
+    padding: 20px 12px; text-align: center; color: var(--fg-subtle); font-size: 12px;
+    border: 1px dashed var(--border); border-radius: var(--r-2);
+  }
+  .mapp-feed-more {
+    min-height: 38px; margin-top: 2px; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-2);
+    color: var(--fg-muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
+  }
+  .mapp-feed-more:hover { color: var(--fg); border-color: var(--border-hover); }
+
+  /* ── Repository feed row — dense, two-line ─────────────────────── */
+  .mapp-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2); }
+  .mapp-card-r1 { display: flex; align-items: center; gap: 7px; padding: 6px 8px 3px; text-decoration: none; }
+  .mapp-card-rank { flex: none; font-family: var(--font-mono); font-size: 10px; color: var(--fg-faint); }
+  .mapp-card-avatar { flex: none; width: 20px; height: 20px; border-radius: var(--r-1); object-fit: cover; background: var(--surface-2); }
+  .mapp-card-avatar-fallback { display: block; border: 1px solid var(--border); }
+  .mapp-card-name { flex: 1; min-width: 0; display: flex; align-items: center; gap: 4px; font-size: 12.5px; white-space: nowrap; overflow: hidden; }
+  .mapp-card-owner { color: var(--fg-subtle); overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
+  .mapp-card-repo { color: var(--fg-bright); font-weight: 600; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; }
+  .mapp-card-signal { flex: none; font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.06em; padding: 1px 3px; border-radius: 2px; }
+  .mapp-card-signal-new { background: var(--accent-wash); color: var(--accent); }
+  .mapp-card-signal-hot { background: var(--up-soft); color: var(--up); }
+  .mapp-card-r1r { flex: none; display: flex; align-items: baseline; gap: 8px; }
+  .mapp-card-delta { font-family: var(--font-mono); font-size: 12.5px; }
+  .mapp-card-delta i { font-style: normal; font-size: 8.5px; color: var(--fg-faint); margin-left: 2px; }
+  .mapp-card-delta.up { color: var(--up); }
+  .mapp-card-delta.dn { color: var(--down); }
+  .mapp-card-stars { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-muted); }
+  .mapp-card-r2 { display: flex; align-items: center; gap: 8px; padding: 0 8px 6px; }
+  .mapp-card-desc { flex: 1; min-width: 0; color: var(--fg-subtle); font-size: 11px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mapp-card-r2r { flex: none; display: flex; align-items: center; gap: 7px; }
+  .mapp-card-sources { display: flex; align-items: center; gap: 3px; }
+  .mapp-card-mentions { font-family: var(--font-mono); font-size: 9px; color: var(--fg-faint); margin-left: 1px; }
+  .mapp-card-actions { display: flex; align-items: center; }
+  .mapp-card-act {
+    display: grid; place-items: center; width: 26px; height: 26px;
+    background: none; border: 0; border-radius: var(--r-1);
+    color: var(--fg-faint); cursor: pointer; text-decoration: none;
+    transition: color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+  }
+  .mapp-card-act:hover { color: var(--fg); background: var(--surface-2); }
+  .mapp-card-act.on { color: var(--accent); }
 }
 
 @keyframes mapp-slide-up { from { transform: translateY(8%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }

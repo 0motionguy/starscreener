@@ -55,6 +55,8 @@ import { FeaturedRepos } from "@/components/trending/FeaturedRepos";
 import { TrendingHubHero, type CategoryId, type WindowId, CATEGORIES, WINDOWS } from "@/components/trending/TrendingHubHero";
 import { TrendingControlBar } from "@/components/trending/TrendingControlBar";
 import { TrendingTable } from "@/components/trending/TrendingTable";
+import { MobileRadarScreen } from "@/components/mobile/MobileRadarScreen";
+import { toRepoCardModels } from "@/lib/mobile/repo-card-model";
 
 export const revalidate = 1800;
 
@@ -270,8 +272,16 @@ export default async function TrendingHubPage({ searchParams }: Props) {
     />
   );
 
+  // Mobile Radar feed reuses the already-sorted Repo[] (no refetch, no re-sort)
+  // for the repo-shaped categories. Bounded to 20 slim card models for payload.
+  const radarCards =
+    category === "repos" || category === "agents" || category === "skills"
+      ? toRepoCardModels(sorted, timeWindow, newSet, 20)
+      : [];
+
   return (
     <div className="route-shell">
+      <div className="mapp-hide">
       <TrendingHubHero category={category} window={timeWindow} counts={switcherCounts} />
 
       {isModels ? null : category === "llms" ? (
@@ -319,6 +329,16 @@ export default async function TrendingHubPage({ searchParams }: Props) {
           newSet={newSet}
         />
       )}
+      </div>
+
+      {radarCards.length > 0 ? (
+        <MobileRadarScreen
+          cards={radarCards}
+          activeRanker={ranker}
+          activeWindow={timeWindow}
+          params={{ cat: category, window: timeWindow, sort, rank: ranker }}
+        />
+      ) : null}
     </div>
   );
 }

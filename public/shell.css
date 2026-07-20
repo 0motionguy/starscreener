@@ -16292,6 +16292,9 @@ th.sortable.active .aa-th-arrow {
   .mapp-on .topbar,
   .mapp-on .ticker,
   .mapp-on .statusbar { display: none; }
+  /* Page breadcrumbs are redundant with the back-aware header on mobile —
+     hidden here but kept in the HTML for SEO/crawlers. */
+  .mapp-on .main .crumbs { display: none; }
   .mapp-on .app { grid-template-rows: 0 0 1fr 0; }
   .mapp-on .main { padding-top: calc(var(--mapp-header-h) + var(--mapp-safe-top) + 6px); }
 
@@ -16319,6 +16322,12 @@ th.sortable.active .aa-th-arrow {
     transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
   }
   .mapp-header-btn:hover { color: var(--fg); border-color: var(--border-hover); }
+  .mapp-header-back {
+    display: grid; place-items: center; width: 34px; height: 40px; margin-left: -6px; flex: none;
+    background: none; border: 0; color: var(--fg-muted); cursor: pointer;
+    transition: color var(--d-fast) var(--ease);
+  }
+  .mapp-header-back:hover { color: var(--fg); }
 
   /* ── Search sheet ──────────────────────────────────────────────── */
   .mapp-search { display: flex; flex-direction: column; gap: 12px; }

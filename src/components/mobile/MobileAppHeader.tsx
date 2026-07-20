@@ -1,19 +1,18 @@
 "use client";
 
 // MobileAppHeader — the app-native top chrome that replaces the desktop
-// Topbar/Ticker/Statusbar on mobile (see shell.css: `.mapp-on .topbar` etc.
-// are hidden ≤767px when the shell is live). Compact: brand + current screen
-// title on the left, Search (opens the search sheet) + Account on the right.
-// Sits above the safe-area inset; the hamburger drawer is retired here — the
-// bottom nav + More sheet are the whole navigation surface.
+// Topbar/Ticker/Statusbar on mobile (shell.css hides them ≤767px when the
+// shell is live). Compact: brand + current screen title on the left, Search +
+// Account on the right. On a /repo/* detail route it becomes a back-aware
+// header (back button + owner/repo), so the detail screen reads as a pushed
+// app view. The hamburger drawer is retired here — the bottom nav + More sheet
+// are the whole navigation surface.
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Icon } from "@/components/icon/Icon";
 import { useMobileApp } from "./MobileAppProvider";
 
-// Titles for the routes the app surfaces directly. Nested/leaf routes fall
-// back to the longest matching prefix, then to a prettified path segment.
 const TITLES: Record<string, string> = {
   "/": "Radar",
   "/breakout": "Discover",
@@ -43,22 +42,44 @@ function titleFor(pathname: string): string {
     .sort((a, b) => b.length - a.length)[0];
   if (prefix) return TITLES[prefix];
   const seg = pathname.split("/").filter(Boolean).pop() ?? "";
-  return seg
-    ? seg.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
-    : "TrendingRepo";
+  return seg ? seg.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "TrendingRepo";
+}
+
+// `/repo/<owner>/<name>` (and its subroutes) → "owner/name", else null.
+function repoLabelFor(pathname: string): string | null {
+  const parts = pathname.split("/").filter(Boolean);
+  return parts[0] === "repo" && parts.length >= 3 ? `${parts[1]}/${parts[2]}` : null;
 }
 
 export function MobileAppHeader() {
   const pathname = usePathname();
+  const router = useRouter();
   const { openSheet } = useMobileApp();
-  const title = titleFor(pathname);
+  const repoLabel = repoLabelFor(pathname);
 
   return (
     <header className="mapp-header" aria-label="App header">
-      <Link href="/" className="mapp-header-brand" aria-label="TrendingRepo home">
-        <span className="mapp-header-eyebrow">TrendingRepo</span>
-        <span className="mapp-header-title">{title}</span>
-      </Link>
+      {repoLabel ? (
+        <>
+          <button
+            type="button"
+            className="mapp-header-back"
+            aria-label="Back"
+            onClick={() => router.back()}
+          >
+            <Icon name="arrow-left" size={18} />
+          </button>
+          <span className="mapp-header-brand">
+            <span className="mapp-header-eyebrow">Repository</span>
+            <span className="mapp-header-title">{repoLabel}</span>
+          </span>
+        </>
+      ) : (
+        <Link href="/" className="mapp-header-brand" aria-label="TrendingRepo home">
+          <span className="mapp-header-eyebrow">TrendingRepo</span>
+          <span className="mapp-header-title">{titleFor(pathname)}</span>
+        </Link>
+      )}
       <div className="mapp-header-actions">
         <button
           type="button"

@@ -1,0 +1,12 @@
+# TrendingRepo X engagement autopilot — dormant until TWITTER_ENGAGEMENT_MODE
+# is set to `dry` (drafts only) or `live` (posts) in /opt/trendingrepo/.env.production.
+# SEPARATE gate from the 7x/day broadcast (TWITTER_OUTBOUND_MODE) — replies arm
+# on their own. Deployed from repo scripts/ops/trendingrepo-x-engagement.cron
+# -> /etc/cron.d/trendingrepo-x-engagement.
+# Wrapper logs internally to /var/log/trendingrepo-x-engagement.log.
+#
+# Every 2 hours at :23 (offset from the :47 broadcast slot so the two autopilots
+# never contend for the flock or the X session). The app enforces the daily cap
+# (ENGAGE_DAILY_CAP, default 8) + 72h/author cooldown + per-post dedupe, so an
+# extra tick is a safe no-op.
+23 */2 * * * root /usr/local/bin/trendingrepo-x-engagement.sh

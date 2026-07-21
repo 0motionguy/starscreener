@@ -364,6 +364,75 @@ test("idempotent — same event.id twice produces one tier update", async () => 
 });
 
 // -----------------------------------------------------------------------------
+// P0 REGRESSION — a failed event must stay reprocessable on retry
+// -----------------------------------------------------------------------------
+//
+// The in-memory PROCESSED_EVENT_IDS set (and, in the route, the Redis NX lock)
+// mark an event "seen" BEFORE the entitlement write commits. When the write
+// throws (a transient DB blip) the handler returns non-2xx so Stripe retries —
+// but the retry finds the id already marked and acks it as a duplicate, so the
+// paying customer never receives their tier. Only a COMMITTED success may count
+// as a duplicate; a prior failure must remain reprocessable.
+//
+// Fails on current `main` (the Set dedupes the retry). Green after Commit 3
+// moves idempotency onto the durable stripe_webhook_events ledger.
+test("P0 retry-safety — a failed event reprocesses on retry (not acked as duplicate)", async () => {
+  __resetProcessedEventsForTests();
+  const periodEnd = 1_800_000_000;
+  const subscription = mkSubscription({
+    id: "sub_retry",
+    priceId: "price_pro_m",
+    customer: "cus_retry",
+    userId: "c_user_RETRY",
+    currentPeriodEnd: periodEnd,
+  });
+  const event = mkEvent(
+    "checkout.session.completed",
+    {
+      id: "cs_retry",
+      object: "checkout.session",
+      client_reference_id: "c_user_RETRY",
+      subscription: "sub_retry",
+      metadata: { userId: "c_user_RETRY" },
+    },
+    "evt_retry_regression",
+  );
+
+  // First delivery: the entitlement write throws (transient DB failure).
+  let attempts = 0;
+  const failingDeps = mkDeps(mkRecorder(), {
+    retrieveSubscription: async () => subscription,
+    setUserTier: async () => {
+      attempts += 1;
+      throw new Error("transient tier-store failure");
+    },
+  });
+  await assert.rejects(
+    handleStripeEvent(event, failingDeps),
+    /transient tier-store failure/,
+    "first delivery must surface the failure so the route returns non-2xx",
+  );
+  assert.equal(attempts, 1, "first delivery attempted the write");
+
+  // Stripe retries the SAME event.id; the write now succeeds. The retry MUST
+  // re-apply the entitlement rather than short-circuit as a duplicate.
+  const rec = mkRecorder();
+  const workingDeps = mkDeps(rec, {
+    retrieveSubscription: async () => subscription,
+  });
+  const retry = await handleStripeEvent(event, workingDeps);
+
+  assert.equal(
+    rec.calls.length,
+    1,
+    "retry after a failed delivery MUST reprocess and grant the tier",
+  );
+  assert.equal(rec.calls[0].tier, "pro");
+  assert.equal(rec.calls[0].userId, "c_user_RETRY");
+  assert.equal(retry.handled, true);
+});
+
+// -----------------------------------------------------------------------------
 // Unknown event type → no-op
 // -----------------------------------------------------------------------------
 

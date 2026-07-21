@@ -216,7 +216,9 @@ export function validateReply(text: string): string | null {
   const hashtags = t.match(/#\w+/g) ?? [];
   if (hashtags.length > 1) return `hashtag-soup (${hashtags.length})`;
 
-  if (/@\w/.test(t)) return "mention";
+  // A real X @mention starts a token (start-of-string or after whitespace).
+  // This intentionally allows in-word "@" in technical terms like "recall@k".
+  if (/(?:^|\s)@\w/.test(t)) return "mention";
 
   const links = t.match(/https?:\/\/\S+/g) ?? [];
   if (links.length > 1) return `link-spam (${links.length})`;

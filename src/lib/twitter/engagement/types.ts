@@ -17,17 +17,30 @@
  */
 export type EngagementMode = "off" | "dry" | "live";
 
+/** Tier of a curated engagement target — drives ranking + reply angle. */
+export type EngagementTier = "operator" | "curator" | "builder" | "tool";
+
 /**
- * A curated engagement target — an account whose posts the brand wants to
- * add genuine value under. Operator-editable (see targets.ts + ENGAGE_TARGETS_JSON).
+ * A curated engagement target — an account whose posts the brand wants to add
+ * genuine value under. Operator-editable (see targets.ts + ENGAGE_TARGETS_JSON).
  */
 export interface EngagementTarget {
   /** X handle WITHOUT the leading @. */
   handle: string;
-  /** Why this account matters to trendingrepo — for the audit trail. */
-  reason: string;
-  /** Topic tags — used to build/scope search queries. */
-  topics: string[];
+  /** operator | curator | builder | tool — audience/role class. */
+  tier: EngagementTier;
+  /** Approximate follower count (context for ranking / prioritisation). */
+  followerCount: number;
+  /** Topic tags — the account's beat, used to scope relevance. */
+  topicTags: string[];
+  /** How to reply well to this account (per-account guidance for the composer). */
+  replyAngle: string;
+  /**
+   * Per-account caution flags that drive the pre-compose classifier, e.g.
+   * "crypto-politics-firehose", "no-hot-takes", "skip-hype", "skip-link-only",
+   * "low-roi", "skip-heavy". Empty for accounts with no special handling.
+   */
+  cautionFlags: string[];
 }
 
 /**

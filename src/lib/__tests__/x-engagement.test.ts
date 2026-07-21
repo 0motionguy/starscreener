@@ -35,14 +35,17 @@ import {
 } from "../twitter/engagement/reply-composer";
 import { resolveEngagementMode } from "../twitter/engagement/gate";
 import {
+  CURATED_TARGETS,
+  isExcludedHandle,
   loadTargets,
   loadTopicQueries,
-  PLACEHOLDER_TARGETS,
 } from "../twitter/engagement/targets";
+import { classifyCandidate } from "../twitter/engagement/classifier";
 import { runEngagement, type EngagementDeps } from "../twitter/engagement/runner";
 import type {
   EngagementCandidate,
   EngagementRecord,
+  EngagementTarget,
 } from "../twitter/engagement/types";
 
 const NOW = Date.parse("2026-07-21T12:00:00.000Z");
@@ -196,9 +199,11 @@ test("validateReply accepts an on-brand reply and rejects slop", () => {
   assert.equal(validateReply(""), "empty");
   assert.equal(validateReply("Great point, love this!"), "sycophantic");
   assert.equal(validateReply("x".repeat(241)), "over-budget (241>240)");
+  assert.equal(validateReply("🚀 first out the gate"), "emoji-open");
   assert.equal(validateReply("cool 🚀🔥🎉"), "too-many-emoji (3)");
-  assert.equal(validateReply("nice #ai #llm #rag stuff"), "hashtag-soup (3)");
+  assert.equal(validateReply("no hashtags #ai allowed"), "hashtags (1)");
   assert.equal(validateReply("hey @someone check this"), "mention");
+  assert.equal(validateReply("this is huge for local inference"), "sycophantic");
 });
 
 test("composeReply returns a draft from the model and null on SKIP", async () => {
@@ -258,7 +263,16 @@ function makeDeps(
 ): Partial<EngagementDeps> {
   const { client } = makeFakeRedis();
   return {
-    loadTargets: () => [{ handle: "dev", reason: "test", topics: ["ai"] }],
+    loadTargets: (): EngagementTarget[] => [
+      {
+        handle: "dev",
+        tier: "builder",
+        followerCount: 0,
+        topicTags: ["ai"],
+        replyAngle: "concrete",
+        cautionFlags: [],
+      },
+    ],
     loadTopicQueries: () => [],
     search: async () => [makeCandidate({ id: "t1", authorHandle: "dev" })],
     ledger: createEngagementLedger(() => client),
@@ -408,6 +422,91 @@ test("runEngagement live skips cleanly when no publishing transport is configure
 });
 
 // ---------------------------------------------------------------------------
+// classifier (on-topic gate)
+// ---------------------------------------------------------------------------
+
+test("classifier skips crypto/politics on ANY account (brand safety)", () => {
+  assert.equal(classifyCandidate({ text: "new bitcoin airdrop is live" }).engage, false);
+  assert.equal(classifyCandidate({ text: "the election results are in" }).engage, false);
+  // A genuine AI/dev post from the same firehose still engages.
+  assert.equal(
+    classifyCandidate(
+      { text: "new open-source coding agent just dropped on github" },
+      { cautionFlags: ["crypto-politics-firehose"] },
+    ).engage,
+    true,
+  );
+});
+
+test("classifier honours per-account caution flags", () => {
+  // @theo — no hot-takes.
+  assert.equal(
+    classifyCandidate({ text: "hot take: AI coding tools make junior devs worse" }, { cautionFlags: ["no-hot-takes"] }).engage,
+    false,
+  );
+  // Same hot-take from an account WITHOUT the flag is not gated here (composer decides).
+  assert.equal(
+    classifyCandidate({ text: "hot take: AI coding tools make junior devs worse" }, { cautionFlags: [] }).engage,
+    true,
+  );
+  // @heyBarsee — skip pure hype.
+  assert.equal(
+    classifyCandidate({ text: "this is INSANE, will change everything" }, { cautionFlags: ["skip-hype"] }).engage,
+    false,
+  );
+});
+
+test("runEngagement skips a crypto/politics post from a target via the classifier gate", async () => {
+  const audit: EngagementRecord[] = [];
+  let composed = 0;
+  const result = await runEngagement({
+    mode: "live",
+    now: NOW,
+    deps: makeDeps(
+      {
+        loadTargets: (): EngagementTarget[] => [
+          { handle: "RoundtableSpace", tier: "operator", followerCount: 257000, topicTags: ["ai"], replyAngle: "AI only", cautionFlags: ["crypto-politics-firehose"] },
+        ],
+        search: async () => [
+          makeCandidate({ id: "x1", authorHandle: "RoundtableSpace", authorId: "roundtablespace", text: "huge bitcoin airdrop today" }),
+        ],
+        compose: async () => {
+          composed += 1;
+          return { text: "should never compose" };
+        },
+      },
+      audit,
+    ),
+  });
+  assert.equal(composed, 0, "classifier must gate before compose");
+  assert.equal(result.posted, 0);
+  assert.equal(result.drafted, 0);
+});
+
+test("runEngagement hard-excludes our own sibling handle", async () => {
+  const audit: EngagementRecord[] = [];
+  let composed = 0;
+  const result = await runEngagement({
+    mode: "dry",
+    now: NOW,
+    deps: makeDeps(
+      {
+        search: async () => [
+          makeCandidate({ id: "self1", authorHandle: "trending_repos", authorId: "trending_repos", text: "we ship AI tools" }),
+        ],
+        compose: async () => {
+          composed += 1;
+          return { text: "nope" };
+        },
+      },
+      audit,
+    ),
+  });
+  assert.equal(composed, 0);
+  assert.equal(result.drafted, 0);
+});
+
+// ---------------------------------------------------------------------------
 // gate + targets
 // ---------------------------------------------------------------------------
 
@@ -418,13 +517,32 @@ test("resolveEngagementMode defaults to off and only arms on explicit values", (
   assert.equal(resolveEngagementMode({ TWITTER_ENGAGEMENT_MODE: "live" }), "live");
 });
 
-test("loadTargets falls back to the placeholder list and honours the JSON override", () => {
-  assert.equal(loadTargets({}).length, PLACEHOLDER_TARGETS.length);
+test("loadTargets falls back to the curated roster and honours the JSON override", () => {
+  assert.equal(loadTargets({}).length, CURATED_TARGETS.length);
+  assert.equal(CURATED_TARGETS.length, 21);
   const custom = loadTargets({
-    ENGAGE_TARGETS_JSON: JSON.stringify([{ handle: "@someLab", reason: "vetted", topics: ["llm"] }]),
+    ENGAGE_TARGETS_JSON: JSON.stringify([
+      { handle: "@someLab", tier: "builder", followerCount: 1000, topicTags: ["llm"], replyAngle: "x", cautionFlags: [] },
+    ]),
   });
   assert.equal(custom.length, 1);
   assert.equal(custom[0]!.handle, "someLab");
+  assert.equal(custom[0]!.tier, "builder");
+});
+
+test("targets self-filter: our own handles are never loadable and isExcludedHandle catches both", () => {
+  assert.equal(isExcludedHandle("@TrendingRepo"), true);
+  assert.equal(isExcludedHandle("trending_repos"), true);
+  assert.equal(isExcludedHandle("simonw"), false);
+  // Even if an operator lists a self-handle in the override, it is dropped.
+  const withSelf = loadTargets({
+    ENGAGE_TARGETS_JSON: JSON.stringify([
+      { handle: "trendingrepo", tier: "tool", followerCount: 1, topicTags: [], replyAngle: "", cautionFlags: [] },
+      { handle: "realLab", tier: "builder", followerCount: 1, topicTags: [], replyAngle: "", cautionFlags: [] },
+    ]),
+  });
+  assert.equal(withSelf.length, 1);
+  assert.equal(withSelf[0]!.handle, "realLab");
 });
 
 test("loadTopicQueries returns defaults and honours the JSON override", () => {

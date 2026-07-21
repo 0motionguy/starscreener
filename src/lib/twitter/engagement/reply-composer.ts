@@ -21,23 +21,26 @@ import type { EngagementCandidate } from "./types";
 export const REPLY_MAX_CHARS = 240;
 
 /**
- * The house voice. Baked into the system prompt so the model knows exactly the
- * register we ship: terse, data-driven, genuinely additive, never a bot.
+ * The house voice — pasted VERBATIM from the research pass's approved system
+ * prompt (2026-07 roster). Baked into the system message so the model ships
+ * exactly the register we want: sharp senior dev, peer-to-peer, value-only,
+ * SKIP-first.
  */
-export const STYLE_GUIDE = [
-  "You are the voice of @trendingrepo — an account that tracks trending",
-  "open-source and AI developer tools before they go mainstream.",
-  "",
-  "Write ONE short reply to the post below. Rules, all mandatory:",
-  "- Terse: at most 240 characters. Sound like a sharp senior developer, never a bot.",
-  "- Add ONE genuinely useful, specific point: a relevant repo, a real number/benchmark,",
-  "  or a concrete technical insight. If you have nothing real to add, reply with exactly: SKIP",
-  "- Data-driven, never sycophantic. Banned openers: 'Great', 'Love this', 'Amazing', 'So true'.",
-  "- No hashtag soup (0-1 hashtags, usually 0). At most ONE emoji, usually none.",
-  "- No @mentions. Do not tag accounts. At most one link, only if it genuinely helps.",
-  "- Never fabricate stats, repos, or benchmarks. If unsure, stay qualitative or reply SKIP.",
-  "Return ONLY the reply text — no preamble, no quotes, no explanation.",
-].join("\n");
+export const STYLE_GUIDE = `ROLE: You write short replies from @trendingrepo — a real-time scanner that spots breakout AI/dev GitHub repos, agents, LLMs and tools before mainstream. Reply AS a sharp senior dev, peer-to-peer. Not a marketer/fan/bot. Only reason to reply is to ADD VALUE.
+VOICE: Terse, data-driven, calm confidence. Sound like an engineer who already knows. Peer-to-peer, never fan-to-celebrity. No deference, no hype.
+EVERY GOOD REPLY DOES EXACTLY ONE, nothing else: (1) point to a specific relevant TRENDING REPO/tool the audience wants (name it exactly, only if truly related); (2) add a REAL DATA POINT from our scanner (star velocity, cross-source momentum, top-5 weekly growth, where buzz originated); (3) add ONE genuine technical INSIGHT that sharpens the post.
+HARD RULES: ≤240 chars (120-200 sweet spot). ≤1 emoji, usually 0, never open with one. NO sycophancy (banned: "great post/love this/so true/amazing/this is huge/well said/100%/spot on"). NO hashtags ever. NO self-promo — never say "check out trendingrepo", never drop our link, let the value imply the brand; never paste a URL unless it's the repo being discussed. NEVER argue/dunk/correct-to-humiliate, never wade into hot-takes/drama/politics. NEVER fabricate a number/repo/trend — if no REAL relevant repo or data in context, SKIP. Don't echo the author back. One reply per post, don't reply to replies, don't thread.
+SKIP ENTIRELY (default) WHEN: post is opinion/hot-take/drama/politics/personal; we have no genuinely relevant repo AND no real data; pure hype with no hook; mega-thread stampede and our point isn't killer; reply would read promotional/sycophantic/"well actually"; author is us or post >6h old. A skipped reply is always better than a mediocre one.
+SELF-CHECK (all true else SKIP): adds repo/real-number/real-insight not a compliment; a senior dev nods not cringes; ≤240 chars ≤1 emoji 0 hashtags 0 self-promo; not an argument/echo/hype.`;
+
+/** Few-shot exemplars that anchor the bar (input post → ideal reply / SKIP). */
+export const REPLY_EXEMPLARS = `Examples (input → reply):
+@minchoi "just tried the new Cline agent, wild" → "Cline's on one of the steepest star-velocity curves in the agent-IDE space right now. if you like it, OpenHands and Roo are the two closest on the same trajectory worth a side-by-side."
+@simonw "people sleeping on how good small local models got" → "the small-model wave shows in the data too — Qwen3 and the new Gemma variants are both top-5 by weekly star growth on local-LLM repos. the 4B-class quality jump is the real story."
+@theo "hot take: AI coding tools make junior devs worse" → SKIP (opinion/drama, no repo/data to add, any reply reads as dunking).`;
+
+/** Full system message = the verbatim style guide + the few-shot exemplars. */
+const SYSTEM_PROMPT = `${STYLE_GUIDE}\n\n${REPLY_EXEMPLARS}`;
 
 /** Chat seam — (system, user) → completion text or null. Injectable for tests. */
 export type ChatFn = (system: string, user: string) => Promise<string | null>;
@@ -45,6 +48,8 @@ export type ChatFn = (system: string, user: string) => Promise<string | null>;
 export interface ReplyContext {
   /** Optional grounding line (e.g. a live trending repo + stat) to offer as value. */
   dataPoint?: string;
+  /** Per-account reply angle (from the target's replyAngle) — steers the model. */
+  angle?: string;
   /**
    * Informational — the runner enforces dry vs live. `composeReply` never
    * posts regardless of this flag; it exists so callers can log the DRY path.
@@ -197,8 +202,11 @@ function stripWrapping(raw: string): string {
   return s;
 }
 
-const SYCOPHANTIC_OPENER_RE =
-  /^\s*(great|love this|love it|amazing|so true|nice|awesome|incredible|well said|couldn'?t agree|this is (great|amazing|awesome)|100%|facts)\b/i;
+// Banned sycophancy phrases from the style guide — matched anywhere, not just
+// at the opener ("great post/love this/so true/amazing/this is huge/well
+// said/100%/spot on"), plus the obvious neighbours.
+const SYCOPHANTIC_RE =
+  /(^|\W)(great post|love this|love it|so true|amazing|this is huge|well said|spot on|couldn'?t agree|100%|incredible)\b/i;
 
 /**
  * Validate a candidate reply against the house rules. Returns null when valid,
@@ -210,33 +218,40 @@ export function validateReply(text: string): string | null {
   if (/^skip$/i.test(t)) return "model-skipped";
   if (t.length > REPLY_MAX_CHARS) return `over-budget (${t.length}>${REPLY_MAX_CHARS})`;
 
+  // Never open with an emoji.
+  if (/^\p{Extended_Pictographic}/u.test(t)) return "emoji-open";
   const emoji = t.match(/\p{Extended_Pictographic}/gu) ?? [];
   if (emoji.length > 1) return `too-many-emoji (${emoji.length})`;
 
+  // No hashtags ever.
   const hashtags = t.match(/#\w+/g) ?? [];
-  if (hashtags.length > 1) return `hashtag-soup (${hashtags.length})`;
+  if (hashtags.length > 0) return `hashtags (${hashtags.length})`;
 
   // A real X @mention starts a token (start-of-string or after whitespace).
   // This intentionally allows in-word "@" in technical terms like "recall@k".
   if (/(?:^|\s)@\w/.test(t)) return "mention";
 
+  // At most one link, and only the repo being discussed (guide) — reject spam.
   const links = t.match(/https?:\/\/\S+/g) ?? [];
   if (links.length > 1) return `link-spam (${links.length})`;
 
-  if (SYCOPHANTIC_OPENER_RE.test(t)) return "sycophantic";
+  if (SYCOPHANTIC_RE.test(t)) return "sycophantic";
 
   return null;
 }
 
-function buildUserPrompt(post: EngagementCandidate, dataPoint?: string): string {
+function buildUserPrompt(post: EngagementCandidate, ctx: ReplyContext): string {
   const parts = [
     `Post by @${post.authorHandle || "unknown"}:`,
     `"""${post.text.trim()}"""`,
   ];
-  if (dataPoint && dataPoint.trim()) {
-    parts.push("", `Relevant trendingrepo data you may cite if it fits: ${dataPoint.trim()}`);
+  if (ctx.angle && ctx.angle.trim()) {
+    parts.push("", `Reply angle for this account: ${ctx.angle.trim()}`);
   }
-  parts.push("", "Write the reply now (or SKIP if you have nothing genuinely useful to add).");
+  if (ctx.dataPoint && ctx.dataPoint.trim()) {
+    parts.push("", `Relevant trendingrepo data you may cite if it fits: ${ctx.dataPoint.trim()}`);
+  }
+  parts.push("", "Write the reply now (or reply exactly SKIP if you have nothing genuinely useful to add).");
   return parts.join("\n");
 }
 
@@ -250,7 +265,7 @@ export async function composeReply(
   ctx: ReplyContext = {},
 ): Promise<{ text: string } | null> {
   const chat = ctx.chat ?? streamKimiThenNanogpt;
-  const raw = await chat(STYLE_GUIDE, buildUserPrompt(post, ctx.dataPoint));
+  const raw = await chat(SYSTEM_PROMPT, buildUserPrompt(post, ctx));
   if (!raw) return null;
   const cleaned = stripWrapping(raw);
   if (validateReply(cleaned) !== null) return null;

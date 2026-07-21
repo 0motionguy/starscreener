@@ -17,6 +17,7 @@ import { selectOutboundAdapter } from "@/lib/twitter/outbound/adapters";
 import type { OutboundAdapter } from "@/lib/twitter/outbound/types";
 
 import { recordEngagementAttempt } from "./audit";
+import { classifyCandidate } from "./classifier";
 import { resolveEngagementMode } from "./gate";
 import {
   freshnessConfigFromEnv,
@@ -29,7 +30,7 @@ import {
   type EngagementLedger,
 } from "./ledger";
 import { composeReply, type ReplyContext } from "./reply-composer";
-import { loadTargets, loadTopicQueries } from "./targets";
+import { isExcludedHandle, loadTargets, loadTopicQueries } from "./targets";
 import { searchEngagementCandidates } from "./x-search";
 import type {
   EngagementCandidate,
@@ -156,10 +157,17 @@ export async function runEngagement(
     };
   }
 
+  // Curated roster — reused for both the search queries and the per-candidate
+  // classifier / reply-angle lookup (keyed by author handle).
+  const targets = deps.loadTargets();
+  const targetsByHandle = new Map<string, EngagementTarget>(
+    targets.map((t) => [t.handle.toLowerCase(), t]),
+  );
+
   // Build the bounded query set: each curated target's recent originals, then
   // the topic searches.
   const queries: Array<{ query: string; reason: string }> = [];
-  for (const t of deps.loadTargets()) {
+  for (const t of targets) {
     queries.push({
       query: `from:${t.handle} -filter:replies -filter:retweets`,
       reason: `target:@${t.handle}`,
@@ -193,6 +201,16 @@ export async function runEngagement(
   const fresh = [...byId.values()].filter((c) => isFresh(c, deps.freshness, now));
   const eligible = fresh.length;
 
+  // Rank: low-ROI accounts (e.g. @0xNova) go last; otherwise newest-first so we
+  // engage the freshest conversation before the daily budget runs out.
+  const lowRoi = (c: EngagementCandidate): number =>
+    targetsByHandle.get(c.authorHandle.toLowerCase())?.cautionFlags.includes("low-roi")
+      ? 1
+      : 0;
+  fresh.sort(
+    (a, b) => lowRoi(a) - lowRoi(b) || Date.parse(b.createdAt) - Date.parse(a.createdAt),
+  );
+
   const seenAuthors = new Set<string>();
   let drafted = 0;
   let posted = 0;
@@ -205,12 +223,21 @@ export async function runEngagement(
     const authorKey = post.authorId.toLowerCase();
     if (seenAuthors.has(authorKey)) continue; // 1 reply / author / run
 
+    // HARD EXCLUDE — never reply to our own / sibling account.
+    if (isExcludedHandle(post.authorHandle)) continue;
+
+    // On-topic classifier gate (before compose): brand-safety crypto/politics
+    // skip + per-account caution flags (hot-takes, hype, link-only). SKIP-first.
+    const target = targetsByHandle.get(post.authorHandle.toLowerCase());
+    if (!classifyCandidate(post, target).engage) continue;
+
     // Durable dedupe + author cooldown (fail-closed inside the ledger).
     if (!(await deps.ledger.canEngagePost(post.id))) continue;
     if (!(await deps.ledger.canEngageAuthor(post.authorId))) continue;
 
     const draft = await deps.compose(post, {
       dataPoint: deps.dataPointFor(post),
+      angle: target?.replyAngle,
       dryRun: mode === "dry",
     });
     if (!draft) {

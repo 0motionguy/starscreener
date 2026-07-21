@@ -177,7 +177,7 @@ function postgresConfigured(): boolean {
   return typeof url === "string" && url.trim().length > 0;
 }
 
-function useDbBackend(userId: string): boolean {
+function shouldUseDbBackend(userId: string): boolean {
   return postgresConfigured() && userId.startsWith("c_");
 }
 
@@ -193,7 +193,7 @@ export async function getPrivateWatchlist(
   userId: string,
 ): Promise<PrivateWatchlistEntry | null> {
   if (!userId || typeof userId !== "string") return null;
-  if (useDbBackend(userId)) return dbGetPrivateWatchlist(userId);
+  if (shouldUseDbBackend(userId)) return dbGetPrivateWatchlist(userId);
   return jsonlGetPrivateWatchlist(userId);
 }
 
@@ -209,14 +209,14 @@ export async function setPrivateWatchlist(
   if (!userId || typeof userId !== "string") {
     throw new Error("setPrivateWatchlist: userId is required");
   }
-  if (useDbBackend(userId)) return dbSetPrivateWatchlist(userId, fullNames);
+  if (shouldUseDbBackend(userId)) return dbSetPrivateWatchlist(userId, fullNames);
   return jsonlSetPrivateWatchlist(userId, fullNames);
 }
 
 /** Remove the watchlist entry for `userId`. No-op when none exists. */
 export async function deletePrivateWatchlist(userId: string): Promise<void> {
   if (!userId || typeof userId !== "string") return;
-  if (useDbBackend(userId)) return dbDeletePrivateWatchlist(userId);
+  if (shouldUseDbBackend(userId)) return dbDeletePrivateWatchlist(userId);
   return jsonlDeletePrivateWatchlist(userId);
 }
 

@@ -36,7 +36,12 @@ export const watchlists = tr.table(
       .defaultNow(),
   },
   (t) => [
-    index("watchlists_profile_idx").on(t.profileId),
+    // One watchlist per profile (the private-store's single "Default"). Also
+    // serves as the profile lookup index. UNIQUE closes the find-or-create
+    // race that could otherwise create duplicate default watchlists and lose
+    // paid watchlist entries. Safe to add: the table is empty in prod (the
+    // relational path had no writer before this repair).
+    uniqueIndex("watchlists_profile_uniq").on(t.profileId),
   ],
 );
 

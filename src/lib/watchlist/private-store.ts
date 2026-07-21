@@ -289,26 +289,35 @@ async function resolveProfileId(userId: string): Promise<string | null> {
   return rows[0]?.id ?? null;
 }
 
-/** The one default watchlist id for a profile — created on first write. */
+/**
+ * The one default watchlist id for a profile — created on first write.
+ *
+ * Race-safe via the UNIQUE(profile_id) index: insert-on-conflict-do-nothing is
+ * the atomic find-or-create, so two concurrent first-writes can't create two
+ * "Default" watchlists (which would non-deterministically split a paid user's
+ * list and lose entries). The conflict loser inserts nothing and both callers
+ * then read the single surviving row.
+ */
 async function findOrCreateDefaultWatchlist(profileId: string): Promise<string> {
-  const [{ getDb }, { watchlists }, { asc, eq }] = await Promise.all([
+  const [{ getDb }, { watchlists }, { eq }] = await Promise.all([
     import("@/lib/db/client"),
     import("@/lib/db/schema/watchlists"),
     import("drizzle-orm"),
   ]);
   const db = getDb();
+  const inserted = await db
+    .insert(watchlists)
+    .values({ profileId, name: "Default" })
+    .onConflictDoNothing({ target: watchlists.profileId })
+    .returning({ id: watchlists.id });
+  if (inserted[0]) return inserted[0].id;
   const existing = await db
     .select({ id: watchlists.id })
     .from(watchlists)
     .where(eq(watchlists.profileId, profileId))
-    .orderBy(asc(watchlists.createdAt))
     .limit(1);
   if (existing[0]) return existing[0].id;
-  const inserted = await db
-    .insert(watchlists)
-    .values({ profileId, name: "Default" })
-    .returning({ id: watchlists.id });
-  return inserted[0].id;
+  throw new Error("findOrCreateDefaultWatchlist: no row after upsert");
 }
 
 async function dbGetPrivateWatchlist(

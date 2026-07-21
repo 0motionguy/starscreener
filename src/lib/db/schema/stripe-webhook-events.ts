@@ -11,8 +11,11 @@
 //     `ignored`; `received` / `processing` / `failed` remain reprocessable;
 //   - `processing` carries a lease (`lease_expires_at`) so a crashed handler
 //     can be reclaimed, while a live handler is not double-run;
-//   - the row is marked `succeeded` in the same transaction that projects the
-//     tier, so success is durable and atomic;
+//   - the row is marked `succeeded` AFTER the tier projection commits — NOT in
+//     a single cross-module transaction. If the process dies between the tier
+//     write and markSucceeded, the row stays `processing`, its lease expires,
+//     and the event is reclaimed + REPROCESSED. That's safe because the tier
+//     projection is idempotent (at-least-once), so a re-apply is a no-op;
 //   - `event_created_at` (Stripe `event.created`) + `object_id` give the
 //     out-of-order guard: a stale subscription event can't overwrite a newer
 //     succeeded one.

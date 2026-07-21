@@ -113,6 +113,16 @@ const isClerkSessionRoute = createRouteMatcher([
   // Alerts unification (Wave 7): the server gate at /alerts redirects
   // signed-in users to /you/alerts and needs Clerk context to know.
   "/alerts",
+  // Paid / user-scoped routes migrated to resolveUserPrincipal — they
+  // re-verify the LIVE Clerk session for cookie principals (stale-cookie
+  // defense), which REQUIRES Clerk middleware context here. Without this,
+  // getClerkUserIdOptional() returns null on prod and every browser Pro user
+  // is fail-closed to 401. Header-token (CLI) callers are unaffected —
+  // resolveUserPrincipal trusts a configured token before touching Clerk.
+  "/api/watchlist/private",
+  "/api/export/csv",
+  "/api/pipeline/alerts/rules",
+  "/api/checkout/verify",
 ]);
 
 // Routes that should NEVER pass through Clerk's session check — they own

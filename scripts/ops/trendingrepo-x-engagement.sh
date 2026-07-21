@@ -10,9 +10,10 @@
 #       dormant skip, exit 0. `--dry-run` composes drafts but posts nothing;
 #       it is allowed whenever the mode is dry or live.
 # Post path: node /opt/trendingrepo-cron/scripts/x-engagement-run.mjs — the app
-#       (not this host) does the posting via its outbound adapter; the app
-#       enforces the daily cap + 72h/author cooldown + per-post dedupe, so a
-#       double fire is a safe no-op.
+#       composes/grounds/filters and returns drafts; THIS host posts each reply
+#       via the `twitter` CLI (cookie session, same as broadcast), then confirms
+#       back so the app commits the daily cap + 72h/author cooldown + per-post
+#       dedupe. A double fire is a safe no-op.
 LOG=/var/log/trendingrepo-x-engagement.log
 exec 9>"/run/trendingrepo-x-engagement.lock"
 flock -n 9 || exit 0
@@ -22,6 +23,14 @@ say() { echo "[$(date -u +%FT%TZ)] $*" >>"$LOG"; }
 
 for k in CRON_SECRET TRENDINGREPO_URL TWITTER_ENGAGEMENT_MODE; do
   v=$(grep -E "^$k=" "$ENVF" 2>/dev/null | head -1 | cut -d= -f2-)
+  [ -n "$v" ] && export "$k=$v"
+done
+
+# Cookies for the host `twitter` CLI reply transport (same file the broadcast
+# wrapper reads). Without these the live runner's auth guard skips (no post).
+COOKF=/opt/trendingrepo-twitter/.env
+for k in TWITTER_AUTH_TOKEN TWITTER_CT0; do
+  v=$(grep -E "^$k=" "$COOKF" 2>/dev/null | head -1 | cut -d= -f2-)
   [ -n "$v" ] && export "$k=$v"
 done
 

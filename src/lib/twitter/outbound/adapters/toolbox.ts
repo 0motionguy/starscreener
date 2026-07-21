@@ -7,7 +7,7 @@
 // Wire contract (deliberately minimal so the engine side can evolve):
 //   POST ${TOOLBOX_REACH_URL}
 //   Authorization: Bearer ${TOOLBOX_REACH_API_KEY}
-//   { "kind": "thread", "posts": [{ "kind", "text", "url" }] }
+//   { "kind": "thread", "posts": [{ "kind", "text", "url", "inReplyToId"? }] }
 // Expected response:
 //   { "ok": true, "threadUrl"?: string|null,
 //     "posts"?: [{ "remoteId"?, "url"?, "status"? }] }
@@ -75,6 +75,10 @@ export class ToolboxOutboundAdapter implements OutboundAdapter {
           kind: post.kind,
           text: post.text,
           url: post.url ?? null,
+          // Forwarded so the VPS engine can post an engagement reply as a
+          // reply to the target tweet. Absent on broadcast posts (harmless —
+          // the engine opens a normal post when it's missing).
+          ...(post.inReplyToId ? { inReplyToId: post.inReplyToId } : {}),
         })),
       }),
     });

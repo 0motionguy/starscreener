@@ -28,6 +28,15 @@ export interface ComposedPost {
    * "daily_breakouts", "idea_published", "weekly_recap".
    */
   kind: OutboundPostKind;
+  /**
+   * When set on the FIRST post of a thread, the adapter publishes it as a
+   * REPLY to this EXTERNAL tweet id (Twitter `reply.in_reply_to_tweet_id`).
+   * The engagement engine uses this to reply to a target author's post.
+   * Ignored on non-first posts — those already reply to the previous post in
+   * the thread. Optional; existing broadcast composers never set it, so the
+   * open-a-new-thread behaviour is unchanged.
+   */
+  inReplyToId?: string;
 }
 
 export type OutboundPostKind =
@@ -40,7 +49,8 @@ export type OutboundPostKind =
   | "idea_published"
   | "trending_single"
   | "trending_pack"
-  | "model_spotlight";
+  | "model_spotlight"
+  | "engagement_reply";
 
 export interface AdapterPostResult {
   /** Provider tweet id, when the adapter actually published. */

@@ -92,6 +92,11 @@ export class ApiV2OutboundAdapter implements OutboundAdapter {
       };
       if (previousId) {
         body.reply = { in_reply_to_tweet_id: previousId };
+      } else if (post.inReplyToId) {
+        // First post of the thread AND an external reply target is set — post
+        // it as a reply to that tweet (engagement engine). Broadcast composers
+        // never set inReplyToId, so their first post opens a new thread.
+        body.reply = { in_reply_to_tweet_id: post.inReplyToId };
       }
 
       const send = (token: string) =>

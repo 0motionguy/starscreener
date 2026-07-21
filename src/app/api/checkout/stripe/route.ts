@@ -32,6 +32,7 @@
 //     the Stripe dashboard without a code change.
 
 import { NextRequest, NextResponse } from "next/server";
+import { createHash } from "node:crypto";
 import Stripe from "stripe";
 import { z } from "zod";
 
@@ -161,6 +162,21 @@ export async function POST(
     seats: parsedResult.data.seats ?? 1,
   };
 
+  // Team is not self-serve until a real workspace / seat lifecycle exists. The
+  // Zod enum still accepts "team" so this message is specific, but we reject it
+  // here with a distinct 403 — a forged body cannot create a Team subscription
+  // while the product has no membership model. Team is contact/waitlist only.
+  if (parsed.tier === "team") {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: "Team checkout isn't self-serve yet — contact sales to get set up.",
+        code: "TEAM_NOT_AVAILABLE",
+      },
+      { status: 403 },
+    );
+  }
+
   // 3. Resolve price ID from env.
   const priceIds = loadPriceIds();
   const priceId = resolvePriceId(priceIds, parsed.tier, parsed.cadence);
@@ -196,13 +212,37 @@ export async function POST(
   const successUrl = `${origin}/pricing?checkout=success&session_id={CHECKOUT_SESSION_ID}`;
   const cancelUrl = `${origin}/pricing?checkout=cancelled`;
 
+  // Checkout idempotency: the client sends one `Idempotency-Key` per deliberate
+  // attempt. Bind it to the authenticated profile + plan and pass a DERIVED key
+  // to Stripe, so a transport retry of the SAME attempt reuses one Checkout
+  // Session while a fresh attempt (new key) starts a new one. A permanent
+  // per-user key would wrongly block a legitimate later re-purchase — the
+  // client key must vary per attempt.
+  const rawIdemKey = request.headers.get("idempotency-key");
+  if (rawIdemKey !== null && !/^[A-Za-z0-9_-]{8,200}$/.test(rawIdemKey)) {
+    return NextResponse.json(
+      { ok: false, error: "invalid Idempotency-Key", code: "BAD_IDEMPOTENCY_KEY" },
+      { status: 400 },
+    );
+  }
+  const requestOptions: Stripe.RequestOptions | undefined = rawIdemKey
+    ? {
+        idempotencyKey: createHash("sha256")
+          .update(
+            `checkout:${userId}:${parsed.tier}:${parsed.cadence}:${parsed.seats}:${rawIdemKey}`,
+          )
+          .digest("hex"),
+      }
+    : undefined;
+
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       line_items: [
         {
           price: priceId,
-          quantity: parsed.tier === "team" ? parsed.seats : 1,
+          // Pro is single-seat (Team checkout is rejected above).
+          quantity: 1,
         },
       ],
       success_url: successUrl,
@@ -216,7 +256,7 @@ export async function POST(
         userId,
         tier: parsed.tier,
         cadence: parsed.cadence,
-        seats: String(parsed.tier === "team" ? parsed.seats : 1),
+        seats: "1",
       },
       allow_promotion_codes: true,
       subscription_data: {
@@ -229,7 +269,7 @@ export async function POST(
       // Let the customer update payment method / cancel from the Stripe-
       // hosted portal. Cheap to opt in; the portal is a separate auth flow.
       billing_address_collection: "auto",
-    });
+    }, requestOptions);
 
     if (!session.url) {
       // Should be impossible for mode=subscription, but guard anyway.

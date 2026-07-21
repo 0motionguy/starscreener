@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Icon } from "@/lib/icons";
 import type { TierDefinition } from "@/lib/pricing/tiers";
 import type { UserTierRecord } from "@/lib/pricing/user-tiers";
+import { ManageBillingButton } from "./ManageBillingButton";
 
 interface AccountBillingPanelProps {
   tier: TierDefinition;
@@ -86,6 +87,16 @@ export function AccountBillingPanel({
             <Icon name="arrow-up-right" size={12} />
             Upgrade plan
           </Link>
+        </div>
+      ) : tierRecord?.stripeCustomerId ? (
+        // Paid account with a Stripe customer — surface the billing portal
+        // (update card / view invoices / cancel). Hidden when no customer
+        // record exists so the button never dead-ends.
+        <div className="billing-cta">
+          <span className="billing-cta-copy">
+            Update payment method, view invoices, or cancel
+          </span>
+          <ManageBillingButton />
         </div>
       ) : null}
     </section>

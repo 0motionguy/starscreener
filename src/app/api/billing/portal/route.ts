@@ -125,9 +125,10 @@ export async function POST(
     );
   }
 
-  // 4. Create the portal session.
+  // 4. Create the portal session. Return to /account (the live billing surface)
+  //    — the old /you/settings route no longer exists (it 404'd on return).
   const origin = originFromRequest(request);
-  const returnUrl = getPortalReturnUrl(`${origin}/you/settings`);
+  const returnUrl = getPortalReturnUrl(`${origin}/account`);
 
   try {
     const session = await stripe.billingPortal.sessions.create({

@@ -26,6 +26,7 @@ import {
 } from "@/lib/pricing/tiers";
 import { getClerkPublishableKey } from "@/lib/auth/clerk-config";
 import { CheckoutLauncher } from "@/components/pricing/CheckoutLauncher";
+import { CheckoutSuccess } from "@/components/pricing/CheckoutSuccess";
 
 export const revalidate = 3600;
 
@@ -264,6 +265,13 @@ export default function PricingPage() {
           because it reads useSearchParams on this ISR page. */}
       <Suspense fallback={null}>
         <CheckoutLauncher authEnabled={authEnabled} />
+      </Suspense>
+
+      {/* Owner-verified post-checkout confirmation: ?checkout=success&session_id
+          → poll /api/checkout/verify → trustworthy active/delayed/failed state
+          instead of a bare pricing page. Suspense-wrapped (reads useSearchParams). */}
+      <Suspense fallback={null}>
+        <CheckoutSuccess />
       </Suspense>
 
       {/* ─────────────────── HERO ─────────────────── */}

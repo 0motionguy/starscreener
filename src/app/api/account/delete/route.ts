@@ -34,6 +34,10 @@ import { alertRules } from "@/lib/db/schema/alerts";
 import { parseBody } from "@/lib/api/parse-body";
 import { checkRateLimitAsync } from "@/lib/api/rate-limit";
 import { assertSameOriginRequest } from "@/lib/api/csrf";
+import { clerkDerivedUserId } from "@/lib/auth/user-id";
+import { getTierRecordForClerkUser } from "@/lib/pricing/tier-resolve";
+import { setUserTier } from "@/lib/pricing/user-tiers";
+import { hasActivePaidSubscription } from "@/lib/stripe/subscription-status";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -170,6 +174,26 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     );
   }
 
+  // Active-subscription guard: refuse to erase an account that still has a live
+  // paid Stripe subscription — otherwise the customer keeps getting billed
+  // after "deleting". Direct them to Manage Billing to cancel first; once the
+  // subscription is canceled (projected via the webhook) deletion proceeds.
+  const tierRecord = await getTierRecordForClerkUser(
+    user.clerkUserId,
+    user.profile.email,
+  );
+  if (
+    tierRecord?.stripeSubscriptionId &&
+    (await hasActivePaidSubscription(tierRecord.stripeSubscriptionId))
+  ) {
+    return jsonError(
+      409,
+      "ACTIVE_SUBSCRIPTION",
+      "Cancel your paid subscription before deleting your account.",
+      { manageBillingUrl: "/account" },
+    );
+  }
+
   // GDPR erasure (S3.5.A hardening, 2026-05-18):
   //   - Set `deletedAt` so the row no longer surfaces in any public read.
   //   - SCRUB the PII columns in the same UPDATE — Postgres FK CASCADE
@@ -200,6 +224,19 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         eq(alertRules.active, true),
       ),
     );
+
+  // Revoke any lingering entitlement so a stale tier row (or a still-valid
+  // ss_user cookie) can't keep paid access alive after erasure. The active
+  // subscription was already canceled (the guard above passed), so downgrade
+  // the canonical entitlement key to free. Non-fatal: erasure has committed.
+  try {
+    await setUserTier(clerkDerivedUserId(user.clerkUserId), "free", null);
+  } catch (err) {
+    console.warn("[account-delete] tier revoke failed (non-fatal)", {
+      profileIdHash: shortHash(user.profile.id),
+      error: err instanceof Error ? err.message : String(err),
+    });
+  }
 
   // Best-effort Clerk-side delete. We do NOT await this in a way that
   // could block the response on a slow Clerk API — `fetch` here is

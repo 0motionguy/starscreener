@@ -14,17 +14,39 @@ interface CheckoutLauncherLoadedProps {
   cadence: Cadence;
 }
 
+function newIdempotencyKey(): string {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+  return `ck_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+}
+
 export function CheckoutLauncherLoaded({
   plan,
   cadence,
 }: CheckoutLauncherLoadedProps) {
-  const { isLoaded, isSignedIn, user } = useUser();
+  const { isLoaded, isSignedIn } = useUser();
   const router = useRouter();
   const started = useRef(false);
+  // One Idempotency-Key per deliberate checkout attempt (this mount). A
+  // transport retry reuses it → one Stripe session; a fresh attempt (a new
+  // visit to /pricing?plan=…) remounts and gets a new key → a new session.
+  const idempotencyKey = useRef<string>("");
+  if (!idempotencyKey.current) idempotencyKey.current = newIdempotencyKey();
+
   const [error, setError] = useState<string | null>(null);
+  const [teamContact, setTeamContact] = useState(false);
 
   useEffect(() => {
     if (!isLoaded || started.current) return;
+
+    // Team is not self-serve until the workspace/seat lifecycle exists. Surface
+    // contact/waitlist instead of a live purchase (the server also rejects it).
+    if (plan === "team") {
+      started.current = true;
+      setTeamContact(true);
+      return;
+    }
 
     if (!isSignedIn) {
       const ret = `/pricing?plan=${plan}&cadence=${cadence}`;
@@ -35,23 +57,27 @@ export function CheckoutLauncherLoaded({
     started.current = true;
     void (async () => {
       try {
-        const email = user?.primaryEmailAddress?.emailAddress;
-        await fetch("/api/auth/session", {
+        // Establish/refresh the Clerk-tied ss_user session. Identity is decided
+        // SERVER-side from the Clerk probe — the request body is ignored, so we
+        // send none. We DO check the mint succeeded before starting checkout.
+        const mint = await fetch("/api/auth/session", {
           method: "POST",
           credentials: "include",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(email ? { email } : {}),
         });
+        if (!mint.ok) {
+          started.current = false;
+          setError("Couldn't start your session. Please retry.");
+          return;
+        }
 
         const res = await fetch("/api/checkout/stripe", {
           method: "POST",
           credentials: "include",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify(
-            plan === "team"
-              ? { tier: "team", cadence, seats: 3 }
-              : { tier: "pro", cadence },
-          ),
+          headers: {
+            "content-type": "application/json",
+            "Idempotency-Key": idempotencyKey.current,
+          },
+          body: JSON.stringify({ tier: "pro", cadence }),
         });
         const data: { ok?: boolean; url?: string; error?: string } = await res
           .json()
@@ -67,7 +93,12 @@ export function CheckoutLauncherLoaded({
         setError("Checkout failed to start. Please retry.");
       }
     })();
-  }, [plan, cadence, isLoaded, isSignedIn, user, router]);
+  }, [plan, cadence, isLoaded, isSignedIn, router]);
 
+  if (teamContact) {
+    return (
+      <CheckoutOverlay error="Team plans aren't self-serve yet — email sales@trendingrepo.com and we'll set your workspace up." />
+    );
+  }
   return <CheckoutOverlay error={error} />;
 }

@@ -51,7 +51,7 @@ export function MobileBottomNav() {
           <>
             <span className="mapp-tab-bar" aria-hidden="true" />
             <span className="mapp-tab-ico">
-              <Icon name={tab.icon} size={tab.center ? 22 : 20} />
+              <Icon name={tab.icon} size={tab.center ? 19 : 17} />
             </span>
             <span className="mapp-tab-label">{tab.label}</span>
           </>

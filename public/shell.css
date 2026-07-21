@@ -16128,8 +16128,8 @@ th.sortable.active .aa-th-arrow {
    adds `mapp-on` to <html>). See docs/mobile-app/MOBILE-APP-SPEC.md.
    ══════════════════════════════════════════════════════════════════ */
 :root {
-  --mapp-nav-h: 56px;
-  --mapp-header-h: var(--topbar-h);
+  --mapp-nav-h: 48px;
+  --mapp-header-h: 46px;
   --mapp-safe-top: env(safe-area-inset-top, 0px);
   --mapp-safe-bottom: env(safe-area-inset-bottom, 0px);
   --mapp-content-bottom: calc(var(--mapp-nav-h) + var(--mapp-safe-bottom));
@@ -16164,9 +16164,9 @@ th.sortable.active .aa-th-arrow {
   .mapp-tab {
     position: relative;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 3px;
-    min-height: 52px;
-    padding: 8px 4px 6px;
+    gap: 2px;
+    min-height: 44px;
+    padding: 6px 4px 5px;
     background: none; border: 0; cursor: pointer;
     color: var(--fg-muted); text-decoration: none;
     font-family: var(--font-mono);
@@ -16182,12 +16182,12 @@ th.sortable.active .aa-th-arrow {
   }
   .mapp-tab.active .mapp-tab-bar { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
   .mapp-tab-ico { display: grid; place-items: center; }
-  .mapp-tab-label { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; line-height: 1; }
+  .mapp-tab-label { font-size: 9px; letter-spacing: 0.11em; text-transform: uppercase; line-height: 1; }
 
   /* Center Ask — primary action, lifted accent disc. */
   .mapp-tab-center { color: var(--fg-muted); }
   .mapp-tab-center .mapp-tab-ico {
-    width: 40px; height: 40px; margin-top: -14px;
+    width: 34px; height: 34px; margin-top: -12px;
     border-radius: var(--r-pill);
     background: var(--accent); color: var(--bg);
     box-shadow: 0 0 0 4px var(--shell), 0 4px 14px var(--accent-glow);
@@ -16223,7 +16223,7 @@ th.sortable.active .aa-th-arrow {
     text-transform: uppercase; color: var(--fg);
   }
   .mapp-sheet-close {
-    display: grid; place-items: center; width: 44px; height: 44px;
+    display: grid; place-items: center; width: 38px; height: 38px;
     background: var(--surface-2); border: 1px solid var(--border);
     border-radius: var(--r-1); color: var(--fg-muted); cursor: pointer;
     transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
@@ -16245,7 +16245,7 @@ th.sortable.active .aa-th-arrow {
   }
   .mapp-more-row {
     display: flex; align-items: center; justify-content: space-between;
-    min-height: 46px; width: 100%; padding: 10px 12px; margin-bottom: 6px;
+    min-height: 42px; width: 100%; padding: 9px 12px; margin-bottom: 6px;
     background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2);
     color: var(--fg); text-decoration: none; text-align: left; cursor: pointer; font-size: 14px;
     transition: border-color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
@@ -16260,7 +16260,7 @@ th.sortable.active .aa-th-arrow {
   .mapp-ask { display: flex; flex-direction: column; gap: 12px; }
   .mapp-ask-hint { margin: 0; color: var(--fg-subtle); font-size: 13px; line-height: 1.4; }
   .mapp-ask-input {
-    flex: 1; min-width: 0; height: 46px; padding: 0 14px;
+    flex: 1; min-width: 0; height: 42px; padding: 0 14px;
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-2);
     color: var(--fg); font-family: var(--font-mono); font-size: 16px; /* >=16px: no iOS focus zoom */
   }
@@ -16269,7 +16269,7 @@ th.sortable.active .aa-th-arrow {
   .mapp-ask-results { display: flex; flex-direction: column; gap: 6px; }
   .mapp-ask-row {
     display: flex; align-items: center; justify-content: space-between;
-    min-height: 46px; width: 100%; padding: 10px 12px; text-align: left; cursor: pointer;
+    min-height: 42px; width: 100%; padding: 9px 12px; text-align: left; cursor: pointer;
     background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2); color: var(--fg);
     transition: border-color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
   }
@@ -16310,20 +16310,20 @@ th.sortable.active .aa-th-arrow {
     font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-faint);
   }
   .mapp-header-title {
-    font-family: var(--font-display); font-size: 15px; font-weight: 700; letter-spacing: -0.01em;
+    font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: -0.01em;
     color: var(--fg-bright); line-height: 1.1;
     overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
   }
   .mapp-header-actions { display: flex; align-items: center; gap: 8px; flex: none; }
   .mapp-header-btn {
-    display: grid; place-items: center; width: 40px; height: 40px;
+    display: grid; place-items: center; width: 34px; height: 34px;
     background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-1);
     color: var(--fg-muted); cursor: pointer; text-decoration: none;
     transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
   }
   .mapp-header-btn:hover { color: var(--fg); border-color: var(--border-hover); }
   .mapp-header-back {
-    display: grid; place-items: center; width: 34px; height: 40px; margin-left: -6px; flex: none;
+    display: grid; place-items: center; width: 30px; height: 34px; margin-left: -6px; flex: none;
     background: none; border: 0; color: var(--fg-muted); cursor: pointer;
     transition: color var(--d-fast) var(--ease);
   }
@@ -16332,7 +16332,7 @@ th.sortable.active .aa-th-arrow {
   /* ── Search sheet ──────────────────────────────────────────────── */
   .mapp-search { display: flex; flex-direction: column; gap: 12px; }
   .mapp-search-field {
-    display: flex; align-items: center; gap: 8px; height: 46px; padding: 0 12px;
+    display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 12px;
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-2);
   }
   .mapp-search-field:focus-within { border-color: var(--accent); box-shadow: var(--ring-focus); }
@@ -16352,7 +16352,7 @@ th.sortable.active .aa-th-arrow {
   }
   .mapp-search-row {
     display: flex; align-items: center; justify-content: space-between; gap: 10px;
-    min-height: 46px; width: 100%; padding: 8px 12px; text-align: left; cursor: pointer;
+    min-height: 42px; width: 100%; padding: 8px 12px; text-align: left; cursor: pointer;
     background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2); color: var(--fg);
     transition: border-color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
   }
@@ -16371,7 +16371,7 @@ th.sortable.active .aa-th-arrow {
   /* ── Ask: send button + AI answer ──────────────────────────────── */
   .mapp-ask-field { display: flex; align-items: center; gap: 8px; }
   .mapp-ask-send {
-    display: grid; place-items: center; width: 46px; height: 46px; flex: none;
+    display: grid; place-items: center; width: 42px; height: 42px; flex: none;
     background: var(--accent); color: var(--bg); border: 0; border-radius: var(--r-2); cursor: pointer;
     transition: background var(--d-fast) var(--ease);
   }
@@ -16410,15 +16410,15 @@ th.sortable.active .aa-th-arrow {
     background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2);
   }
   .mapp-seg-item {
-    display: flex; align-items: center; justify-content: center; min-height: 30px;
+    display: flex; align-items: center; justify-content: center; min-height: 26px;
     border-radius: var(--r-1); color: var(--fg-muted); text-decoration: none; cursor: pointer;
-    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase;
     transition: color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
   }
   .mapp-seg-item.on { background: var(--accent); color: var(--bg); }
   .mapp-seg-item:not(.on):hover { color: var(--fg); background: var(--surface-2); }
 
-  .mapp-feed { display: flex; flex-direction: column; gap: 5px; }
+  .mapp-feed { display: flex; flex-direction: column; gap: 4px; }
   .mapp-feed-empty {
     padding: 20px 12px; text-align: center; color: var(--fg-subtle); font-size: 12px;
     border: 1px dashed var(--border); border-radius: var(--r-2);
@@ -16435,16 +16435,16 @@ th.sortable.active .aa-th-arrow {
   .mapp-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2); }
   .mapp-card-r1 { display: flex; align-items: center; gap: 7px; padding: 6px 8px 3px; text-decoration: none; }
   .mapp-card-rank { flex: none; font-family: var(--font-mono); font-size: 10px; color: var(--fg-faint); }
-  .mapp-card-avatar { flex: none; width: 20px; height: 20px; border-radius: var(--r-1); object-fit: cover; background: var(--surface-2); }
+  .mapp-card-avatar { flex: none; width: 18px; height: 18px; border-radius: var(--r-1); object-fit: cover; background: var(--surface-2); }
   .mapp-card-avatar-fallback { display: block; border: 1px solid var(--border); }
-  .mapp-card-name { flex: 1; min-width: 0; display: flex; align-items: center; gap: 4px; font-size: 12.5px; white-space: nowrap; overflow: hidden; }
+  .mapp-card-name { flex: 1; min-width: 0; display: flex; align-items: center; gap: 4px; font-size: 12px; white-space: nowrap; overflow: hidden; }
   .mapp-card-owner { color: var(--fg-subtle); overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
   .mapp-card-repo { color: var(--fg-bright); font-weight: 600; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; }
   .mapp-card-signal { flex: none; font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.06em; padding: 1px 3px; border-radius: 2px; }
   .mapp-card-signal-new { background: var(--accent-wash); color: var(--accent); }
   .mapp-card-signal-hot { background: var(--up-soft); color: var(--up); }
   .mapp-card-r1r { flex: none; display: flex; align-items: baseline; gap: 8px; }
-  .mapp-card-delta { font-family: var(--font-mono); font-size: 12.5px; }
+  .mapp-card-delta { font-family: var(--font-mono); font-size: 12px; }
   .mapp-card-delta i { font-style: normal; font-size: 8.5px; color: var(--fg-faint); margin-left: 2px; }
   .mapp-card-delta.up { color: var(--up); }
   .mapp-card-delta.dn { color: var(--down); }
@@ -16456,7 +16456,7 @@ th.sortable.active .aa-th-arrow {
   .mapp-card-mentions { font-family: var(--font-mono); font-size: 9px; color: var(--fg-faint); margin-left: 1px; }
   .mapp-card-actions { display: flex; align-items: center; }
   .mapp-card-act {
-    display: grid; place-items: center; width: 26px; height: 26px;
+    display: grid; place-items: center; width: 24px; height: 24px;
     background: none; border: 0; border-radius: var(--r-1);
     color: var(--fg-faint); cursor: pointer; text-decoration: none;
     transition: color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);

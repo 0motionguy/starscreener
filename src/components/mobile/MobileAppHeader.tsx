@@ -67,7 +67,7 @@ export function MobileAppHeader() {
             aria-label="Back"
             onClick={() => router.back()}
           >
-            <Icon name="arrow-left" size={18} />
+            <Icon name="arrow-left" size={16} />
           </button>
           <span className="mapp-header-brand">
             <span className="mapp-header-eyebrow">Repository</span>
@@ -88,10 +88,10 @@ export function MobileAppHeader() {
           aria-haspopup="dialog"
           onClick={() => openSheet("search")}
         >
-          <Icon name="search" size={18} />
+          <Icon name="search" size={16} />
         </button>
         <Link href="/account" className="mapp-header-btn" aria-label="Account">
-          <Icon name="user" size={18} />
+          <Icon name="user" size={16} />
         </Link>
       </div>
     </header>

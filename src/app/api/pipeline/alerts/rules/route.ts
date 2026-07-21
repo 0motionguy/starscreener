@@ -17,7 +17,8 @@ import {
   type CreateRuleInput,
 } from "@/lib/pipeline/alerts/rule-management";
 import type { AlertRule, AlertTriggerType } from "@/lib/pipeline/types";
-import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { userAuthFailureResponse } from "@/lib/api/auth";
+import { resolveUserPrincipal } from "@/lib/api/user-principal";
 
 export const runtime = "nodejs";
 
@@ -63,7 +64,7 @@ export interface RulesErrorResponse {
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<RulesListResponse | RulesErrorResponse>> {
-  const auth = verifyUserAuth(request);
+  const auth = await resolveUserPrincipal(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny as NextResponse<RulesErrorResponse>;
   if (auth.kind !== "ok") {
@@ -217,7 +218,7 @@ function parsePatchBody(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<RulesCreateResponse | RulesErrorResponse>> {
-  const auth = verifyUserAuth(request);
+  const auth = await resolveUserPrincipal(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny as NextResponse<RulesErrorResponse>;
   if (auth.kind !== "ok") {
@@ -287,7 +288,7 @@ export async function POST(
 export async function PATCH(
   request: NextRequest,
 ): Promise<NextResponse<RulesUpdateResponse | RulesErrorResponse>> {
-  const auth = verifyUserAuth(request);
+  const auth = await resolveUserPrincipal(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny as NextResponse<RulesErrorResponse>;
   if (auth.kind !== "ok") {
@@ -355,7 +356,7 @@ export async function PATCH(
 export async function DELETE(
   request: NextRequest,
 ): Promise<NextResponse<RulesDeleteResponse | RulesErrorResponse>> {
-  const auth = verifyUserAuth(request);
+  const auth = await resolveUserPrincipal(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny as NextResponse<RulesErrorResponse>;
   if (auth.kind !== "ok") {

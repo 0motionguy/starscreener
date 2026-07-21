@@ -30,7 +30,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { userAuthFailureResponse } from "@/lib/api/auth";
+import { resolveUserPrincipal } from "@/lib/api/user-principal";
 import { parseBody } from "@/lib/api/parse-body";
 import { canUseFeature } from "@/lib/pricing/entitlements";
 import { getDerivedRepoByFullName } from "@/lib/derived-repos";
@@ -252,8 +253,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     refreshRevenueOverlaysFromStore(),
   ]);
 
-  // 1. Auth
-  const auth = verifyUserAuth(request);
+  // 1. Auth — resolveUserPrincipal re-verifies live Clerk for cookie (`c_`)
+  //    principals so a stale ss_user cookie can't authorize this Pro export.
+  const auth = await resolveUserPrincipal(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny;
   if (auth.kind !== "ok") {

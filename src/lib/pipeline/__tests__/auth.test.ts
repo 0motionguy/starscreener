@@ -254,7 +254,7 @@ test("verifyUserAuth: dev + no env set → ok with userId=local (fallback)", asy
     { USER_TOKEN: undefined, USER_TOKENS_JSON: undefined, NODE_ENV: "development" },
     () => {
       const v = verifyUserAuth(mkRequest());
-      assert.deepEqual(v, { kind: "ok", userId: "local" } as UserAuthVerdict);
+      assert.deepEqual(v, { kind: "ok", userId: "local", source: "header" } as UserAuthVerdict);
     },
   );
 });
@@ -264,7 +264,7 @@ test("verifyUserAuth: USER_TOKEN set, correct Bearer → ok userId=local", async
     { USER_TOKEN: "u-t0k", USER_TOKENS_JSON: undefined, NODE_ENV: "production" },
     () => {
       const v = verifyUserAuth(mkRequest({ authorization: "Bearer u-t0k" }));
-      assert.deepEqual(v, { kind: "ok", userId: "local" } as UserAuthVerdict);
+      assert.deepEqual(v, { kind: "ok", userId: "local", source: "header" } as UserAuthVerdict);
     },
   );
 });
@@ -274,7 +274,7 @@ test("verifyUserAuth: USER_TOKEN set, x-user-token header works", async () => {
     { USER_TOKEN: "u-t0k", USER_TOKENS_JSON: undefined, NODE_ENV: "production" },
     () => {
       const v = verifyUserAuth(mkRequest({ "x-user-token": "u-t0k" }));
-      assert.deepEqual(v, { kind: "ok", userId: "local" } as UserAuthVerdict);
+      assert.deepEqual(v, { kind: "ok", userId: "local", source: "header" } as UserAuthVerdict);
     },
   );
 });
@@ -307,8 +307,8 @@ test("verifyUserAuth: USER_TOKENS_JSON maps tokens → distinct userIds", async 
       const a = verifyUserAuth(mkRequest({ authorization: "Bearer tok-alice" }));
       const b = verifyUserAuth(mkRequest({ authorization: "Bearer tok-bob" }));
       const c = verifyUserAuth(mkRequest({ authorization: "Bearer tok-nope" }));
-      assert.deepEqual(a, { kind: "ok", userId: "alice" } as UserAuthVerdict);
-      assert.deepEqual(b, { kind: "ok", userId: "bob" } as UserAuthVerdict);
+      assert.deepEqual(a, { kind: "ok", userId: "alice", source: "header" } as UserAuthVerdict);
+      assert.deepEqual(b, { kind: "ok", userId: "bob", source: "header" } as UserAuthVerdict);
       assert.deepEqual(c, { kind: "unauthorized" } as UserAuthVerdict);
     },
   );
@@ -347,7 +347,7 @@ test("verifyUserAuth: valid ss_user cookie → ok with userId from payload", asy
       const v = verifyUserAuth(
         mkRequest({ cookie: `${SESSION_COOKIE_NAME}=${token}` }),
       );
-      assert.deepEqual(v, { kind: "ok", userId: "u_browser" } as UserAuthVerdict);
+      assert.deepEqual(v, { kind: "ok", userId: "u_browser", source: "cookie" } as UserAuthVerdict);
     },
   );
 });
@@ -453,7 +453,7 @@ test("verifyUserAuth: header wins over cookie when both present", async () => {
       );
       // Header token maps to userId="local" via USER_TOKEN. If the cookie
       // had won, we would have seen "u_cookie" instead.
-      assert.deepEqual(v, { kind: "ok", userId: "local" } as UserAuthVerdict);
+      assert.deepEqual(v, { kind: "ok", userId: "local", source: "header" } as UserAuthVerdict);
     },
   );
 });
@@ -478,7 +478,7 @@ test("verifyUserAuth: valid cookie works even when USER_TOKEN is also set", asyn
       );
       assert.deepEqual(
         v,
-        { kind: "ok", userId: "u_browser" } as UserAuthVerdict,
+        { kind: "ok", userId: "u_browser", source: "cookie" } as UserAuthVerdict,
       );
     },
   );
@@ -521,7 +521,7 @@ test("verifyUserAuth: cookie present but no SESSION_SECRET → cookie ignored", 
 });
 
 test("userAuthFailureResponse: ok → null", () => {
-  const r = userAuthFailureResponse({ kind: "ok", userId: "x" });
+  const r = userAuthFailureResponse({ kind: "ok", userId: "x", source: "header" });
   assert.equal(r, null);
 });
 

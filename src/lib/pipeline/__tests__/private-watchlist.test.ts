@@ -20,6 +20,10 @@ import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
+import { signSession } from "@/lib/api/session";
+import { _setClerkAuthProbeForTests } from "@/lib/auth/clerk-session";
+import { clerkDerivedUserId } from "@/lib/auth/user-id";
+
 // ---------------------------------------------------------------------------
 // Env helpers
 // ---------------------------------------------------------------------------
@@ -306,5 +310,116 @@ test("route — PUT with invalid entries keeps the valid ones and surfaces dropp
         assert.deepEqual(body.dropped, ["no_slash_here"]);
       },
     );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// P0 REGRESSION — stale ss_user cookie must not authorize after Clerk sign-out
+// ---------------------------------------------------------------------------
+//
+// A `c_<clerkUserId>` ss_user cookie is a 30-day self-signed token — NOT proof
+// of a live Clerk session. This Pro route now re-verifies Clerk for cookie
+// principals via resolveUserPrincipal, so a signed-out (or exfiltrated) cookie
+// is denied even though the cookie still verifies and the tier row still says
+// Pro. On current `main` (route trusts verifyUserAuth's cookie verdict) these
+// requests would be authorized.
+
+function signedProCookie(userId: string): Record<string, string> {
+  const token = signSession({
+    userId,
+    issuedAt: Date.now(),
+    tier: "pro",
+    tierExpiresAt: null,
+  });
+  return { cookie: `ss_user=${token}` };
+}
+
+test("route — stale c_ cookie with NO live Clerk session is denied 401 (P0)", async () => {
+  await withTmpDataDir(async (dir) => {
+    const entitlementKey = clerkDerivedUserId("user_STALE");
+    await seedProTier(dir, entitlementKey);
+    _setClerkAuthProbeForTests(async () => null); // signed out of Clerk
+    try {
+      await withEnv(
+        {
+          NODE_ENV: "production",
+          SESSION_SECRET: "test-secret-stale-cookie",
+          USER_TOKEN: undefined,
+          USER_TOKENS_JSON: undefined,
+        },
+        async () => {
+          const { GET } = await import("../../../app/api/watchlist/private/route");
+          const res = await GET(
+            mkRequest("GET", null, signedProCookie(entitlementKey)) as never,
+          );
+          assert.equal(
+            res.status,
+            401,
+            "a c_ cookie without a live Clerk session must not authorize a paid route",
+          );
+        },
+      );
+    } finally {
+      _setClerkAuthProbeForTests(null);
+    }
+  });
+});
+
+test("route — c_ cookie WITH a matching live Clerk session is authorized 200", async () => {
+  await withTmpDataDir(async (dir) => {
+    const clerkUserId = "user_LIVE";
+    const entitlementKey = clerkDerivedUserId(clerkUserId);
+    await seedProTier(dir, entitlementKey);
+    _setClerkAuthProbeForTests(async () => clerkUserId); // live Clerk matches
+    try {
+      await withEnv(
+        {
+          NODE_ENV: "production",
+          SESSION_SECRET: "test-secret-live-cookie",
+          USER_TOKEN: undefined,
+          USER_TOKENS_JSON: undefined,
+        },
+        async () => {
+          const { GET } = await import("../../../app/api/watchlist/private/route");
+          const res = await GET(
+            mkRequest("GET", null, signedProCookie(entitlementKey)) as never,
+          );
+          assert.equal(res.status, 200);
+        },
+      );
+    } finally {
+      _setClerkAuthProbeForTests(null);
+    }
+  });
+});
+
+test("route — c_ cookie for user A cannot cross to a live Clerk session for user B (401)", async () => {
+  await withTmpDataDir(async (dir) => {
+    const cookieKey = clerkDerivedUserId("user_A");
+    await seedProTier(dir, cookieKey);
+    _setClerkAuthProbeForTests(async () => "user_B"); // a different Clerk user is live
+    try {
+      await withEnv(
+        {
+          NODE_ENV: "production",
+          SESSION_SECRET: "test-secret-cross-cookie",
+          USER_TOKEN: undefined,
+          USER_TOKENS_JSON: undefined,
+        },
+        async () => {
+          const { GET } = await import("../../../app/api/watchlist/private/route");
+          const res = await GET(
+            mkRequest("GET", null, signedProCookie(cookieKey)) as never,
+          );
+          assert.equal(
+            res.status,
+            401,
+            "cookie identity must match the live Clerk identity",
+          );
+        },
+      );
+    } finally {
+      _setClerkAuthProbeForTests(null);
+    }
   });
 });

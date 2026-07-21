@@ -9,9 +9,13 @@ import { cache } from "react";
 import { auth } from "@clerk/nextjs/server";
 
 import { getUser } from "@/lib/auth/server";
-import { getUserTier, getUserTierRecord } from "@/lib/pricing/user-tiers";
-import { tierFor, type TierDefinition } from "@/lib/pricing/tiers";
+import {
+  getTierRecordForClerkUser,
+  isTierRecordExpired,
+} from "@/lib/pricing/tier-resolve";
+import { tierFor, type TierDefinition, type UserTier } from "@/lib/pricing/tiers";
 import type { UserTierRecord } from "@/lib/pricing/user-tiers";
+import { clerkDerivedUserId } from "@/lib/auth/user-id";
 import { getPrivateWatchlist } from "@/lib/watchlist/private-store";
 
 async function safe<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
@@ -67,11 +71,25 @@ export const loadAccountContext = cache(async (): Promise<AccountContext> => {
   const timezone = loaded?.profile.timezone ?? "UTC";
   const emailDigestEnabled = loaded?.profile.emailAlertsCadence !== "off";
 
-  const tierKey = await safe(() => getUserTier(uid), "free" as const);
+  // Entitlements resolve through the CANONICAL Clerk identity
+  // (`c_<clerkUserId>`), NEVER the raw Clerk id. Checkout and the Stripe
+  // webhook write tier rows under `c_<id>`; reading them under the raw
+  // `user_...` id made a paying customer show "Free" — the identity-mismatch
+  // P0 fixed here. `getTierRecordForClerkUser` canonicalizes (and
+  // forward-migrates a legacy `u_<hmac>` hit) in one place, so `load.ts` no
+  // longer bypasses `tier-resolve`. `email` is already resolved above.
+  const tierRecord = userId
+    ? await safe(() => getTierRecordForClerkUser(userId, email), null)
+    : null;
+  const tierKey: UserTier =
+    tierRecord && !isTierRecordExpired(tierRecord) ? tierRecord.tier : "free";
   const tier = tierFor(tierKey);
-  const tierRecord = await safe(() => getUserTierRecord(uid), null);
 
-  const wlist = await safe(() => getPrivateWatchlist(uid), null);
+  // Private watchlist is owned by the same canonical entitlement key (the
+  // /api/watchlist/private route writes under `c_<id>`). Commit 5 moves this
+  // read onto the profile-UUID Postgres tables.
+  const entitlementKey = userId ? clerkDerivedUserId(userId) : uid;
+  const wlist = await safe(() => getPrivateWatchlist(entitlementKey), null);
   const watchlistFullNames = wlist?.repoFullNames ?? [];
   const watchingCount = watchlistFullNames.length;
   const watchingCap = tier.features.maxWatchlistRepos;

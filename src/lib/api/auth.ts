@@ -52,6 +52,15 @@ export type UserAuthVerdict =
       kind: "ok";
       userId: string;
       /**
+       * How the principal authenticated. `"header"` = a configured USER_TOKEN /
+       * USER_TOKENS_JSON bearer (service-to-service / CLI) or the dev-fallback
+       * `local` id; these are trusted as-is. `"cookie"` = the ss_user HMAC
+       * session — a Clerk-derived (`c_`) cookie principal is NOT proof of a
+       * live Clerk session, so `resolveUserPrincipal` re-checks Clerk before
+       * authorizing paid/browser routes (stale-cookie defense).
+       */
+      source: "cookie" | "header";
+      /**
        * Tier hint available when the caller authenticated via a cookie
        * that carries the pricing fields. Absent on header-authenticated
        * callers (server-to-server / CLI) and on legacy cookies. Callers
@@ -342,11 +351,11 @@ export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
     if (multi.size > 0) {
       for (const [token, userId] of multi.entries()) {
         if (timingSafeEqualStr(headerBearer, token)) {
-          return { kind: "ok", userId };
+          return { kind: "ok", userId, source: "header" };
         }
       }
     } else if (singleToken && timingSafeEqualStr(headerBearer, singleToken)) {
-      return { kind: "ok", userId: "local" };
+      return { kind: "ok", userId: "local", source: "header" };
     }
     // Header didn't match any env token. If we have a valid cookie AND
     // env tokens are actually configured, fall through to the cookie
@@ -356,6 +365,7 @@ export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
       return {
         kind: "ok",
         userId: cookiePayload.userId,
+        source: "cookie",
         ...(cookiePayload.tier !== undefined ? { tier: cookiePayload.tier } : {}),
         ...(cookiePayload.tierExpiresAt !== undefined
           ? { tierExpiresAt: cookiePayload.tierExpiresAt }
@@ -375,6 +385,7 @@ export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
     return {
       kind: "ok",
       userId: cookiePayload.userId,
+      source: "cookie",
       ...(cookiePayload.tier !== undefined ? { tier: cookiePayload.tier } : {}),
       ...(cookiePayload.tierExpiresAt !== undefined
         ? { tierExpiresAt: cookiePayload.tierExpiresAt }
@@ -404,7 +415,7 @@ export function verifyUserAuth(request: NextRequest): UserAuthVerdict {
           "falling back to userId=\"local\" WITHOUT auth. Production will require a token.",
       );
     }
-    return { kind: "ok", userId: "local" };
+    return { kind: "ok", userId: "local", source: "header" };
   }
 
   // 5. Env tokens configured, but nothing valid was presented.

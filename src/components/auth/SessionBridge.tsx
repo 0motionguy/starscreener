@@ -53,10 +53,15 @@ export function SessionBridge(): null {
             credentials: "include",
           });
         } else if (previous) {
-          // Transitioned signed-in → signed-out in this tab.
+          // Transitioned signed-in → signed-out in this tab. `keepalive` lets
+          // the clear complete even if a Clerk redirect unmounts us mid-flight
+          // (the race that used to leave the ss_user cookie behind). This is
+          // convergence only — paid routes re-verify live Clerk server-side,
+          // so a lingering cookie is inert for authorization either way.
           await fetch("/api/auth/session", {
             method: "DELETE",
             credentials: "include",
+            keepalive: true,
           });
         }
       } catch {

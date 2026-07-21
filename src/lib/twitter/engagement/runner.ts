@@ -30,6 +30,7 @@ import {
   type EngagementLedger,
 } from "./ledger";
 import { composeReply, type ReplyContext } from "./reply-composer";
+import { loadTrendingGrounding } from "./grounding";
 import { isExcludedHandle, loadTargets, loadTopicQueries } from "./targets";
 import { searchEngagementCandidates } from "./x-search";
 import type {
@@ -147,6 +148,15 @@ export async function runEngagement(
 
   const deps: EngagementDeps = { ...defaultDeps(), ...(options.deps ?? {}) };
   const records: EngagementRecord[] = [];
+
+  // Real grounding: load the top-signal trending repos ONCE per run so the
+  // composer cites REAL names + REAL stats and never invents. Skipped when a
+  // test injected its own dataPointFor. Empty grounding → dataPoint undefined →
+  // the hardened composer stays non-numeric or skips rather than fabricating.
+  if (!options.deps?.dataPointFor) {
+    const grounding = await loadTrendingGrounding().catch(() => "");
+    deps.dataPointFor = grounding ? () => grounding : () => undefined;
+  }
 
   const cap = engageDailyCap();
   let remaining = await deps.ledger.remainingDailyBudget(now, cap);

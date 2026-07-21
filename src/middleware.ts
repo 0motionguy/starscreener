@@ -121,6 +121,7 @@ const isClerkSessionRoute = createRouteMatcher([
   // resolveUserPrincipal trusts a configured token before touching Clerk.
   "/api/watchlist/private",
   "/api/export/csv",
+  "/api/pipeline/alerts",
   "/api/pipeline/alerts/rules",
   "/api/checkout/verify",
 ]);

@@ -6,15 +6,16 @@
 // fire triggers), so this route is read-oriented plus one mutation:
 // marking an event as read.
 //
-// Auth: the caller's userId is derived from `verifyUserAuth` (bearer/x-user-token
-// header → userId). Previously the endpoint trusted `?userId=<x>` in the query
-// string, which let any unauthenticated client read any user's alert feed.
-// The `userId` query parameter is now IGNORED.
+// Auth: resolveUserPrincipal (bearer/x-user-token header → userId, OR the
+// ss_user cookie re-verified against a LIVE Clerk session for `c_` principals,
+// so a stale signed-out cookie can't read or mutate the feed). Previously the
+// endpoint trusted `?userId=<x>` in the query string; that parameter is IGNORED.
 
 import { NextRequest, NextResponse } from "next/server";
 import { persistPipeline, pipeline } from "@/lib/pipeline/pipeline";
 import type { AlertEvent } from "@/lib/pipeline/types";
-import { userAuthFailureResponse, verifyUserAuth } from "@/lib/api/auth";
+import { userAuthFailureResponse } from "@/lib/api/auth";
+import { resolveUserPrincipal } from "@/lib/api/user-principal";
 
 export const runtime = "nodejs";
 
@@ -37,7 +38,7 @@ export interface AlertsErrorResponse {
 export async function GET(
   request: NextRequest,
 ): Promise<NextResponse<AlertsListResponse | AlertsErrorResponse>> {
-  const auth = verifyUserAuth(request);
+  const auth = await resolveUserPrincipal(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny as NextResponse<AlertsErrorResponse>;
   // TS narrowing: after the guard above, auth.kind === "ok".
@@ -78,7 +79,7 @@ export async function GET(
 export async function POST(
   request: NextRequest,
 ): Promise<NextResponse<AlertsMarkReadResponse | AlertsErrorResponse>> {
-  const auth = verifyUserAuth(request);
+  const auth = await resolveUserPrincipal(request);
   const deny = userAuthFailureResponse(auth);
   if (deny) return deny as NextResponse<AlertsErrorResponse>;
   if (auth.kind !== "ok") {

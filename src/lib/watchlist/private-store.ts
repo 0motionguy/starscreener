@@ -157,32 +157,50 @@ async function readAllEntries(): Promise<Map<string, PrivateWatchlistEntry>> {
 }
 
 // ---------------------------------------------------------------------------
-// Public API
+// Backend selection
+// ---------------------------------------------------------------------------
+//
+// Postgres (tr.watchlists / tr.watchlist_items, keyed by the profile UUID) is
+// the durable primary for signed-in Pro users when DATABASE_URL is set. Two
+// reasons the JSONL store was insufficient for a paid promise:
+//   1. the Docker runner ships no persistent `.data` volume, so JSONL
+//      watchlists evaporated on every redeploy;
+//   2. the alert engine (event-router) reads the DB tables — with no writer
+//      they were always empty, so paid-watchlist alert fan-out matched nothing.
+//
+// JSONL remains the dev/CI fallback AND a ONE-TIME legacy read-through source.
+// The DB path only engages for canonical `c_<clerkUserId>` ids (Pro
+// identities); anonymous `a_` / legacy `u_` / test ids stay on JSONL.
+
+function postgresConfigured(): boolean {
+  const url = process.env.DATABASE_URL;
+  return typeof url === "string" && url.trim().length > 0;
+}
+
+function useDbBackend(userId: string): boolean {
+  return postgresConfigured() && userId.startsWith("c_");
+}
+
+// ---------------------------------------------------------------------------
+// Public API (dispatches DB ↔ JSONL)
 // ---------------------------------------------------------------------------
 
 /**
- * Get the private watchlist for `userId`, or null if none exists.
- *
- * Cross-user reads are impossible: we key on userId exactly, with no
- * fallback to "return something when the user has no entry". The route
- * layer translates null → 200 with `entry: null` (or 404 — route's
- * choice; this function is agnostic).
+ * Get the private watchlist for `userId`, or null if none exists. Cross-user
+ * reads are impossible — we key on the authenticated id exactly.
  */
 export async function getPrivateWatchlist(
   userId: string,
 ): Promise<PrivateWatchlistEntry | null> {
   if (!userId || typeof userId !== "string") return null;
-  const entries = await readAllEntries();
-  return entries.get(userId) ?? null;
+  if (useDbBackend(userId)) return dbGetPrivateWatchlist(userId);
+  return jsonlGetPrivateWatchlist(userId);
 }
 
 /**
- * Upsert the watchlist for `userId`. Returns the entry as persisted
- * (post-normalization). The input list is deduped, lowercased, sorted,
- * and capped at MAX_PRIVATE_WATCHLIST_REPOS.
- *
- * Idempotent: writing the same set twice produces the same persisted
- * record (modulo `updatedAt`).
+ * Upsert the watchlist for `userId`. Deduped, lowercased, sorted, capped.
+ * Idempotent: writing the same set twice yields the same persisted record
+ * (modulo `updatedAt`).
  */
 export async function setPrivateWatchlist(
   userId: string,
@@ -191,7 +209,32 @@ export async function setPrivateWatchlist(
   if (!userId || typeof userId !== "string") {
     throw new Error("setPrivateWatchlist: userId is required");
   }
+  if (useDbBackend(userId)) return dbSetPrivateWatchlist(userId, fullNames);
+  return jsonlSetPrivateWatchlist(userId, fullNames);
+}
 
+/** Remove the watchlist entry for `userId`. No-op when none exists. */
+export async function deletePrivateWatchlist(userId: string): Promise<void> {
+  if (!userId || typeof userId !== "string") return;
+  if (useDbBackend(userId)) return dbDeletePrivateWatchlist(userId);
+  return jsonlDeletePrivateWatchlist(userId);
+}
+
+// ---------------------------------------------------------------------------
+// JSONL backend (dev/CI fallback + legacy read-through source)
+// ---------------------------------------------------------------------------
+
+async function jsonlGetPrivateWatchlist(
+  userId: string,
+): Promise<PrivateWatchlistEntry | null> {
+  const entries = await readAllEntries();
+  return entries.get(userId) ?? null;
+}
+
+async function jsonlSetPrivateWatchlist(
+  userId: string,
+  fullNames: readonly string[],
+): Promise<PrivateWatchlistEntry> {
   const { valid } = normalizeFullNames(fullNames);
   const capped = valid.slice(0, MAX_PRIVATE_WATCHLIST_REPOS);
   const entry: PrivateWatchlistEntry = {
@@ -199,15 +242,11 @@ export async function setPrivateWatchlist(
     repoFullNames: capped,
     updatedAt: new Date().toISOString(),
   };
-
-  // Serialize access to the file so concurrent PUTs from two tabs don't
-  // race on read-then-write. Lock key is the resolved path.
+  // Serialize access so concurrent PUTs from two tabs don't race.
   return withFileLock(storePath(), async () => {
     await ensureDataDir();
     const entries = await readAllEntries();
     entries.set(userId, entry);
-    // Deterministic write order — sort by userId ascending. Keeps diffs
-    // small when inspecting the JSONL in a code review.
     const rows = [...entries.values()].sort((a, b) =>
       a.userId < b.userId ? -1 : a.userId > b.userId ? 1 : 0,
     );
@@ -216,11 +255,7 @@ export async function setPrivateWatchlist(
   });
 }
 
-/**
- * Remove the watchlist entry for `userId`. No-op when none exists.
- */
-export async function deletePrivateWatchlist(userId: string): Promise<void> {
-  if (!userId || typeof userId !== "string") return;
+async function jsonlDeletePrivateWatchlist(userId: string): Promise<void> {
   await withFileLock(storePath(), async () => {
     await ensureDataDir();
     const entries = await readAllEntries();
@@ -231,6 +266,166 @@ export async function deletePrivateWatchlist(userId: string): Promise<void> {
     );
     await writeJsonlFile<PrivateWatchlistEntry>(PRIVATE_WATCHLIST_FILE, rows);
   });
+}
+
+// ---------------------------------------------------------------------------
+// Postgres backend (profile-UUID-keyed; primary for signed-in Pro users)
+// ---------------------------------------------------------------------------
+
+/** Map a canonical `c_<clerkUserId>` id to its (non-deleted) profile UUID. */
+async function resolveProfileId(userId: string): Promise<string | null> {
+  if (!userId.startsWith("c_")) return null;
+  const clerkUserId = userId.slice(2);
+  const [{ getDb }, { profiles }, { and, eq, isNull }] = await Promise.all([
+    import("@/lib/db/client"),
+    import("@/lib/db/schema/profiles"),
+    import("drizzle-orm"),
+  ]);
+  const rows = await getDb()
+    .select({ id: profiles.id })
+    .from(profiles)
+    .where(and(eq(profiles.clerkUserId, clerkUserId), isNull(profiles.deletedAt)))
+    .limit(1);
+  return rows[0]?.id ?? null;
+}
+
+/** The one default watchlist id for a profile — created on first write. */
+async function findOrCreateDefaultWatchlist(profileId: string): Promise<string> {
+  const [{ getDb }, { watchlists }, { asc, eq }] = await Promise.all([
+    import("@/lib/db/client"),
+    import("@/lib/db/schema/watchlists"),
+    import("drizzle-orm"),
+  ]);
+  const db = getDb();
+  const existing = await db
+    .select({ id: watchlists.id })
+    .from(watchlists)
+    .where(eq(watchlists.profileId, profileId))
+    .orderBy(asc(watchlists.createdAt))
+    .limit(1);
+  if (existing[0]) return existing[0].id;
+  const inserted = await db
+    .insert(watchlists)
+    .values({ profileId, name: "Default" })
+    .returning({ id: watchlists.id });
+  return inserted[0].id;
+}
+
+async function dbGetPrivateWatchlist(
+  userId: string,
+): Promise<PrivateWatchlistEntry | null> {
+  const profileId = await resolveProfileId(userId);
+  // Not a resolvable Clerk profile → fall back to the legacy JSONL store.
+  if (!profileId) return jsonlGetPrivateWatchlist(userId);
+
+  const [{ getDb }, { watchlists, watchlistItems }, { asc, eq }] =
+    await Promise.all([
+      import("@/lib/db/client"),
+      import("@/lib/db/schema/watchlists"),
+      import("drizzle-orm"),
+    ]);
+  const db = getDb();
+  const wl = await db
+    .select({ id: watchlists.id, updatedAt: watchlists.updatedAt })
+    .from(watchlists)
+    .where(eq(watchlists.profileId, profileId))
+    .orderBy(asc(watchlists.createdAt))
+    .limit(1);
+
+  if (!wl[0]) {
+    // One-time legacy read-through: migrate a JSONL watchlist into the DB so
+    // the paid promise (cross-device + alert fan-out) is honored going forward.
+    const legacy = await readLegacyJsonl(userId);
+    if (legacy && legacy.repoFullNames.length > 0) {
+      return dbSetPrivateWatchlist(userId, legacy.repoFullNames);
+    }
+    return null;
+  }
+
+  const items = await db
+    .select({ repoFullName: watchlistItems.repoFullName })
+    .from(watchlistItems)
+    .where(eq(watchlistItems.watchlistId, wl[0].id));
+  const repoFullNames = items.map((i) => i.repoFullName).sort();
+  return { userId, repoFullNames, updatedAt: wl[0].updatedAt.toISOString() };
+}
+
+async function dbSetPrivateWatchlist(
+  userId: string,
+  fullNames: readonly string[],
+): Promise<PrivateWatchlistEntry> {
+  const profileId = await resolveProfileId(userId);
+  if (!profileId) return jsonlSetPrivateWatchlist(userId, fullNames);
+
+  const { valid } = normalizeFullNames(fullNames);
+  const capped = valid.slice(0, MAX_PRIVATE_WATCHLIST_REPOS);
+
+  const [{ getDb }, { watchlists, watchlistItems }, { eq }] = await Promise.all([
+    import("@/lib/db/client"),
+    import("@/lib/db/schema/watchlists"),
+    import("drizzle-orm"),
+  ]);
+  const db = getDb();
+  const watchlistId = await findOrCreateDefaultWatchlist(profileId);
+
+  // Transactional replace — delete then re-insert the normalized set so a
+  // concurrent read never sees a half-written list.
+  await db.transaction(async (tx) => {
+    await tx.delete(watchlistItems).where(eq(watchlistItems.watchlistId, watchlistId));
+    if (capped.length > 0) {
+      await tx
+        .insert(watchlistItems)
+        .values(capped.map((repoFullName) => ({ watchlistId, repoFullName })));
+    }
+    await tx
+      .update(watchlists)
+      .set({ updatedAt: new Date() })
+      .where(eq(watchlists.id, watchlistId));
+  });
+
+  return { userId, repoFullNames: capped, updatedAt: new Date().toISOString() };
+}
+
+async function dbDeletePrivateWatchlist(userId: string): Promise<void> {
+  const profileId = await resolveProfileId(userId);
+  if (!profileId) return jsonlDeletePrivateWatchlist(userId);
+
+  const [{ getDb }, { watchlists, watchlistItems }, { eq }] = await Promise.all([
+    import("@/lib/db/client"),
+    import("@/lib/db/schema/watchlists"),
+    import("drizzle-orm"),
+  ]);
+  const db = getDb();
+  const wl = await db
+    .select({ id: watchlists.id })
+    .from(watchlists)
+    .where(eq(watchlists.profileId, profileId))
+    .limit(1);
+  if (!wl[0]) return;
+  await db.transaction(async (tx) => {
+    await tx.delete(watchlistItems).where(eq(watchlistItems.watchlistId, wl[0].id));
+    await tx.delete(watchlists).where(eq(watchlists.id, wl[0].id));
+  });
+}
+
+/**
+ * Legacy JSONL read-through source. Checks, in order:
+ *   - the canonical `c_<clerkUserId>` key;
+ *   - the raw Clerk id (`user_<id>`) that the historical load.ts bug wrote
+ *     under before the identity fix.
+ * Never guesses across unrelated users.
+ */
+async function readLegacyJsonl(
+  userId: string,
+): Promise<PrivateWatchlistEntry | null> {
+  const entries = await readAllEntries();
+  const canonical = entries.get(userId);
+  if (canonical) return canonical;
+  if (userId.startsWith("c_")) {
+    const raw = entries.get(userId.slice(2));
+    if (raw) return raw;
+  }
+  return null;
 }
 
 /** Test-only helper: blow away the whole file. */

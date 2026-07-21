@@ -18,15 +18,29 @@
 // Shape mirrors UserTierRecord in src/lib/pricing/user-tiers.ts 1:1 so
 // the store facade can swap backends without any caller changes.
 
-import { index, text, timestamp } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
+import { index, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 
 import { tr } from "./_schema";
+import { profiles } from "./profiles";
 
 export const userTiers = tr.table(
   "user_tiers",
   {
     /** Canonical `c_<clerkUserId>` (or legacy `u_<hmac>`) — see lib/auth/user-id. */
     userId: text("user_id").primaryKey(),
+    /**
+     * Canonical relational owner: the profile UUID. NULLABLE during transition
+     * — webhook-lag rows and legacy `u_<hmac>` rows may not resolve to a
+     * profile yet — but new billing writes should populate it, and the
+     * unique-where-non-null index below keeps at most one tier row per profile.
+     * Backfilled from `c_<clerkUserId>` → `profiles.clerk_user_id` (see
+     * scripts/backfill-user-tier-profiles.ts). onDelete: set null keeps the
+     * Stripe ids for accounting if a profile is ever hard-deleted.
+     */
+    profileId: uuid("profile_id").references(() => profiles.id, {
+      onDelete: "set null",
+    }),
     /** 'free' | 'pro' | 'team' | 'enterprise' — validated in the store layer. */
     tier: text("tier").notNull(),
     /** Entitlement expiry (Stripe current_period_end); null = no expiry. */
@@ -43,6 +57,11 @@ export const userTiers = tr.table(
   (table) => [
     // Billing-portal lookups + Stripe-support cross-referencing.
     index("user_tiers_stripe_customer_idx").on(table.stripeCustomerId),
+    // At most one tier row per profile — but only where profile_id is set, so
+    // transitional NULL rows (webhook lag / legacy u_) don't collide.
+    uniqueIndex("user_tiers_profile_id_uniq")
+      .on(table.profileId)
+      .where(sql`${table.profileId} is not null`),
   ],
 );
 

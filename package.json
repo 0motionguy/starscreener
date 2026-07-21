@@ -160,6 +160,7 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "stripe:events:replay": "tsx --require ./tests/setup-server-only-stub.cjs scripts/stripe-events-replay.ts",
+    "backfill:user-tier-profiles": "tsx --require ./tests/setup-server-only-stub.cjs scripts/backfill-user-tier-profiles.ts",
     "mcp:build": "cd mcp && npm install && npm run build",
     "mcp:dev": "cd mcp && npm run dev",
     "mcp:inspect": "npx @modelcontextprotocol/inspector node mcp/dist/server.js",

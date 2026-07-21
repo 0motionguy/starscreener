@@ -1,0 +1,3 @@
+ALTER TABLE "tr"."user_tiers" ADD COLUMN "profile_id" uuid;--> statement-breakpoint
+ALTER TABLE "tr"."user_tiers" ADD CONSTRAINT "user_tiers_profile_id_profiles_id_fk" FOREIGN KEY ("profile_id") REFERENCES "tr"."profiles"("id") ON DELETE set null ON UPDATE no action;--> statement-breakpoint
+CREATE UNIQUE INDEX "user_tiers_profile_id_uniq" ON "tr"."user_tiers" USING btree ("profile_id") WHERE "tr"."user_tiers"."profile_id" is not null;

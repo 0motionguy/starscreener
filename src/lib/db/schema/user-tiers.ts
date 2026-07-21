@@ -18,6 +18,8 @@
 // Shape mirrors UserTierRecord in src/lib/pricing/user-tiers.ts 1:1 so
 // the store facade can swap backends without any caller changes.
 
+import "server-only";
+
 import { sql } from "drizzle-orm";
 import { index, text, timestamp, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 

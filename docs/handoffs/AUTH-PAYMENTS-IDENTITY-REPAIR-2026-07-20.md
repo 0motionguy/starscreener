@@ -1,7 +1,8 @@
 # Auth · Payments · UUID Identity Repair — Evidence & Handoff
 
 **Date:** 2026-07-20 · **Model:** Claude Opus 4.8 (1M) · **Branch:**
-`fix/auth-payments-identity-ledger-20260720` · **HEAD:** `e2e07726827527b69fd5ecc1eef5785c438ab230`
+`fix/auth-payments-identity-ledger-20260720` · **HEAD:** `5c7dc7420` (this doc +
+`fix(build): rename useDbBackend` follow on after the 8 commits below)
 **Base:** `origin/main` @ `140bd7f46` (identity PRs #3201/#3202 confirmed ancestors)
 **Worktree:** `C:\dev\trendingrepo-wt\auth-payments` (isolated — a concurrent mobile session
 was actively committing on `feat/mobile-app-experience-v1-20260720`; this repair never
@@ -73,7 +74,7 @@ All additive/replay-safe (no DROP TABLE / SET NOT NULL / DELETE / TRUNCATE); con
 | `npx tsc --noEmit` (typecheck) | **0 errors** |
 | `npm run lint:guards` (20 meta-lints) | **all pass** (incl. server-only, error-envelope, zod-on-mutating-routes, route-runtime) |
 | `npm test` (node:test, full) | **1605 pass / 0 fail** |
-| `npm run build` (production Next) | **exit 0** |
+| `npm run build` (production Next) | **exit 0** (166/166 static pages; needed one lint rename — `useDbBackend`→`shouldUseDbBackend`, `react-hooks/rules-of-hooks`) |
 | PG17 migration replay | **CI job added** (`.github/workflows/ci.yml` `db-migrate` on `postgres:17` + `assert-db-schema.mjs`) — REQUIRES a CI run to execute |
 
 ### Regression tests (the ones that BITE — evidence reviewer confirmed)

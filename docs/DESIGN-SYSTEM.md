@@ -54,6 +54,18 @@ they get updated to match.
 
 ---
 
+## 1.1 Mobile app (`mapp-`) layer
+
+The phone experience is a first-class app shell layered over the same v6 tokens — **not** a new design language. Full contract: [docs/mobile-app/MOBILE-APP-SPEC.md](mobile-app/MOBILE-APP-SPEC.md) + [MOBILE-APP-ROUTE-MATRIX.md](mobile-app/MOBILE-APP-ROUTE-MATRIX.md).
+
+- **Prefix:** every mobile-app class/token is `mapp-`, grouped in one section at the end of [public/shell.css](../public/shell.css). No inline hex, no `--v4-*` (defunct), no Tailwind grayscale (`bg-zinc-*` fails `lint:tokens`).
+- **New tokens** (shell.css `:root`, derived only from existing tokens + `env()`): `--mapp-nav-h`, `--mapp-header-h` (`= var(--topbar-h)`), `--mapp-safe-top`/`-bottom` (`= env(safe-area-inset-*)`), `--mapp-content-bottom` (`= var(--mapp-nav-h) + var(--mapp-safe-bottom)`).
+- **Components** live in `src/components/mobile/` and style **only** via `mapp-` classes (mirrors the `lint:shell-ds` no-inline-styles rule). Icons via [Icon](../src/components/icon/Icon.tsx) (`name`+`size`), brand via `public/brand/trendingrepo.svg`.
+- **Gate:** mounted behind `NEXT_PUBLIC_TRENDINGREPO_MOBILE_APP_V1`; flag-off = desktop + current mobile drawer byte-identical. Breakpoint `≤767.98px`.
+- **Safe area:** `<html>` gets `viewport-fit=cover`; the sidebar drawer moves `100vh → 100dvh`. Every fixed mobile surface pads `env(safe-area-inset-*)`.
+
+---
+
 ## 2. Color palette
 
 ### 2.1 Surfaces — 7-stop Dark Void ramp

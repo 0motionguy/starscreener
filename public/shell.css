@@ -1518,7 +1518,7 @@ a.repo-avatar:hover {
       "status";
   }
   .sidebar {
-    position: fixed; left: 0; top: 0; height: 100vh;
+    position: fixed; left: 0; top: 0; height: 100dvh;
     width: 280px; max-width: 80vw;
     transform: translateX(-100%);
     transition: transform var(--d-base) var(--ease);
@@ -16118,4 +16118,357 @@ th.sortable.active .aa-th-arrow {
   .hero-stars-by-cat { padding: 12px; }
   .hero-stars-title { font-size: 14.5px; }
   .hero-stars-sub { font-size: 10.5px; }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MOBILE APP (mapp-) — first-class phone shell
+   Layered over the v6 tokens above. No new hex, no --v4-*. All visuals
+   are mobile-only (<=767.98px); the :root tokens are inert elsewhere.
+   Gated at mount by NEXT_PUBLIC_TRENDINGREPO_MOBILE_APP_V1 (the provider
+   adds `mapp-on` to <html>). See docs/mobile-app/MOBILE-APP-SPEC.md.
+   ══════════════════════════════════════════════════════════════════ */
+:root {
+  --mapp-nav-h: 48px;
+  --mapp-header-h: 46px;
+  --mapp-safe-top: env(safe-area-inset-top, 0px);
+  --mapp-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --mapp-content-bottom: calc(var(--mapp-nav-h) + var(--mapp-safe-bottom));
+  --mapp-z-nav: 45;
+  --mapp-z-sheet: 60;
+}
+
+/* Hidden on tablet + desktop (>=768). Mobile turns them on below. */
+.mapp-header { display: none; }
+.mapp-bottom-nav { display: none; }
+.mapp-sheet-root { display: none; }
+.mapp-radar { display: none; }
+
+@media (max-width: 767.98px) {
+  /* Content clears the fixed bottom nav + the home-indicator inset. */
+  .mapp-on .main { padding-bottom: calc(var(--mapp-content-bottom) + 12px); }
+
+  /* The draggable desktop Ask HUD is replaced by the app Ask tab on mobile —
+     never let it float over the bottom nav. */
+  .mapp-on .ask-hud { display: none; }
+
+  /* ── Bottom navigation ─────────────────────────────────────────── */
+  .mapp-bottom-nav {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    position: fixed; left: 0; right: 0; bottom: 0;
+    z-index: var(--mapp-z-nav);
+    background: var(--shell);
+    border-top: 1px solid var(--border);
+    padding-bottom: var(--mapp-safe-bottom);
+  }
+  .mapp-tab {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2px;
+    min-height: 44px;
+    padding: 6px 4px 5px;
+    background: none; border: 0; cursor: pointer;
+    color: var(--fg-muted); text-decoration: none;
+    font-family: var(--font-mono);
+    -webkit-tap-highlight-color: transparent;
+    transition: color var(--d-fast) var(--ease);
+  }
+  .mapp-tab:hover { color: var(--fg); }
+  .mapp-tab.active { color: var(--accent); }
+  .mapp-tab-bar {
+    position: absolute; top: 0; left: 22%; right: 22%; height: 2px;
+    background: transparent; border-radius: 0 0 var(--r-1) var(--r-1);
+    transition: background var(--d-fast) var(--ease);
+  }
+  .mapp-tab.active .mapp-tab-bar { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow); }
+  .mapp-tab-ico { display: grid; place-items: center; }
+  .mapp-tab-label { font-size: 9px; letter-spacing: 0.11em; text-transform: uppercase; line-height: 1; }
+
+  /* Center Ask — primary action, lifted accent disc. */
+  .mapp-tab-center { color: var(--fg-muted); }
+  .mapp-tab-center .mapp-tab-ico {
+    width: 34px; height: 34px; margin-top: -12px;
+    border-radius: var(--r-pill);
+    background: var(--accent); color: var(--bg);
+    box-shadow: 0 0 0 4px var(--shell), 0 4px 14px var(--accent-glow);
+  }
+  .mapp-tab-center.active .mapp-tab-ico { background: var(--accent-hover); }
+  .mapp-tab-center .mapp-tab-bar { display: none; }
+
+  /* ── Sheet primitive ───────────────────────────────────────────── */
+  .mapp-sheet-root { display: block; position: fixed; inset: 0; z-index: var(--mapp-z-sheet); }
+  .mapp-sheet-backdrop {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    background: var(--bg-overlay); border: 0; cursor: pointer;
+    animation: mapp-fade var(--d-base) var(--ease);
+  }
+  .mapp-sheet {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    top: calc(var(--mapp-safe-top) + 8px);
+    display: flex; flex-direction: column;
+    background: var(--bg);
+    border-top: 1px solid var(--border-strong);
+    border-radius: var(--r-xl) var(--r-xl) 0 0;
+    box-shadow: var(--overlay);
+    animation: mapp-slide-up var(--d-base) var(--ease);
+    overflow: hidden;
+  }
+  .mapp-sheet-head {
+    flex: none; display: flex; align-items: center; justify-content: space-between;
+    height: var(--topbar-h); padding: 0 14px;
+    border-bottom: 1px solid var(--border-subtle); background: var(--shell);
+  }
+  .mapp-sheet-title {
+    font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--fg);
+  }
+  .mapp-sheet-close {
+    display: grid; place-items: center; width: 38px; height: 38px;
+    background: var(--surface-2); border: 1px solid var(--border);
+    border-radius: var(--r-1); color: var(--fg-muted); cursor: pointer;
+    transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
+  }
+  .mapp-sheet-close:hover { color: var(--fg); border-color: var(--border-hover); }
+  .mapp-sheet-body {
+    flex: 1; min-height: 0; overflow-y: auto;
+    padding: 14px 14px calc(var(--mapp-safe-bottom) + 20px);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* ── More sheet ────────────────────────────────────────────────── */
+  .mapp-more { display: flex; flex-direction: column; gap: 18px; }
+  .mapp-more-group { display: flex; flex-direction: column; }
+  .mapp-more-group-head {
+    display: flex; align-items: center; gap: 7px; padding: 2px 4px 8px;
+    color: var(--fg-faint);
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .mapp-more-row {
+    display: flex; align-items: center; justify-content: space-between;
+    min-height: 42px; width: 100%; padding: 9px 12px; margin-bottom: 6px;
+    background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2);
+    color: var(--fg); text-decoration: none; text-align: left; cursor: pointer; font-size: 14px;
+    transition: border-color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+  }
+  .mapp-more-row:hover, .mapp-more-row:active { border-color: var(--border-hover); background: var(--surface-2); }
+  .mapp-more-label { font-family: var(--font-sans); }
+  .mapp-more-chev { color: var(--fg-faint); }
+  .mapp-more-install { color: var(--accent); border-color: var(--accent-line); background: var(--accent-wash); }
+  .mapp-more-install .mapp-more-chev { color: var(--accent); }
+
+  /* ── Ask sheet ─────────────────────────────────────────────────── */
+  .mapp-ask { display: flex; flex-direction: column; gap: 12px; }
+  .mapp-ask-hint { margin: 0; color: var(--fg-subtle); font-size: 13px; line-height: 1.4; }
+  .mapp-ask-input {
+    flex: 1; min-width: 0; height: 42px; padding: 0 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-2);
+    color: var(--fg); font-family: var(--font-mono); font-size: 16px; /* >=16px: no iOS focus zoom */
+  }
+  .mapp-ask-input::placeholder { color: var(--fg-faint); }
+  .mapp-ask-input:focus { outline: none; border-color: var(--accent); box-shadow: var(--ring-focus); }
+  .mapp-ask-results { display: flex; flex-direction: column; gap: 6px; }
+  .mapp-ask-row {
+    display: flex; align-items: center; justify-content: space-between;
+    min-height: 42px; width: 100%; padding: 9px 12px; text-align: left; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2); color: var(--fg);
+    transition: border-color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+  }
+  .mapp-ask-row:hover, .mapp-ask-row:active { border-color: var(--border-hover); background: var(--surface-2); }
+  .mapp-ask-row-label { font-size: 14px; }
+  .mapp-ask-row-group {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-faint);
+  }
+  .mapp-ask-empty { color: var(--fg-subtle); font-size: 13px; padding: 10px 2px; }
+  .mapp-ask-suggest { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 2px; }
+  .mapp-ask-chip {
+    min-height: 36px; padding: 8px 12px;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-pill);
+    color: var(--fg-muted); cursor: pointer; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+    transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
+  }
+  .mapp-ask-chip:hover { color: var(--accent); border-color: var(--accent-line); }
+
+  /* ── App header (replaces desktop topbar/ticker/statusbar on mobile) ── */
+  .mapp-on .topbar,
+  .mapp-on .ticker,
+  .mapp-on .statusbar { display: none; }
+  /* Page breadcrumbs are redundant with the back-aware header on mobile —
+     hidden here but kept in the HTML for SEO/crawlers. */
+  .mapp-on .main .crumbs { display: none; }
+  .mapp-on .app { grid-template-rows: 0 0 1fr 0; }
+  .mapp-on .main { padding-top: calc(var(--mapp-header-h) + var(--mapp-safe-top) + 6px); }
+
+  .mapp-header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: var(--mapp-z-nav);
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    height: calc(var(--mapp-header-h) + var(--mapp-safe-top));
+    padding: var(--mapp-safe-top) 12px 0;
+    background: var(--shell); border-bottom: 1px solid var(--border);
+  }
+  .mapp-header-brand { display: flex; flex-direction: column; gap: 1px; min-width: 0; text-decoration: none; }
+  .mapp-header-eyebrow {
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-faint);
+  }
+  .mapp-header-title {
+    font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: -0.01em;
+    color: var(--fg-bright); line-height: 1.1;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .mapp-header-actions { display: flex; align-items: center; gap: 8px; flex: none; }
+  .mapp-header-btn {
+    display: grid; place-items: center; width: 34px; height: 34px;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--r-1);
+    color: var(--fg-muted); cursor: pointer; text-decoration: none;
+    transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
+  }
+  .mapp-header-btn:hover { color: var(--fg); border-color: var(--border-hover); }
+  .mapp-header-back {
+    display: grid; place-items: center; width: 30px; height: 34px; margin-left: -6px; flex: none;
+    background: none; border: 0; color: var(--fg-muted); cursor: pointer;
+    transition: color var(--d-fast) var(--ease);
+  }
+  .mapp-header-back:hover { color: var(--fg); }
+
+  /* ── Search sheet ──────────────────────────────────────────────── */
+  .mapp-search { display: flex; flex-direction: column; gap: 12px; }
+  .mapp-search-field {
+    display: flex; align-items: center; gap: 8px; height: 42px; padding: 0 12px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-2);
+  }
+  .mapp-search-field:focus-within { border-color: var(--accent); box-shadow: var(--ring-focus); }
+  .mapp-search-ico { color: var(--fg-faint); flex: none; }
+  .mapp-search-input {
+    flex: 1; min-width: 0; background: none; border: 0; outline: none;
+    color: var(--fg); font-family: var(--font-mono); font-size: 16px;
+  }
+  .mapp-search-input::placeholder { color: var(--fg-faint); }
+  .mapp-search-clear { display: grid; place-items: center; width: 28px; height: 28px; flex: none; background: none; border: 0; color: var(--fg-faint); cursor: pointer; }
+  .mapp-search-clear:hover { color: var(--fg); }
+  .mapp-search-results { display: flex; flex-direction: column; gap: 16px; }
+  .mapp-search-group { display: flex; flex-direction: column; gap: 4px; }
+  .mapp-search-head {
+    display: flex; align-items: center; justify-content: space-between; padding: 2px 2px 4px;
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-faint);
+  }
+  .mapp-search-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    min-height: 42px; width: 100%; padding: 8px 12px; text-align: left; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2); color: var(--fg);
+    transition: border-color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+  }
+  .mapp-search-row:hover, .mapp-search-row:active { border-color: var(--border-hover); background: var(--surface-2); }
+  .mapp-search-row-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .mapp-search-row-title { font-size: 14px; color: var(--fg); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mapp-search-row-sub { font-size: 12px; color: var(--fg-subtle); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mapp-search-row-meta { flex: none; font-family: var(--font-mono); font-size: 11px; color: var(--fg-faint); }
+  .mapp-search-recent {
+    display: flex; align-items: center; gap: 8px; min-height: 40px; width: 100%; padding: 8px 12px;
+    text-align: left; cursor: pointer; background: none; border: 0; color: var(--fg-muted); font-size: 14px;
+  }
+  .mapp-search-recent:hover { color: var(--fg); }
+  .mapp-search-hint { color: var(--fg-subtle); font-size: 13px; padding: 12px 2px; }
+
+  /* ── Ask: send button + AI answer ──────────────────────────────── */
+  .mapp-ask-field { display: flex; align-items: center; gap: 8px; }
+  .mapp-ask-send {
+    display: grid; place-items: center; width: 42px; height: 42px; flex: none;
+    background: var(--accent); color: var(--bg); border: 0; border-radius: var(--r-2); cursor: pointer;
+    transition: background var(--d-fast) var(--ease);
+  }
+  .mapp-ask-send:hover:not(:disabled) { background: var(--accent-hover); }
+  .mapp-ask-send:disabled { background: var(--surface-3); color: var(--fg-faint); cursor: default; }
+  .mapp-ask-thinking {
+    display: flex; align-items: center; gap: 8px; color: var(--fg-subtle);
+    font-family: var(--font-mono); font-size: 13px;
+  }
+  .mapp-ask-answer {
+    display: flex; gap: 10px; padding: 12px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-2);
+  }
+  .mapp-ask-answer-ico { color: var(--accent); flex: none; margin-top: 2px; }
+  .mapp-ask-answer-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .mapp-ask-answer-body p { margin: 0; color: var(--fg); font-size: 14px; line-height: 1.5; }
+  .mapp-ask-answer-open {
+    display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+    min-height: 36px; padding: 6px 12px;
+    background: var(--accent-wash); border: 1px solid var(--accent-line); border-radius: var(--r-1);
+    color: var(--accent); cursor: pointer; font-size: 13px;
+  }
+  .mapp-ask-ai-row {
+    display: flex; align-items: center; gap: 8px; min-height: 46px; width: 100%; padding: 10px 12px;
+    text-align: left; cursor: pointer;
+    background: var(--accent-wash); border: 1px solid var(--accent-line); border-radius: var(--r-2);
+    color: var(--accent); font-size: 14px;
+  }
+
+  /* ── Radar feed (replaces the desktop home composition on mobile) ── */
+  .mapp-on .mapp-hide { display: none; }
+  .mapp-on .mapp-radar { display: flex; flex-direction: column; gap: 6px; }
+
+  .mapp-seg {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; padding: 3px;
+    background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2);
+  }
+  .mapp-seg-item {
+    display: flex; align-items: center; justify-content: center; min-height: 26px;
+    border-radius: var(--r-1); color: var(--fg-muted); text-decoration: none; cursor: pointer;
+    font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.07em; text-transform: uppercase;
+    transition: color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+  }
+  .mapp-seg-item.on { background: var(--accent); color: var(--bg); }
+  .mapp-seg-item:not(.on):hover { color: var(--fg); background: var(--surface-2); }
+
+  .mapp-feed { display: flex; flex-direction: column; gap: 4px; }
+  .mapp-feed-empty {
+    padding: 20px 12px; text-align: center; color: var(--fg-subtle); font-size: 12px;
+    border: 1px dashed var(--border); border-radius: var(--r-2);
+  }
+  .mapp-feed-more {
+    min-height: 38px; margin-top: 2px; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--r-2);
+    color: var(--fg-muted); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: color var(--d-fast) var(--ease), border-color var(--d-fast) var(--ease);
+  }
+  .mapp-feed-more:hover { color: var(--fg); border-color: var(--border-hover); }
+
+  /* ── Repository feed row — dense, two-line ─────────────────────── */
+  .mapp-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--r-2); }
+  .mapp-card-r1 { display: flex; align-items: center; gap: 7px; padding: 6px 8px 3px; text-decoration: none; }
+  .mapp-card-rank { flex: none; font-family: var(--font-mono); font-size: 10px; color: var(--fg-faint); }
+  .mapp-card-avatar { flex: none; width: 18px; height: 18px; border-radius: var(--r-1); object-fit: cover; background: var(--surface-2); }
+  .mapp-card-avatar-fallback { display: block; border: 1px solid var(--border); }
+  .mapp-card-name { flex: 1; min-width: 0; display: flex; align-items: center; gap: 4px; font-size: 12px; white-space: nowrap; overflow: hidden; }
+  .mapp-card-owner { color: var(--fg-subtle); overflow: hidden; text-overflow: ellipsis; flex: 0 1 auto; }
+  .mapp-card-repo { color: var(--fg-bright); font-weight: 600; flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; }
+  .mapp-card-signal { flex: none; font-family: var(--font-mono); font-size: 8px; letter-spacing: 0.06em; padding: 1px 3px; border-radius: 2px; }
+  .mapp-card-signal-new { background: var(--accent-wash); color: var(--accent); }
+  .mapp-card-signal-hot { background: var(--up-soft); color: var(--up); }
+  .mapp-card-r1r { flex: none; display: flex; align-items: baseline; gap: 8px; }
+  .mapp-card-delta { font-family: var(--font-mono); font-size: 12px; }
+  .mapp-card-delta i { font-style: normal; font-size: 8.5px; color: var(--fg-faint); margin-left: 2px; }
+  .mapp-card-delta.up { color: var(--up); }
+  .mapp-card-delta.dn { color: var(--down); }
+  .mapp-card-stars { font-family: var(--font-mono); font-size: 10.5px; color: var(--fg-muted); }
+  .mapp-card-r2 { display: flex; align-items: center; gap: 8px; padding: 0 8px 6px; }
+  .mapp-card-desc { flex: 1; min-width: 0; color: var(--fg-subtle); font-size: 11px; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mapp-card-r2r { flex: none; display: flex; align-items: center; gap: 7px; }
+  .mapp-card-sources { display: flex; align-items: center; gap: 3px; }
+  .mapp-card-mentions { font-family: var(--font-mono); font-size: 9px; color: var(--fg-faint); margin-left: 1px; }
+  .mapp-card-actions { display: flex; align-items: center; }
+  .mapp-card-act {
+    display: grid; place-items: center; width: 24px; height: 24px;
+    background: none; border: 0; border-radius: var(--r-1);
+    color: var(--fg-faint); cursor: pointer; text-decoration: none;
+    transition: color var(--d-fast) var(--ease), background var(--d-fast) var(--ease);
+  }
+  .mapp-card-act:hover { color: var(--fg); background: var(--surface-2); }
+  .mapp-card-act.on { color: var(--accent); }
+}
+
+@keyframes mapp-slide-up { from { transform: translateY(8%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes mapp-fade { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mapp-sheet, .mapp-sheet-backdrop { animation: none; }
+  .mapp-tab, .mapp-tab-bar, .mapp-sheet-close, .mapp-more-row, .mapp-ask-row, .mapp-ask-chip { transition: none; }
 }

@@ -65,6 +65,7 @@ import { Topbar } from "@/components/shell/Topbar";
 import { Ticker } from "@/components/shell/Ticker";
 import { Statusbar } from "@/components/shell/Statusbar";
 import { AskDock } from "@/components/ask/AskDock";
+import { MobileAppChrome } from "@/components/mobile/MobileAppChrome";
 
 // A5 (2026-05-27): refreshing the registry at the root layout keeps the
 // Statusbar count consistent across every route, not just `/`. The refresh
@@ -108,6 +109,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  // Extend under the notch / home indicator so the mobile app shell can pad
+  // itself with env(safe-area-inset-*). No effect on desktop or non-notched.
+  viewportFit: "cover",
   themeColor: "#08090a",
 };
 
@@ -126,6 +130,10 @@ export default async function RootLayout({
   );
 
   const clerkPublishableKey = getClerkPublishableKey();
+  // Mobile app shell (bottom nav + sheets). Flag-gated for rollout; when off,
+  // desktop + the current hamburger drawer render byte-identical.
+  const mobileAppEnabled =
+    process.env.NEXT_PUBLIC_TRENDINGREPO_MOBILE_APP_V1 === "1";
 
   const appChrome = (
     <>
@@ -141,6 +149,7 @@ export default async function RootLayout({
         </main>
         <Statusbar />
       </div>
+      {mobileAppEnabled ? <MobileAppChrome /> : null}
       <ConsentBanner />
       <IdleMount>
         <AskDock />

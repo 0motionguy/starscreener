@@ -215,7 +215,10 @@ const SYCOPHANTIC_RE =
 export function validateReply(text: string): string | null {
   const t = text.trim();
   if (t.length === 0) return "empty";
-  if (/^skip$/i.test(t)) return "model-skipped";
+  // The model is told to reply exactly "SKIP", but it often adds its reasoning
+  // ("SKIP No relevant repo …"). Reject anything STARTING with skip so that
+  // reasoning never posts. `\b` keeps a genuine reply like "skipping X" valid.
+  if (/^skip\b/i.test(t)) return "model-skipped";
   if (t.length > REPLY_MAX_CHARS) return `over-budget (${t.length}>${REPLY_MAX_CHARS})`;
 
   // Never open with an emoji.

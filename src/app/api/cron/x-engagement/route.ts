@@ -1,18 +1,18 @@
 // POST /api/cron/x-engagement
 //
 // Server side of the X engagement autopilot. The box-host runner
-// (scripts/x-engagement-run.mjs) drives it. The app's outbound adapter can't
-// post (cookie transport is host-CLI-only), so posting happens on the box:
-//   - propose: runner POSTs { dryRun:true } → the app composes + grounds +
-//     classifies + freshness/ledger-filters and returns the eligible drafts,
-//     consuming NO ledger.
-//   - the runner posts each draft via the host `twitter reply` CLI.
-//   - confirm: runner POSTs { confirm:{...} } → the app commits the durable
-//     ledger (author 72h / post dedupe / daily cap) + writes the audit row.
+// (scripts/x-engagement-run.mjs) drives it. Reading + posting both use the
+// host `twitter` CLI (free, cookie session) — only compose/ground/ledger live
+// in the app. Interactions:
+//   - { getTargets:true }        → returns the curated handles to search.
+//   - { candidates:[…], dryRun }  → composes on the host-supplied posts (search
+//     skipped) and returns the eligible drafts, consuming NO ledger.
+//   - { confirm:{…} }             → commits the durable ledger + audit after the
+//     host posts a reply via `twitter reply`.
 //
-// Auth: CRON_SECRET bearer (same as every other cron route). The gate
-// (TWITTER_ENGAGEMENT_MODE) decides off/dry/live independently of the 7x/day
-// broadcast; `{ dryRun: true }` can only downgrade live→dry, never arm posting.
+// Auth: CRON_SECRET bearer. The gate (TWITTER_ENGAGEMENT_MODE) decides
+// off/dry/live independently of the 7x/day broadcast; `{ dryRun:true }` can
+// only downgrade live→dry, never arm posting.
 
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -24,6 +24,7 @@ import { withHealthcheck } from "@/lib/healthcheck";
 import { runEngagement } from "@/lib/twitter/engagement/runner";
 import { redisEngagementLedger } from "@/lib/twitter/engagement/ledger";
 import { recordEngagementAttempt } from "@/lib/twitter/engagement/audit";
+import { isExcludedHandle, loadTargets } from "@/lib/twitter/engagement/targets";
 
 export const runtime = "nodejs";
 
@@ -37,13 +38,26 @@ const ConfirmSchema = z.object({
   replyTweetId: z.string().optional(),
 });
 
-// `dryRun` forces a dry pass regardless of env mode (host --dry-run). `slot`
-// is accepted for parity with the trending runner / cron dispatch but is
-// advisory. `confirm` commits a reply the host runner just posted.
+/** One candidate post the host runner read via `twitter search --from`. */
+const CandidateSchema = z.object({
+  id: z.string().min(1),
+  url: z.string().min(1),
+  authorId: z.string().min(1),
+  authorHandle: z.string().optional().default(""),
+  text: z.string().optional().default(""),
+  createdAt: z.string().optional().default(""),
+  isReply: z.boolean().optional().default(false),
+  isRetweet: z.boolean().optional().default(false),
+  likeCount: z.number().optional().default(0),
+  matchedReason: z.string().optional().default(""),
+});
+
 const EngagementRequestSchema = z
   .object({
     dryRun: z.boolean().optional(),
     slot: z.string().min(1).optional(),
+    getTargets: z.boolean().optional(),
+    candidates: z.array(CandidateSchema).max(300).optional(),
     confirm: ConfirmSchema.optional(),
   })
   .passthrough();
@@ -59,10 +73,19 @@ async function handle(request: NextRequest): Promise<NextResponse> {
     allowEmpty: true,
   });
   if (!parsed.ok) return parsed.response;
+  const body = parsed.data;
 
-  // Confirm mode — the host runner posted a reply via the `twitter` CLI and
-  // reports back so we commit the durable ledger + audit row.
-  const confirm = parsed.data.confirm;
+  // 1. getTargets — the host runner asks which curated handles to search.
+  if (body.getTargets) {
+    const handles = loadTargets()
+      .filter((t) => !isExcludedHandle(t.handle))
+      .map((t) => t.handle);
+    return NextResponse.json({ ok: true, handles });
+  }
+
+  // 2. Confirm — the host runner posted a reply via `twitter reply` and reports
+  // back so we commit the durable ledger + audit row.
+  const confirm = body.confirm;
   if (confirm) {
     const nowMs = Date.now();
     const recorded = await redisEngagementLedger.recordEngagement({
@@ -89,9 +112,15 @@ async function handle(request: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ ok: true, recorded });
   }
 
-  // runEngagement returns a structured result that already carries `ok: true`.
-  // In dry mode the drafted records carry postId + replyText for the runner.
-  const result = await runEngagement({ dryRun: parsed.data.dryRun === true });
+  // 3. Compose — on host-supplied candidates (production; free CLI read) or,
+  // as a fallback with no candidates, via the app-side paid search. Dry drafts
+  // carry postId + replyText for the runner to post.
+  const result = await runEngagement({
+    dryRun: body.dryRun === true,
+    ...(body.candidates && body.candidates.length > 0
+      ? { candidates: body.candidates }
+      : {}),
+  });
   return NextResponse.json(result);
 }
 

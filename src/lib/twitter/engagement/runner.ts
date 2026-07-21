@@ -75,6 +75,13 @@ export interface RunEngagementOptions {
   mode?: EngagementMode;
   /** Test seams — override any subset of deps. */
   deps?: Partial<EngagementDeps>;
+  /**
+   * Candidates supplied by the host runner (free cookie-CLI `twitter search`
+   * read). When present the app-side search is skipped entirely — this is the
+   * production path; the paid scrapecreators search is only a fallback for a
+   * manual call with no candidates.
+   */
+  candidates?: EngagementCandidate[];
 }
 
 function defaultDeps(): EngagementDeps {
@@ -192,18 +199,27 @@ export async function runEngagement(
     now - deps.freshness.maxAgeH * 60 * 60 * 1000,
   ).toISOString();
 
-  // Gather + dedupe candidates by tweet id.
+  // Gather + dedupe candidates by tweet id. Production supplies them from the
+  // host runner's free cookie-CLI `twitter search` read; the paid app-side
+  // search is only used as a fallback when no candidates are injected.
   const byId = new Map<string, EngagementCandidate>();
-  for (const q of bounded) {
-    const found = await deps.search(q.query, {
-      limit: PER_QUERY_LIMIT,
-      sinceISO,
-      reason: q.reason,
-    });
-    for (const candidate of found) {
-      if (!byId.has(candidate.id)) byId.set(candidate.id, candidate);
+  if (options.candidates && options.candidates.length > 0) {
+    for (const c of options.candidates) {
+      if (c?.id && !byId.has(c.id)) byId.set(c.id, c);
+      if (byId.size >= MAX_SCANNED) break;
     }
-    if (byId.size >= MAX_SCANNED) break;
+  } else {
+    for (const q of bounded) {
+      const found = await deps.search(q.query, {
+        limit: PER_QUERY_LIMIT,
+        sinceISO,
+        reason: q.reason,
+      });
+      for (const candidate of found) {
+        if (!byId.has(candidate.id)) byId.set(candidate.id, candidate);
+      }
+      if (byId.size >= MAX_SCANNED) break;
+    }
   }
   const scanned = byId.size;
 

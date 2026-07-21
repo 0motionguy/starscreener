@@ -115,29 +115,23 @@ export function periodEndToIso(unixSeconds: number | null | undefined): string |
 }
 
 // ---------------------------------------------------------------------------
-// Idempotency — MVP in-memory set keyed by event.id. Stripe retries failed
-// webhooks with the same event.id, so this dedupes accidental double-processes
-// within the same Lambda. Serverless cold starts reset it — acceptable since
-// Stripe's at-least-once contract means duplicate reprocessing is still safe
-// (setUserTier is idempotent: same tier twice = same end state).
+// Idempotency now lives in the DURABLE ledger (src/lib/stripe/event-ledger.ts),
+// NOT here. The old in-memory Set (and the Redis SET NX lock) marked an event
+// "processed" BEFORE the entitlement write committed, so a transient failure
+// poisoned Stripe's retry — the retry was acked as a duplicate and a paying
+// customer's tier was dropped. `handleStripeEvent` is now a pure PROJECTOR: it
+// dispatches + applies tier changes and is safe to re-run (setUserTier is
+// idempotent). The webhook route + ledger own dedup, the processing lease, and
+// retry semantics.
 // ---------------------------------------------------------------------------
-const PROCESSED_EVENT_IDS = new Set<string>();
-/** Hard cap so a long-lived warm Lambda doesn't leak memory. FIFO eviction. */
-const MAX_PROCESSED_IDS = 2_048;
 
-function markProcessed(eventId: string): boolean {
-  if (PROCESSED_EVENT_IDS.has(eventId)) return false;
-  if (PROCESSED_EVENT_IDS.size >= MAX_PROCESSED_IDS) {
-    const oldest = PROCESSED_EVENT_IDS.values().next().value;
-    if (oldest !== undefined) PROCESSED_EVENT_IDS.delete(oldest);
-  }
-  PROCESSED_EVENT_IDS.add(eventId);
-  return true;
-}
-
-/** Test-only: reset idempotency state. */
+/**
+ * @deprecated Idempotency moved to the durable event ledger; this is a no-op
+ * retained so existing per-test resets keep compiling. Safe to drop once those
+ * call sites are removed.
+ */
 export function __resetProcessedEventsForTests(): void {
-  PROCESSED_EVENT_IDS.clear();
+  /* no-op — see note above */
 }
 
 // ---------------------------------------------------------------------------
@@ -172,13 +166,9 @@ export async function handleStripeEvent(
 ): Promise<HandleStripeEventResult> {
   const log = deps.log ?? defaultLog;
 
-  // Idempotency gate — any repeat event short-circuits here.
-  const fresh = markProcessed(event.id);
-  if (!fresh) {
-    log("[stripe] duplicate event skipped", { id: event.id, type: event.type });
-    return { handled: false, type: event.type, skipReason: "duplicate" };
-  }
-
+  // No idempotency gate here — the durable ledger (event-ledger.ts) dedupes at
+  // the route boundary. This projector applies the event unconditionally and is
+  // safe to re-run: setUserTier is idempotent (same tier twice = same state).
   switch (event.type) {
     case "checkout.session.completed":
       return handleCheckoutCompleted(event, deps, log);

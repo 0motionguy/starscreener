@@ -6,19 +6,25 @@
 // body. A JSON reparse-then-stringify changes whitespace and breaks the HMAC.
 //
 // Route contract:
-//   200 { ok: true, handled, type, skipReason? }    — event accepted
+//   200 { ok: true, handled, type, skipReason? }    — event accepted (or a
+//                                                      committed duplicate / a
+//                                                      stale out-of-order skip)
 //   400 { ok: false, error: "bad signature" }       — verification failed
+//   409 { ok: false, code: "EVENT_IN_PROGRESS" }    — a live handler holds the
+//                                                      lease; Stripe retries
 //   503 { ok: false, error: ... }                   — Stripe not configured
-//   500 { ok: false, error: "processing failed" }   — handler raised; Stripe
-//                                                      retries deliver it later
+//   500 { ok: false, code: "HANDLER_ERROR" }        — handler raised; the
+//                                                      ledger row is `failed`
+//                                                      and Stripe reprocesses
 //
-// Idempotency: handled inside `src/lib/stripe/events.ts`. Same event.id
-// twice = single tier update.
+// Idempotency + retry + out-of-order: owned by the DURABLE event ledger
+// (src/lib/stripe/event-ledger.ts). A duplicate is ONLY a committed
+// success/ignore — a prior FAILURE stays reprocessable.
 
 import { NextRequest, NextResponse } from "next/server";
+import { createHash } from "node:crypto";
 import Stripe from "stripe";
 
-import { getDataStore } from "@/lib/data-store";
 import { setUserTier } from "@/lib/pricing/user-tiers";
 import {
   getStripeClient,
@@ -29,7 +35,10 @@ import {
   handleStripeEvent,
   type HandleStripeEventDeps,
 } from "@/lib/stripe/events";
-import { acquireStripeEventLock } from "@/lib/stripe/idempotency";
+import {
+  getStripeEventLedger,
+  processStripeEvent,
+} from "@/lib/stripe/event-ledger";
 
 export const runtime = "nodejs";
 
@@ -102,28 +111,19 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     );
   }
 
-  // 4. Cross-instance idempotency gate. Stripe is at-least-once; without a
-  //    shared lock, two concurrent Lambdas can both process the same event
-  //    and call `setUserTier` twice. SETNX in Redis means the first claimant
-  //    runs the handler and the rest 200-with-skipReason.
-  const dataStore = getDataStore();
-  const fresh = await acquireStripeEventLock(dataStore.redisClient(), event.id);
-  if (!fresh) {
-    return NextResponse.json({
-      ok: true,
-      handled: false,
-      type: event.type,
-      skipReason: "duplicate",
-    });
-  }
-
-  // 5. Dispatch.
+  // 4. Dispatch through the DURABLE event ledger. It owns idempotency (a
+  //    delivery is a duplicate ONLY when a prior attempt COMMITTED as
+  //    succeeded/ignored), the processing lease (a crashed handler is
+  //    reclaimed after its lease; a live one reports `busy` and is not
+  //    double-run), and the per-subscription out-of-order guard. A transient
+  //    failure marks the row `failed` and returns 500 so Stripe retries and
+  //    the event REPROCESSES — killing the poison the old Redis NX lock +
+  //    in-memory Set caused (retry acked as duplicate, entitlement dropped).
   const priceMap = loadPriceIds();
   const deps: HandleStripeEventDeps = {
     // Adapter: events.ts wants `Promise<void>` and only consumes
     // stripeCustomerId/stripeSubscriptionId from extras; the user-tiers
-    // setUserTier returns the upserted record and accepts the same two
-    // fields. Discard the return + project the options shape explicitly.
+    // setUserTier returns the upserted record and accepts the same two fields.
     setUserTier: async (userId, tier, expiresAt, extras) => {
       await setUserTier(userId, tier, expiresAt, {
         stripeCustomerId: extras?.stripeCustomerId,
@@ -134,25 +134,24 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     retrieveSubscription: (id) => stripe.subscriptions.retrieve(id),
   };
 
-  try {
-    const result = await handleStripeEvent(event, deps);
-    return NextResponse.json({ ok: true, ...result });
-  } catch (err) {
-    // Returning 500 makes Stripe retry. That's what we want for transient
-    // failures (network blip talking to the tier store). Log the real error
-    // server-side but do NOT echo it — response body is visible in the
-    // Stripe dashboard and can leak internals.
-    const message = err instanceof Error ? err.message : String(err);
+  // Fingerprint only — the raw payload (PII / Stripe internals) is never stored.
+  const payloadSha256 = createHash("sha256").update(rawBody).digest("hex");
+  const ledger = getStripeEventLedger();
+  const outcome = await processStripeEvent(
+    event,
+    ledger,
+    (e) => handleStripeEvent(e, deps),
+    payloadSha256,
+  );
+  if (outcome.status >= 500) {
+    // Real handler failure — logged server-side (never echoed; the response
+    // body is visible in the Stripe dashboard and can leak internals).
     console.error("[stripe] webhook handler failed", {
       eventId: event.id,
       eventType: event.type,
-      error: message,
     });
-    return NextResponse.json(
-      { ok: false, error: "processing failed", code: "HANDLER_ERROR" },
-      { status: 500 },
-    );
   }
+  return NextResponse.json(outcome.body, { status: outcome.status });
 }
 
 // Stripe does not GET this endpoint in production. Having a GET respond with

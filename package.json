@@ -159,6 +159,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
+    "stripe:events:replay": "tsx --require ./tests/setup-server-only-stub.cjs scripts/stripe-events-replay.ts",
     "mcp:build": "cd mcp && npm install && npm run build",
     "mcp:dev": "cd mcp && npm run dev",
     "mcp:inspect": "npx @modelcontextprotocol/inspector node mcp/dist/server.js",

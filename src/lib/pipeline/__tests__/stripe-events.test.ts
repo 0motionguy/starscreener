@@ -330,7 +330,11 @@ test("invoice.payment_failed — logs only, no setUserTier call", async () => {
 // Idempotency
 // -----------------------------------------------------------------------------
 
-test("idempotent — same event.id twice produces one tier update", async () => {
+// handleStripeEvent is now a PURE PROJECTOR — durable dedup moved to the event
+// ledger (event-ledger.test.ts covers "duplicate after success no-ops"). Here
+// we assert the projector re-applies safely: two deliveries produce identical
+// effects (idempotent projection), which is what makes retry/reclaim safe.
+test("idempotent projection — re-applying the same event yields identical effect", async () => {
   __resetProcessedEventsForTests();
   const rec = mkRecorder();
   const subscription = mkSubscription({
@@ -358,9 +362,11 @@ test("idempotent — same event.id twice produces one tier update", async () => 
   const first = await handleStripeEvent(event, deps);
   const second = await handleStripeEvent(event, deps);
   assert.equal(first.handled, true);
-  assert.equal(second.handled, false);
-  assert.equal(second.skipReason, "duplicate");
-  assert.equal(rec.calls.length, 1);
+  assert.equal(second.handled, true);
+  assert.equal(rec.calls.length, 2);
+  // Same tier + user each time — idempotent in effect (setUserTier upserts).
+  assert.equal(rec.calls[0].tier, rec.calls[1].tier);
+  assert.equal(rec.calls[0].userId, rec.calls[1].userId);
 });
 
 // -----------------------------------------------------------------------------

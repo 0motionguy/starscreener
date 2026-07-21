@@ -1,33 +1,42 @@
 // X engagement — candidate search.
 //
-// Reuses the READ side of the toolbox Twitter engine (the same
-// `twitter.nitter_search` skill the collectors call in
-// scripts/_toolbox-twitter-provider.ts), mapped into EngagementCandidate.
+// The toolbox `twitter.nitter_search` skill was retired (nitter is dead); the
+// live toolbox X-reading skill is `social.scrapecreators` (tier-2 enriched,
+// per-handle discovery). We call it once per curated target handle and map its
+// `social.post` signals into EngagementCandidate.
 //
-//   POST ${TOOLBOX_API_URL}/v1/skills/twitter.nitter_search/run
+//   POST ${TOOLBOX_API_URL}/v1/skills/social.scrapecreators/run
 //   Authorization: Bearer ${TOOLBOX_API_KEY}
-//   { "input": { "query": "<search>", "limit": <1..50> } }
+//   { "input": { "mode": "discover", "platform": "twitter", "handle": "<h>", "limit": <1..50> } }
+//
+// The runner passes `from:<handle> -filter:replies -filter:retweets` queries;
+// we extract <handle> from that. Free-text / topic queries have no
+// scrapecreators discovery equivalent, so they yield an empty list (skipped).
 //
 // Best-effort by design: a missing engine env or any transport error yields an
 // empty list rather than throwing — the runner treats "no candidates" as a
-// clean no-op. The nitter source carries no engagement metrics, so likeCount
-// is 0 (same degraded contract as the collector path); reply/retweet flags are
-// inferred from the text.
+// clean no-op. The source carries no engagement metrics, so likeCount is 0;
+// reply/retweet flags are inferred from the text.
 
 import "server-only";
 
 import type { EngagementCandidate } from "./types";
 
-const RUN_PATH = "/v1/skills/twitter.nitter_search/run";
+const RUN_PATH = "/v1/skills/social.scrapecreators/run";
 const MAX_LIMIT = 50;
 
-interface ToolboxXSignal {
+/** One signal from social.scrapecreators (discover mode). */
+interface ScrapeCreatorsSignal {
   type?: string;
   subject?: { kind?: string; id?: string; url?: string };
   value?: {
     text?: string;
-    author_handle?: string;
-    posted_at?: string | null;
+    author?: string;
+    author_id?: string;
+    published_at?: string | null;
+    url?: string;
+    permalink?: string;
+    platform?: string;
   };
 }
 
@@ -44,40 +53,48 @@ export interface SearchCandidatesOptions {
 
 let warnedMissingEnv = false;
 
-/**
- * Detect a retweet from the post text. Nitter surfaces reposts as `RT @user: …`.
- */
+/** Nitter/scraper surfaces reposts as `RT @user: …`. */
 function looksLikeRetweet(text: string): boolean {
   return /^RT\s+@\w/i.test(text.trim());
 }
 
-/**
- * Detect a reply from the post text. A leading @mention is the strongest
- * signal nitter gives us (the search query also excludes replies engine-side
- * where supported).
- */
+/** A leading @mention is the strongest reply signal the source gives us. */
 function looksLikeReply(text: string): boolean {
   return /^@\w/.test(text.trim());
 }
 
-/** Map one engine signal to an EngagementCandidate, or null if unusable. */
+/**
+ * Extract the bare X handle from a `from:<handle> …` query. Returns null for
+ * free-text/topic queries (which scrapecreators discovery cannot serve).
+ */
+export function handleFromQuery(query: string): string | null {
+  const m = query.match(/(?:^|\s)from:@?([A-Za-z0-9_]{1,15})\b/);
+  return m ? m[1] : null;
+}
+
+/** Map one scrapecreators signal to an EngagementCandidate, or null if unusable. */
 export function mapSignalToCandidate(
-  signal: ToolboxXSignal,
+  signal: ScrapeCreatorsSignal,
   reason: string,
 ): EngagementCandidate | null {
-  if (signal?.type !== "social.x.post") return null;
+  if (signal?.type !== "social.post") return null;
   const id = signal.subject?.id?.trim() ?? "";
-  const url = signal.subject?.url?.trim() ?? "";
+  const url = (
+    signal.subject?.url ??
+    signal.value?.url ??
+    signal.value?.permalink ??
+    ""
+  ).trim();
   if (!id || !url) return null;
-  const handle = (signal.value?.author_handle ?? "").trim().replace(/^@+/, "");
+  const handle = (signal.value?.author ?? "").trim().replace(/^@+/, "");
   const text = signal.value?.text ?? "";
   return {
     id,
     url,
-    authorId: handle.toLowerCase() || id,
+    authorId: handle.toLowerCase() || signal.value?.author_id || id,
     authorHandle: handle,
     text,
-    createdAt: signal.value?.posted_at ?? new Date(0).toISOString(),
+    createdAt: signal.value?.published_at ?? new Date(0).toISOString(),
     isReply: looksLikeReply(text),
     isRetweet: looksLikeRetweet(text),
     likeCount: 0,
@@ -86,7 +103,8 @@ export function mapSignalToCandidate(
 }
 
 /**
- * Search X for candidate posts matching `query`. Returns [] on any failure.
+ * Search X for candidate posts from the handle named in `query`. Returns [] on
+ * any failure, on a non-handle query, or when the engine env is unset.
  */
 export async function searchEngagementCandidates(
   query: string,
@@ -104,9 +122,16 @@ export async function searchEngagementCandidates(
     return [];
   }
 
+  const handle = handleFromQuery(query);
+  if (!handle) {
+    // Topic / free-text query — scrapecreators has no search mode (handle-only
+    // discovery). Skip quietly; the curated per-account path carries the run.
+    return [];
+  }
+
   const limit = Math.min(Math.max(1, opts.limit ?? 20), MAX_LIMIT);
   const fetchImpl = opts.fetchImpl ?? fetch;
-  const reason = opts.reason ?? query;
+  const reason = opts.reason ?? `target:@${handle}`;
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), opts.timeoutMs ?? 30_000);
   try {
@@ -116,12 +141,14 @@ export async function searchEngagementCandidates(
         "content-type": "application/json",
         authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify({ input: { query, limit } }),
+      body: JSON.stringify({
+        input: { mode: "discover", platform: "twitter", handle, limit },
+      }),
       signal: controller.signal,
     });
     if (!res.ok) {
       console.warn(
-        `[x-engagement] search HTTP ${res.status} for "${query.slice(0, 60)}" — skipping`,
+        `[x-engagement] scrapecreators HTTP ${res.status} for @${handle} — skipping`,
       );
       return [];
     }
@@ -138,7 +165,7 @@ export async function searchEngagementCandidates(
     const sinceMs = opts.sinceISO ? Date.parse(opts.sinceISO) : Number.NaN;
     const out: EngagementCandidate[] = [];
     for (const raw of signals) {
-      const candidate = mapSignalToCandidate(raw as ToolboxXSignal, reason);
+      const candidate = mapSignalToCandidate(raw as ScrapeCreatorsSignal, reason);
       if (!candidate) continue;
       if (Number.isFinite(sinceMs)) {
         const postedMs = Date.parse(candidate.createdAt);
@@ -149,7 +176,7 @@ export async function searchEngagementCandidates(
     return out;
   } catch (err) {
     console.warn(
-      `[x-engagement] search failed for "${query.slice(0, 60)}": ${err instanceof Error ? err.message : String(err)}`,
+      `[x-engagement] scrapecreators search failed for @${handle}: ${err instanceof Error ? err.message : String(err)}`,
     );
     return [];
   } finally {

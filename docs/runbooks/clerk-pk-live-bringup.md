@@ -1,170 +1,117 @@
 # Runbook — Clerk live-key bringup
 
-**When to use:** one-time, to flip TrendingRepo's Clerk integration from test keys (`pk_test_*` / `sk_test_*`) to live keys (`pk_live_*` / `sk_live_*`). Without this, the production `/sign-in` page shows "Auth unavailable" and no real signups are possible.
+> **PRODUCTION IS HOSTUP + CLOUDFLARE, NOT VERCEL.** Do NOT run any `vercel`
+> command against this app — the Vercel project `starscreener` is paused and
+> Git-disconnected by policy. App env lives in `/opt/trendingrepo/.env.production`
+> on the HOSTUP box (`ssh toolbox`); deploys follow
+> [DEPLOY-TOOLBOX.md](../DEPLOY-TOOLBOX.md). This runbook was de-Vercel'd
+> 2026-07-20; earlier revisions instructed a Vercel live-key deploy — ignore any
+> you find in git history.
+
+**When to use:** one-time, to flip TrendingRepo's Clerk integration from test
+keys (`pk_test_*` / `sk_test_*`) to live keys (`pk_live_*` / `sk_live_*`).
+Without this, production `/sign-in` shows "Auth unavailable" and no real signups
+are possible.
 
 **Pre-reqs:**
 
-- Clerk dashboard account exists, app provisioned, custom domain mapped (`auth.trendingrepo.com`).
-- Vercel CLI authed (`vercel whoami` succeeds).
-- All Stage 5 PRs merged. Doing it before would ship signup capability without a working revenue loop above it.
+- Clerk dashboard account exists, app provisioned, custom domain mapped (`clerk.trendingrepo.com`).
+- `ssh toolbox` reaches the HOSTUP box.
+- All revenue-path PRs merged. Doing it before would ship signup capability without a working revenue loop above it.
 
-**Estimated time:** 15–20 minutes including verification.
+**Canonical env-var names (what the CODE actually reads):**
 
-## 1. Verify Clerk app is configured for production
+| Purpose | Env var | Notes |
+|---|---|---|
+| Client publishable key | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | `pk_live_*`. The ONLY publishable-key name the bundle reads — there is no `CLERK_PUBLISHABLE_KEY`. |
+| Server secret key | `CLERK_SECRET_KEY` | `sk_live_*` |
+| Webhook signing secret | `CLERK_WEBHOOK_SIGNING_SECRET` | `whsec_*`. **Not** `CLERK_WEBHOOK_SECRET` — that name is dead. |
+
+## 1. Verify the Clerk app is configured for production
 
 In the Clerk dashboard:
 
-1. Top-left dropdown → ensure you're on the **TrendingRepo (production)** instance (not the development one).
-2. **Settings** → **API Keys**:
-   - **Publishable key** — starts `pk_live_`
-   - **Secret key** — starts `sk_live_`
-3. **Settings** → **Domains**:
-   - Custom domain: `auth.trendingrepo.com` (or whatever is configured)
-   - Verify DNS records are propagated and Clerk shows ✅
-4. **Webhooks** → confirm there's an endpoint at `https://trendingrepo.com/api/webhooks/clerk` with event types `user.created` + `user.updated` enabled, signing secret matches what's in `CLERK_WEBHOOK_SECRET` env.
+1. Top-left dropdown → ensure you're on the **TrendingRepo (production)** instance.
+2. **Settings → API Keys**: Publishable key starts `pk_live_`, Secret key starts `sk_live_`.
+3. **Settings → Domains**: custom domain `clerk.trendingrepo.com` verified (✅), DNS propagated.
+4. **Webhooks** → confirm an endpoint at `https://trendingrepo.com/api/webhooks/clerk`
+   with **`user.created`, `user.updated`, `user.deleted`, `session.created`**
+   enabled (these are the events the handler processes). Its signing secret must
+   match `CLERK_WEBHOOK_SIGNING_SECRET`.
+   > Known gap: the handler does not yet process `session.removed`/`session.revoked`,
+   > and the `user.deleted` cascade does not scrub tiers/watchlists. Server-side
+   > sign-out safety is instead enforced by `resolveUserPrincipal` re-checking
+   > live Clerk on paid routes — see the auth repair handoff.
 
-If any of these aren't set up: Clerk's own docs at <https://clerk.com/docs/deployments/overview> walk through DNS + domain verification. That's outside this runbook's scope — return here once Clerk's dashboard shows the production instance fully configured.
+## 2. Set the HOSTUP env vars
 
-## 2. Set Vercel env vars
-
-```bash
-vercel env add CLERK_PUBLISHABLE_KEY production
-# Paste: pk_live_...
-
-vercel env add CLERK_SECRET_KEY production
-# Paste: sk_live_...
-
-# If the webhook secret changed (it does when you re-create the endpoint):
-vercel env rm CLERK_WEBHOOK_SECRET production
-vercel env add CLERK_WEBHOOK_SECRET production
-# Paste: whsec_... (from Clerk dashboard → Webhooks → click endpoint → reveal signing secret)
-```
-
-The code also reads `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` (mirror of the secret-side `CLERK_PUBLISHABLE_KEY`) for the client-side bundle:
+Edit `/opt/trendingrepo/.env.production` on the box (never commit real keys):
 
 ```bash
-vercel env add NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY production
-# Paste: same pk_live_... as above
-```
-
-Verify the four are set:
-
-```bash
-vercel env ls | grep CLERK_
-# Expect 4 lines, all "production" environment.
+ssh toolbox
+sudo -e /opt/trendingrepo/.env.production   # or your editor of choice
+# Set / update:
+#   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_...
+#   CLERK_SECRET_KEY=sk_live_...
+#   CLERK_WEBHOOK_SIGNING_SECRET=whsec_...     (from Clerk → Webhooks → reveal signing secret)
+grep -E '^(NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY|CLERK_SECRET_KEY|CLERK_WEBHOOK_SIGNING_SECRET)=' \
+  /opt/trendingrepo/.env.production   # confirm all three present (values will show — you're on the box)
 ```
 
 ## 3. Redeploy
 
-```bash
-vercel --prod --yes
-# Note the deployment URL
-```
-
-The env vars are baked in at deploy time. Without a redeploy, the new keys are dormant.
+Follow [DEPLOY-TOOLBOX.md](../DEPLOY-TOOLBOX.md) — the app reads the env file at
+container start, so the new keys are dormant until the container is recreated
+(retag `:current-prod` + `docker compose up -d --force-recreate` at
+`/opt/trendingrepo`). Migrations, if any are pending, apply **before** the new
+image goes live (see the deploy runbook's migration gate).
 
 ## 4. Verify
 
 ### 4a. Page-level smoke
-
 ```bash
-# Sign-in page should render the Clerk widget without "auth unavailable" banner
-curl -sI https://trendingrepo.com/sign-in
-# Expect: 200 (or 307/308 redirect to /sign-in/ — both fine)
-
-# Open in a browser:
-# https://trendingrepo.com/sign-in
-# Expect: Clerk's hosted sign-in widget renders, with the TrendingRepo branding (if you uploaded a logo in Clerk).
-# Expect: NO "Auth unavailable" / "Configuration error" message.
+curl -sI https://trendingrepo.com/sign-in   # 200 (or 307/308 to /sign-in/)
+# Browser: https://trendingrepo.com/sign-in renders the Clerk widget, NO "Auth unavailable".
 ```
 
 ### 4b. End-to-end signup test
+1. Use a fresh email you control (e.g. `you+e2e-<date>@gmail.com`).
+2. Complete signup at `https://trendingrepo.com/sign-up` (email verification included).
+3. Clerk dashboard → **Users** shows the user `Active`.
+4. TrendingRepo: the user has a `tr.profiles` row (check `/account` shows the signed-up email, or query the DB).
 
-1. Use an email you control but haven't signed up with before (e.g., `yourname+e2e-2026-05-19@gmail.com`)
-2. Visit `https://trendingrepo.com/sign-up`
-3. Complete Clerk's signup flow (email verification step included)
-4. Land back on `/you`
-5. Verify in Clerk dashboard → **Users** that the user appears with status `Active`
-6. Verify in TrendingRepo: the user has a row in `profiles` (you can check via a one-off admin endpoint or by hitting `/you/settings` and seeing the email — it should be the one you just signed up with)
+### 4c. Webhook delivery
+Clerk dashboard → **Webhooks** → endpoint → **Recent deliveries**. Each signup
+fires `user.created`; expect a 200 within ~1s. If it 4xx/5xx's:
+- 400 = signing secret mismatch → re-check `CLERK_WEBHOOK_SIGNING_SECRET` (step 2).
+- 401 = wrong endpoint URL → re-check the Clerk dashboard URL.
+- 5xx = handler crashed → `ssh toolbox 'docker logs --since 5m trendingrepo | grep -i clerk'`.
 
-### 4c. Welcome modal
-
-The welcome modal (S2 / `WelcomeModal.tsx`) should appear on the first visit to `/` after signup. Cookie-gated (`sb_welcomed`, 90-day expiry).
-
-### 4d. Webhook delivery
-
-Clerk dashboard → **Webhooks** → click your endpoint → **Recent deliveries**. Each signup fires a `user.created` event. The endpoint should respond with 200 within 1s. If it 4xx's:
-
-- 400 = signing secret mismatch — re-check step 2
-- 401 = endpoint URL wrong — re-check Clerk dashboard's URL
-- 5xx = handler crashed — `vercel logs --since 5m | grep "clerk webhook"`
-
-## 5. Verify the post-signup email triggers (B.2 once merged)
-
-If the Stage 5 B.2 PR is merged (day-1 welcome email), the Clerk `user.created` webhook should also enqueue an email. Verify:
-
+## 5. Operator readiness check
 ```bash
-# From the operator side:
-# Wait ~5 min after the test signup, then check Resend dashboard for a sent email to <e2e-email>.
-# Subject: "You're in. Catch breakouts before they're cold."
-```
-
-If the email didn't send, check:
-- `vercel logs --since 10m | grep welcome-email`
-- Resend dashboard → API logs
-
-## 6. Update operator log
-
-```bash
-echo "$(date -u +%FT%TZ): Clerk live keys enabled; e2e signup test passed; user $E2E_USER provisioned." >> docs/OPERATOR.md
-git add docs/OPERATOR.md
-git commit -m "docs(operator): clerk live key bringup complete"
-git push
+# Redacted auth/billing/DB readiness (no secret values printed):
+curl -s https://trendingrepo.com/api/ready | jq .auth
 ```
 
 ## Rollback
 
-If something breaks (signup flow regresses, users can't log in):
-
-```bash
-# Restore test keys (signups still possible but only with Clerk test instance)
-vercel env rm CLERK_PUBLISHABLE_KEY production
-vercel env add CLERK_PUBLISHABLE_KEY production
-# Paste: pk_test_...
-
-vercel env rm CLERK_SECRET_KEY production
-vercel env add CLERK_SECRET_KEY production
-# Paste: sk_test_...
-
-vercel env rm NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY production
-vercel env add NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY production
-# Paste: pk_test_...
-
-vercel --prod --yes
-```
-
-This will reverse-revert the change. Real-money signups will stop, but the app stays online.
-
-If the issue is webhook-only (signups work, profile rows don't get created), check the webhook secret rather than rolling back keys.
+Restore test keys in `/opt/trendingrepo/.env.production`
+(`NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...`, `CLERK_SECRET_KEY=sk_test_...`,
+`CLERK_WEBHOOK_SIGNING_SECRET=whsec_...` for the test endpoint) and redeploy per
+DEPLOY-TOOLBOX.md. Real-money signups stop; the app stays online. If the issue is
+webhook-only (signups work, profile rows don't), fix the signing secret rather
+than rolling back keys.
 
 ## Common failure modes
 
 | Symptom | Cause | Fix |
 |---|---|---|
-| "Auth unavailable" banner persists after redeploy | Env vars set on wrong environment (Preview not Production) | `vercel env ls` — verify each row says `production` |
-| Sign-in widget renders but signup fails with "Verification email not sent" | Clerk's email provider not configured for prod (or DNS for `auth.trendingrepo.com` not propagated) | Clerk dashboard → **Settings** → **Email Provider**. Default uses Clerk's mail; for higher deliverability, configure Resend/SendGrid here. |
-| User signs up but `profiles` row never appears | Clerk webhook 4xx'ing (check Clerk dashboard) | Re-check `CLERK_WEBHOOK_SECRET` in Vercel matches the signing secret shown in Clerk |
-| Profile row created but `email` field is empty | Clerk webhook payload format changed | `vercel logs` for the webhook handler; check `src/app/api/webhooks/clerk/route.ts` for how it parses `user.created` |
-| `/you` page redirects to sign-in even after successful signup | Cookie/session mismatch | Open browser devtools → Application → Cookies; verify Clerk session cookie is set on `.trendingrepo.com`. Common cause: Clerk app's "Frontend API URL" doesn't match the deployed origin. |
-
-## What this runbook does NOT cover
-
-- Configuring OAuth providers (Google, GitHub) in Clerk — separate dashboard task, not blocking sign-up
-- Custom branding inside Clerk's hosted widget — purely aesthetic, do after revenue starts
-- MFA enforcement — Clerk supports it; defaults are fine for v1
-- Sub-orgs / multi-tenant — TrendingRepo isn't multi-tenant; ignore Clerk's organization features
+| "Auth unavailable" persists after redeploy | Env not applied / container not recreated | Confirm the three vars in `/opt/trendingrepo/.env.production`, then `up -d --force-recreate`. |
+| Signup fails "verification email not sent" | Clerk email provider not configured for prod, or `clerk.*` DNS not propagated | Clerk → Settings → Email Provider; verify Cloudflare DNS. |
+| User signs up but `tr.profiles` row never appears | Clerk webhook 4xx'ing | Re-check `CLERK_WEBHOOK_SIGNING_SECRET` matches the endpoint's signing secret. |
+| `/account` redirects to sign-in after signup | Clerk session cookie not set on `.trendingrepo.com` | Clerk "Frontend API URL" must match the deployed origin. |
 
 ## Cross-reference
-
-- [Stripe live-mode bringup](./stripe-live-mode-bringup.md) — sister bringup; checkout requires signup to actually work
-- [Refund runbook](./refund-30-day.md) — when a real user wants their money back, you'll need this too
+- [Stripe live-mode bringup](./stripe-live-mode-bringup.md) — sister bringup.
+- [Refund runbook](./refund-30-day.md).
+- [DEPLOY-TOOLBOX.md](../DEPLOY-TOOLBOX.md) — the actual HOSTUP deploy + migration gate.

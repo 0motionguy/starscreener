@@ -232,6 +232,56 @@ jobs:
             rm -f .next-pid
           fi
 
+  db-migrate:
+    name: PG17 migration replay + schema assertion
+    needs: classify
+    if: needs.classify.outputs.data_only != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    # Clean PostgreSQL 17 so the whole drizzle/ migration set is replayed from
+    # zero on every PR — a broken/forgotten migration fails here, not in prod.
+    # No real secrets: a throwaway local database, DI/fakes cover Stripe+Clerk.
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: trendingrepo
+          POSTGRES_PASSWORD: trendingrepo
+          POSTGRES_DB: trendingrepo_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U trendingrepo"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      # DIRECT_URL is what drizzle-kit migrate uses (unpooled). Both point at
+      # the throwaway CI database.
+      DATABASE_URL: postgres://trendingrepo:trendingrepo@localhost:5432/trendingrepo_test
+      DIRECT_URL: postgres://trendingrepo:trendingrepo@localhost:5432/trendingrepo_test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup Node 22
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # drizzle-kit migrate applies the .sql files (it does NOT import the
+      # schema TS, so no server-only shim is needed). Migration 0000 creates
+      # the `tr` schema, so we don't pre-create it.
+      - name: Drizzle migration replay (clean PG17)
+        run: npm run db:migrate
+
+      - name: Assert tr.* objects + repair columns exist
+        run: node scripts/assert-db-schema.mjs
+
   # MCP server is a separate package with its own lockfile under mcp/.
   # Kept as a sibling job (was already in the previous ci.yml) so a
   # broken MCP build still gates PRs without serializing onto the main

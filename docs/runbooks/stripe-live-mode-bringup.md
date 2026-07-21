@@ -7,8 +7,9 @@
 > (`toolbox-trendingrepo-1`, VPS `/opt/toolbox` compose) behind Cloudflare
 > Tunnel — see `docker-compose.trendingrepo.yml`. Env lives in
 > `/opt/trendingrepo/.env.production` on the box. Yearly prices were also
-> corrected to match `src/lib/pricing/tiers.ts` ($180/$480 — the old
-> $190/$490 numbers here never matched the pricing page).
+> corrected to match `src/lib/pricing/tiers.ts` (Pro **$6.50/$60**, Team
+> **$49/$480**). `npm run verify:stripe-catalog` asserts the live Stripe
+> catalog matches these code-owned prices.
 
 **Pre-reqs:**
 
@@ -45,8 +46,14 @@ In Stripe dashboard, toggle to **live mode** (top-left switch). Then **Products*
 
 For each: pricing model = **Recurring**, billing period = monthly/yearly, currency = USD, amount per the tier table in `src/lib/pricing/tiers.ts`:
 
-- Pro **$19/mo**, Pro **$180/yr**
-- Team **$49/seat/mo**, Team **$480/seat/yr**
+- Pro **$6.50/mo**, Pro **$60/yr** (matches `src/lib/pricing/tiers.ts` — the
+  code is the source of truth; do NOT create $19/$180 prices)
+- Team **$49/seat/mo**, Team **$480/seat/yr** — create these ONLY when Team
+  launches. Team self-serve checkout is currently DISABLED server-side
+  (returns `TEAM_NOT_AVAILABLE`), so no live Team price is charged yet.
+
+After creating the prices, run `npm run verify:stripe-catalog` (with the Stripe
+secret in env) to assert the live catalog matches `tiers.ts`.
 
 After creating, copy the **price ID** (starts `price_`).
 

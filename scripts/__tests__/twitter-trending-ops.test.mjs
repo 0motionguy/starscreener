@@ -71,6 +71,24 @@ test("HOSTUP cron dispatches seven UTC slots on a non-UTC host", async () => {
   );
   assert.match(preflightWrapper, /missing confirmed posts/);
   assert.doesNotMatch(preflightWrapper, /OUTCOME_WINDOW_H/);
+  // A pipx upgrade silently reverts the transaction-id patch and every post
+  // then fails with 226 — preflight must catch that, not an outage.
+  assert.match(preflightWrapper, /patch-twitter-cli-transaction\.py/);
+  assert.match(preflightWrapper, /--check/);
+});
+
+test("the x-client-transaction-id patcher is idempotent and self-verifying", async () => {
+  const patcher = await read("scripts/ops/patch-twitter-cli-transaction.py");
+  // Never patch twice, and never claim success without confirming the anchor.
+  assert.match(patcher, /if MARKER in src:/);
+  assert.match(patcher, /if ANCHOR not in src:/);
+  assert.match(patcher, /shutil\.copy2\(path, backup\)/);
+  // --check must be non-mutating and exit non-zero when the patch is absent.
+  assert.match(patcher, /--check/);
+  assert.match(patcher, /return 1/);
+  // The authed fetch is the whole point of the patch.
+  assert.match(patcher, /https:\/\/x\.com\/home/);
+  assert.match(patcher, /ct_headers\["Cookie"\] = _tr_cookie/);
 });
 
 test("X cookie rotation accepts secrets only on stdin and commits after verification", async () => {

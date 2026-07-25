@@ -76,6 +76,25 @@ else
   fi
 fi
 
+# --- 1b) x-client-transaction-id patch present ---------------------------
+# Without it twitter-cli can't build the header and X answers writes with 226
+# ("might be automated") — 5/5 posts failed that way on 2026-07-25 until the
+# patch landed, then 1/1 succeeded. A `pipx upgrade twitter-cli` silently
+# reverts it, so check every day rather than rediscovering it as an outage.
+CT_PATCH=/opt/trendingrepo-cron/scripts/ops/patch-twitter-cli-transaction.py
+if [ -f "$CT_PATCH" ]; then
+  if python3 "$CT_PATCH" --check >/dev/null 2>&1; then
+    echo "$(ts) transaction-id patch: OK"
+  elif [ "$LIVE" = 1 ]; then
+    alert "x-client-transaction-id patch MISSING - posts will hit error 226. Fix: python3 $CT_PATCH"
+    fail=1
+  else
+    echo "$(ts) transaction-id patch: MISSING (mode=$MODE, not paging)"
+  fi
+else
+  echo "$(ts) transaction-id patch: checker not deployed ($CT_PATCH)"
+fi
+
 # --- 2) outcome check (every prior UTC-day slot confirmed) ---------------
 if [ "$LIVE" = 1 ]; then
   prior_day=$(date -u -d 'yesterday' +%F)

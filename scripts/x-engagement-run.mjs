@@ -6,8 +6,9 @@
 // ledger live in the app. Flow:
 //   1. auth guard: `twitter status` → must be @Trendingrepo, else refuse.
 //   2. getTargets: POST { getTargets:true } → curated handles.
-//   3. read: `twitter search --from <h> --type latest --exclude retweets --json`
-//      per handle → build fresh candidates (FREE, unlike paid scrapecreators).
+//   3. read: `twitter user-posts <h> --json` per handle → build fresh candidates
+//      (FREE, unlike paid scrapecreators). NOT `search --from`: X rotated the
+//      SearchTimeline queryId twitter-cli hardcodes, so every search 404s.
 //   4. propose: POST { candidates, dryRun:true } → the app grounds + classifies
 //      + freshness/ledger-filters + composes and returns the eligible drafts.
 //   5. LIVE: `twitter reply <postId> <text> --json` per draft → POST { confirm }
@@ -31,6 +32,17 @@ const log = (...a) => console.log(new Date().toISOString(), ...a);
 
 function twitter(args) {
   return execFileSync("twitter", args, { encoding: "utf8", timeout: 60_000 });
+}
+
+// execFileSync's `message` is only "Command failed: <argv>" — twitter-cli writes
+// its real error to stdout under --json. Logging just `message` hides the cause.
+function cliError(e) {
+  const out = [e?.stdout, e?.stderr]
+    .map((p) => (p ? String(p).trim() : ""))
+    .filter(Boolean)
+    .join(" | ");
+  const msg = String(e?.message || "unknown").split("\n")[0];
+  return (out ? `${out} :: ${msg}` : msg).slice(0, 400);
 }
 
 async function callApp(body) {
@@ -62,11 +74,24 @@ function toIso(raw) {
   return Number.isNaN(d.getTime()) ? new Date(0).toISOString() : d.toISOString();
 }
 
-// Map `twitter search --from <handle> --json` output into engagement candidates.
+// Map `twitter user-posts <handle> --json` output into engagement candidates.
+//
+// `search --from` is permanently dead: twitter-cli resolves queryIds with
+// prefer_fallback=True, so SearchTimeline always uses the hardcoded
+// MJpyQGqgklrVl_0X9gNy3A (graphql.py FALLBACK_QUERY_IDS) — X rotated it and
+// every search now 404s. UserTweets still resolves, and for a curated roster
+// "this handle's latest posts" is exactly what we were asking search for.
 function tweetsToCandidates(handle, out) {
   let arr = [];
   try {
     const d = JSON.parse(out);
+    // The CLI reports API failures as an ok:false payload on stdout with a zero
+    // exit code — treating that as "no tweets" is how 15 dead reads looked like
+    // a quiet day instead of an outage.
+    if (d?.ok === false) {
+      log(`read @${handle} error: ${JSON.stringify(d.error || {}).slice(0, 200)}`);
+      return [];
+    }
     arr = Array.isArray(d?.data) ? d.data : (d?.data?.tweets || d?.tweets || []);
   } catch {
     return [];
@@ -76,16 +101,20 @@ function tweetsToCandidates(handle, out) {
     const id = String(t.id_str || t.id || t.rest_id || t.tweet_id || "");
     if (!/^\d{10,25}$/.test(id)) continue;
     const text = String(t.full_text || t.text || t.content || "");
+    // `search --exclude retweets` filtered these server-side; user-posts flags
+    // them instead, so drop them here.
+    if (t.isRetweet === true || /^RT\s+@\w/i.test(text.trim())) continue;
     cands.push({
       id,
       url: `https://x.com/${handle}/status/${id}`,
       authorId: handle.toLowerCase(),
       authorHandle: handle,
       text,
-      createdAt: toIso(t.created_at || t.createdAt || t.date || t.time),
+      createdAt: toIso(t.createdAtISO || t.created_at || t.createdAt || t.date || t.time),
       isReply: /^@\w/.test(text.trim()),
-      isRetweet: /^RT\s+@\w/i.test(text.trim()),
-      likeCount: Number(t.favorite_count || t.like_count || t.likes || 0) || 0,
+      isRetweet: false,
+      likeCount:
+        Number(t.metrics?.likes ?? t.favorite_count ?? t.like_count ?? t.likes ?? 0) || 0,
       matchedReason: `target:@${handle}`,
     });
   }
@@ -107,7 +136,7 @@ async function main() {
   try {
     status = twitter(["--compact", "status"]);
   } catch (e) {
-    log("twitter status failed:", e.message, "— skip");
+    log("twitter status failed:", cliError(e), "— skip");
     process.exit(0);
   }
   if (!/^ok:\s*true/m.test(status)) {
@@ -135,20 +164,32 @@ async function main() {
     return;
   }
 
-  // FREE read: search each handle's latest tweets via the cookie CLI.
+  // FREE read: pull each handle's latest posts via the cookie CLI.
   const candidates = [];
+  let readFailures = 0;
   for (const h of handles.slice(0, MAX_HANDLES)) {
     let out;
     try {
-      out = twitter(["search", "--from", h, "--type", "latest", "--exclude", "retweets", "--json"]);
+      out = twitter(["user-posts", h, "--json"]);
     } catch (e) {
-      log(`search @${h} failed: ${e.message}`);
+      readFailures += 1;
+      log(`read @${h} failed: ${cliError(e)}`);
       continue;
     }
     for (const c of tweetsToCandidates(h, out).slice(0, PER_HANDLE)) candidates.push(c);
   }
-  log(`read ${candidates.length} candidates from ${Math.min(handles.length, MAX_HANDLES)} targets (free CLI)`);
+  const targets = Math.min(handles.length, MAX_HANDLES);
+  log(
+    `read ${candidates.length} candidates from ${targets} targets (free CLI)` +
+      (readFailures ? ` — ${readFailures}/${targets} reads FAILED` : ""),
+  );
   if (!candidates.length) {
+    // Every read failing is a transport outage, not a quiet day. Exit non-zero
+    // so it shows up as a failed run instead of a clean no-op.
+    if (readFailures === targets) {
+      log(`ALL ${targets} reads failed — X transport is down, not an empty roster`);
+      process.exit(1);
+    }
     log("no candidates read — done");
     return;
   }

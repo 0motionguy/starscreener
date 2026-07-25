@@ -31,6 +31,7 @@ import {
 } from "../twitter/engagement/ledger";
 import {
   composeReply,
+  resolveProviders,
   validateReply,
 } from "../twitter/engagement/reply-composer";
 import { resolveEngagementMode } from "../twitter/engagement/gate";
@@ -204,6 +205,36 @@ test("validateReply accepts an on-brand reply and rejects slop", () => {
   assert.equal(validateReply("no hashtags #ai allowed"), "hashtags (1)");
   assert.equal(validateReply("hey @someone check this"), "mention");
   assert.equal(validateReply("this is huge for local inference"), "sycophantic");
+});
+
+// 2026-07-25: every engagement reply composed to null for weeks. Two provider
+// bugs, both silent: Kimi 400'd on `temperature: 0.6` ("only 1 is allowed for
+// this model"), and a 220-token cap was consumed entirely by reasoning_content
+// (1.6k-3.1k chars measured) so the completion came back empty.
+test("kimi omits temperature and both providers get a reasoning-sized token budget", () => {
+  const providers = resolveProviders({
+    KIMI_API_KEY: "k-test",
+    NANOGPT_API_KEY: "n-test",
+  });
+  assert.deepEqual(
+    providers.map((p) => p.name),
+    ["kimi", "nanogpt"],
+    "kimi must stay primary",
+  );
+
+  const kimi = providers[0];
+  assert.equal(
+    kimi.temperature,
+    undefined,
+    "kimi-for-coding 400s on any explicit temperature",
+  );
+
+  for (const p of providers) {
+    assert.ok(
+      p.maxTokens >= 1000,
+      `${p.name} maxTokens ${p.maxTokens} is too small for a reasoning model`,
+    );
+  }
 });
 
 test("composeReply returns a draft from the model and null on SKIP", async () => {

@@ -64,16 +64,29 @@ interface LlmProvider {
   base: string;
   model: string;
   key: string;
+  /**
+   * Omitted entirely for Kimi: `kimi-for-coding` 400s on any explicit value —
+   * "invalid temperature: only 1 is allowed for this model".
+   */
+  temperature?: number;
+  /**
+   * Both models are reasoning models: they emit `reasoning_content` (1.6k–3.1k
+   * chars measured) BEFORE any `content`. A tight cap is spent entirely on
+   * reasoning and returns an empty completion, which reads as "model declined".
+   */
+  maxTokens: number;
 }
 
 const KIMI_DEFAULT_BASE = "https://api.kimi.com/coding/v1";
 const KIMI_DEFAULT_MODEL = "kimi-for-coding";
 const NANOGPT_DEFAULT_BASE = "https://nano-gpt.com/api/v1";
 const NANOGPT_DEFAULT_MODEL = "moonshotai/kimi-k2.6";
-const LLM_TIMEOUT_MS = 12_000;
+/** Reasoning budget + generation. Measured: Kimi ~13s, NanoGPT ~41s. */
+const LLM_TIMEOUT_MS = 75_000;
+const LLM_MAX_TOKENS = 1_200;
 
 /** Kimi primary, NanoGPT fallback — only the configured ones, in that order. */
-function resolveProviders(
+export function resolveProviders(
   env: Record<string, string | undefined> = process.env,
 ): LlmProvider[] {
   const providers: LlmProvider[] = [];
@@ -84,6 +97,8 @@ function resolveProviders(
       base: (env.KIMI_BASE_URL || KIMI_DEFAULT_BASE).replace(/\/+$/, ""),
       model: env.KIMI_MODEL || KIMI_DEFAULT_MODEL,
       key: kimi,
+      // No temperature — the coding endpoint rejects every value but 1.
+      maxTokens: LLM_MAX_TOKENS,
     });
   }
   const nano = env.NANOGPT_API_KEY?.trim();
@@ -93,6 +108,8 @@ function resolveProviders(
       base: (env.NANOGPT_BASE_URL || NANOGPT_DEFAULT_BASE).replace(/\/+$/, ""),
       model: env.NANOGPT_MODEL || NANOGPT_DEFAULT_MODEL,
       key: nano,
+      temperature: 0.6,
+      maxTokens: LLM_MAX_TOKENS,
     });
   }
   return providers;
@@ -119,8 +136,8 @@ async function streamOnce(
     },
     body: JSON.stringify({
       model: provider.model,
-      temperature: 0.6,
-      max_tokens: 220,
+      ...(provider.temperature === undefined ? {} : { temperature: provider.temperature }),
+      max_tokens: provider.maxTokens,
       // MANDATORY — the Kimi coding endpoint hangs silently without it.
       stream: true,
       messages: [
@@ -179,7 +196,9 @@ async function streamKimiThenNanogpt(
     try {
       const text = await streamOnce(provider, system, user, controller.signal);
       if (text.trim().length > 0) return text;
-      // Empty completion — try the next provider.
+      // Empty completion — try the next provider. Worth logging: on a reasoning
+      // model this means the token budget was spent before any content.
+      console.warn(`[x-engagement] ${provider.name} returned an empty completion`);
     } catch (err) {
       console.warn(
         `[x-engagement] ${provider.name} reply generation failed: ${err instanceof Error ? err.message : String(err)}`,
@@ -280,6 +299,12 @@ export async function composeReply(
   const raw = await chat(SYSTEM_PROMPT, buildUserPrompt(post, ctx));
   if (!raw) return null;
   const cleaned = stripWrapping(raw);
-  if (validateReply(cleaned) !== null) return null;
+  const reject = validateReply(cleaned);
+  if (reject !== null) {
+    // Silently swallowing this is how "0 drafts" looked like a quiet roster
+    // instead of a broken pipeline.
+    console.warn(`[x-engagement] reply rejected (${reject}) for @${post.authorHandle}`);
+    return null;
+  }
   return { text: cleaned };
 }

@@ -187,60 +187,160 @@ test("host runner retries durable confirmation before proposing or posting again
   }
 });
 
-test("host runner blocks when a prior post outcome is ambiguous", async (t) => {
-  const oldSecret = process.env.CRON_SECRET;
-  const oldIntentFile = process.env.TRENDING_POST_INTENT_FILE;
-  const tempDir = await mkdtemp(join(tmpdir(), "trendingrepo-x-ambiguous-"));
+// 2026-07-21 outage: a single failed `twitter post` left an intent with no
+// tweetId, and the runner refused to do anything else until a human deleted the
+// file — 21 consecutive slots lost. The ambiguity is now resolved against X's
+// own timeline instead of blocking, so a transient error costs at most one slot.
+const AMBIGUOUS_INTENT = {
+  version: 1,
+  createdAt: "2026-07-18T08:47:00.000Z",
+  slot: "A",
+  confirm: { fullNames: ["acme/repo"], text: "acme/repo\n+10 stars today" },
+};
+
+async function runAmbiguousReconcile(t, { label, timeline, propose }) {
+  const env = {
+    CRON_SECRET: process.env.CRON_SECRET,
+    TRENDING_POST_INTENT_FILE: process.env.TRENDING_POST_INTENT_FILE,
+  };
+  const tempDir = await mkdtemp(join(tmpdir(), `trendingrepo-x-${label}-`));
   const intentFile = join(tempDir, "pending.json");
   process.env.CRON_SECRET = "test-secret";
   process.env.TRENDING_POST_INTENT_FILE = intentFile;
-  await writeFile(
-    intentFile,
-    JSON.stringify({
-      version: 1,
-      createdAt: "2026-07-18T08:47:00.000Z",
-      slot: "A",
-      confirm: { fullNames: ["acme/repo"], text: "acme/repo" },
-    }),
-  );
+  await writeFile(intentFile, JSON.stringify(AMBIGUOUS_INTENT));
 
-  const exits = [];
-  const logs = [];
-  let twitterCalls = 0;
-  let fetchCalls = 0;
-  let blocked;
-  const blockedReached = new Promise((resolve) => {
-    blocked = resolve;
+  const state = { exits: [], logs: [], proposals: 0, confirmations: 0, posts: 0, intentFile };
+  let settled;
+  const finished = new Promise((resolve) => {
+    settled = resolve;
   });
+  // The real process.exit never returns. A stub that does lets the runner fall
+  // through into code paths production would never reach, so unwind instead —
+  // and ignore the runner's own catch-handler exit(1) on the way out.
+  let exited = false;
   t.mock.method(process, "exit", (code) => {
-    exits.push(code);
-    if (code === 1) blocked();
+    if (exited) return;
+    exited = true;
+    state.exits.push(code);
+    settled();
+    throw new Error(`__exit_${code}__`);
   });
-  t.mock.method(console, "log", (...args) => logs.push(args.join(" ")));
-  t.mock.method(childProcess, "execFileSync", () => {
-    twitterCalls += 1;
-    return "ok: true\nusername: trendingrepo\n";
+  t.mock.method(console, "log", (...args) => {
+    const line = args.join(" ");
+    state.logs.push(line);
+    if (line.includes("tweet: https://")) settled();
   });
-  t.mock.method(globalThis, "fetch", async () => {
-    fetchCalls += 1;
-    return Response.json({ post: false, reason: "no-candidates" });
+  t.mock.method(childProcess, "execFileSync", (_file, args) => {
+    if (args[0] === "user-posts") return timeline();
+    if (args[0] === "--compact") return "ok: true\nusername: trendingrepo\n";
+    state.posts += 1;
+    return JSON.stringify({ data: { id: "9999999999999999999" } });
+  });
+  t.mock.method(globalThis, "fetch", async (_url, init) => {
+    if (JSON.parse(init.body).confirm) {
+      state.confirmations += 1;
+      return Response.json({ ok: true });
+    }
+    state.proposals += 1;
+    return Response.json(propose);
   });
   syncBuiltinESMExports();
 
   try {
-    await import(`../twitter-trending-run.mjs?ambiguous=${Date.now()}`);
-    await blockedReached;
-    assert.deepEqual(exits, [1]);
-    assert.equal(twitterCalls, 0);
-    assert.equal(fetchCalls, 0);
-    assert.ok(logs.some((line) => line.includes("pending post outcome unknown")));
+    await import(`../twitter-trending-run.mjs?${label}=${Date.now()}`);
+    await finished;
+    // Let the runner's own catch handler settle while the mocks are still in
+    // place — otherwise its exit(1) reaches the real process and kills the run.
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    // Snapshot the intent BEFORE `finally` removes the temp dir, so callers
+    // assert on what the runner left behind rather than on the cleanup.
+    state.pendingAfter = await readFile(intentFile, "utf8").then(JSON.parse, (e) => {
+      if (e.code === "ENOENT") return null;
+      throw e;
+    });
+    return state;
   } finally {
-    if (oldSecret === undefined) delete process.env.CRON_SECRET;
-    else process.env.CRON_SECRET = oldSecret;
-    if (oldIntentFile === undefined) delete process.env.TRENDING_POST_INTENT_FILE;
-    else process.env.TRENDING_POST_INTENT_FILE = oldIntentFile;
+    for (const [k, v] of Object.entries(env)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
     t.mock.restoreAll();
     syncBuiltinESMExports();
     await rm(tempDir, { recursive: true, force: true });
   }
+}
+
+test("ambiguous outcome that DID land is confirmed from the timeline", async (t) => {
+  const state = await runAmbiguousReconcile(t, {
+    label: "landed",
+    timeline: () =>
+      JSON.stringify({
+        ok: true,
+        data: [
+          {
+            id: "2079578950368387576",
+            // X renders newlines as spaces and shortens URLs — the match must survive both.
+            text: "acme/repo +10 stars today https://t.co/abcd1234",
+            createdAtISO: "2026-07-18T08:47:05+00:00",
+          },
+        ],
+      }),
+    propose: { post: false, reason: "unused" },
+  });
+
+  assert.equal(state.confirmations, 1, "landed post was not committed to the ledger");
+  assert.equal(state.proposals, 0, "reconcile should not propose a duplicate");
+  assert.equal(state.posts, 0, "reconcile must never re-post a tweet that already landed");
+  assert.ok(
+    state.logs.some((l) => l.includes("posted slot=A 2079578950368387576")),
+    "missing slot-qualified success for the recovered tweet",
+  );
+  assert.equal(state.pendingAfter, null, "confirmed intent was not cleared");
+});
+
+test("ambiguous outcome that never landed is discarded and the slot recovered", async (t) => {
+  const state = await runAmbiguousReconcile(t, {
+    label: "absent",
+    timeline: () =>
+      JSON.stringify({
+        ok: true,
+        // Same pack header as a prior week, but outside the intent's window —
+        // must NOT be mistaken for the pending post.
+        data: [
+          {
+            id: "1111111111111111111",
+            text: "acme/repo +10 stars today",
+            createdAtISO: "2026-07-04T08:47:05+00:00",
+          },
+        ],
+      }),
+    propose: { post: false, reason: "no-candidates" },
+  });
+
+  assert.equal(state.confirmations, 0, "discarded intent must not hit the ledger");
+  assert.equal(state.proposals, 1, "slot was not recovered after discarding the intent");
+  assert.deepEqual(state.exits, [0], "a resolvable ambiguity must not exit non-zero");
+  assert.ok(state.logs.some((l) => l.includes("never landed")));
+  assert.equal(state.pendingAfter, null, "phantom intent was left on disk");
+});
+
+test("unresolvable outcome keeps the intent and retries next slot", async (t) => {
+  const state = await runAmbiguousReconcile(t, {
+    label: "unreachable",
+    timeline: () => {
+      throw new Error("Command failed: twitter user-posts");
+    },
+    propose: { post: false, reason: "unused" },
+  });
+
+  assert.equal(state.exits[0], 0, "an unreachable probe must not exit non-zero");
+  assert.equal(state.confirmations, 0);
+  assert.equal(state.posts, 0);
+  assert.ok(state.logs.some((l) => l.includes("outcome unresolved")));
+  assert.ok(state.pendingAfter, "intent must survive an unreachable probe");
+  assert.equal(
+    state.pendingAfter.tweetId,
+    undefined,
+    "intent must stay unresolved for the next tick",
+  );
 });

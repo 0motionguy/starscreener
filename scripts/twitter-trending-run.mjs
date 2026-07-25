@@ -32,6 +32,7 @@ const MEDIA_FLAG = process.env.TWITTER_MEDIA_FLAG || "-i";
 const INTENT_FILE =
   process.env.TRENDING_POST_INTENT_FILE ||
   "/var/lib/trendingrepo-x-autopilot/pending.json";
+const ACCOUNT = process.env.TWITTER_ACCOUNT || "Trendingrepo";
 
 const log = (...a) => console.log(new Date().toISOString(), ...a);
 
@@ -49,6 +50,68 @@ const SLOT = ["A", "B", "C", "D", "E", "F", "G"].includes(SLOT_RAW) ? SLOT_RAW :
 
 function twitter(args) {
   return execFileSync("twitter", args, { encoding: "utf8", timeout: 60_000 });
+}
+
+// execFileSync's `message` is only "Command failed: <argv>" — the CLI writes its
+// real error to stdout (`--json` mode) or stderr. Logging just `message` is how
+// the 2026-07-21 post failure became undiagnosable.
+function cliError(e) {
+  const out = [e?.stdout, e?.stderr]
+    .map((p) => (p ? String(p).trim() : ""))
+    .filter(Boolean)
+    .join(" | ");
+  const msg = String(e?.message || "unknown").split("\n")[0];
+  return (out ? `${out} :: ${msg}` : msg).slice(0, 800);
+}
+
+function normalizeTweetText(s) {
+  return String(s || "")
+    .replace(/https?:\/\/\S+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+// Did the pending post actually publish? The intent is written BEFORE the CLI
+// post so a crash between post and confirm stays recoverable — but a FAILED post
+// leaves that same file with no tweetId, and refusing to proceed turns one
+// transient error into a permanent outage (2026-07-21: 21 slots lost).
+// X's own timeline is the only source of truth, so ask it. Text alone is not
+// enough (pack headers repeat weekly), hence the createdAt window.
+// Returns "landed" (mutates intent.tweetId), "absent", or "unreachable".
+async function resolvePendingOutcome(intent) {
+  let raw;
+  try {
+    raw = twitter(["user-posts", ACCOUNT, "--json"]);
+  } catch (e) {
+    log("outcome probe failed:", cliError(e));
+    return "unreachable";
+  }
+  let posts = null;
+  try {
+    const j = JSON.parse(raw);
+    if (j?.ok !== false) posts = Array.isArray(j?.data) ? j.data : Array.isArray(j) ? j : null;
+  } catch {
+    /* fall through to the unreachable guard */
+  }
+  if (!posts?.length) {
+    log("outcome probe: no usable timeline — leaving intent for the next slot");
+    return "unreachable";
+  }
+
+  const want = normalizeTweetText(intent.confirm.text);
+  const createdAt = Date.parse(intent.createdAt);
+  if (!want || !Number.isFinite(createdAt)) return "absent";
+  const from = createdAt - 2 * 60 * 1000;
+  const to = createdAt + 30 * 60 * 1000;
+  const hit = posts.find((p) => {
+    const at = Date.parse(p?.createdAtISO || p?.createdAt || "");
+    if (!Number.isFinite(at) || at < from || at > to) return false;
+    return normalizeTweetText(p?.text).startsWith(want);
+  });
+  if (!hit?.id) return "absent";
+  intent.tweetId = String(hit.id);
+  return "landed";
 }
 
 async function readIntent() {
@@ -79,9 +142,7 @@ async function writeIntent(intent) {
 
 async function confirmIntent(intent) {
   if (!intent.tweetId) {
-    throw new Error(
-      `pending post outcome unknown; inspect @trendingrepo before removing ${INTENT_FILE}`,
-    );
+    throw new Error(`confirmIntent called without a tweetId (${INTENT_FILE})`);
   }
   const cres = await fetch(`${APP}/api/cron/twitter-trending`, {
     method: "POST",
@@ -139,8 +200,27 @@ async function main() {
       throw new Error(`pending post requires reconciliation: ${INTENT_FILE}`);
     }
     log("reconciling pending post", pending.tweetId || "outcome-unknown");
-    await confirmIntent(pending);
-    return;
+    if (!pending.tweetId) {
+      const outcome = await resolvePendingOutcome(pending);
+      if (outcome === "unreachable") {
+        log("outcome unresolved — skipping this slot, will retry next tick");
+        process.exit(0);
+      }
+      if (outcome === "absent") {
+        // The post never reached X. Drop the intent and use this slot rather
+        // than dead-locking every future slot behind a failure that already
+        // resolved itself.
+        log(`pending post never landed on @${ACCOUNT} — discarding intent, recovering slot`);
+        await unlink(INTENT_FILE).catch(() => {});
+      } else {
+        log("outcome probe: pending post DID land ->", pending.tweetId);
+        await writeIntent(pending);
+      }
+    }
+    if (pending.tweetId) {
+      await confirmIntent(pending);
+      return;
+    }
   }
 
   // 1. Auth guard (skipped in dry-run — the endpoint needs no cookies).
@@ -149,7 +229,7 @@ async function main() {
     try {
       raw = twitter(["--compact", "status"]);
     } catch (e) {
-      log("twitter status failed:", e.message, "— skip");
+      log("twitter status failed:", cliError(e), "— skip");
       process.exit(0);
     }
     // `--compact status` emits YAML, not JSON — parse loosely.
@@ -222,7 +302,7 @@ async function main() {
     if (mediaFile) args.splice(2, 0, MEDIA_FLAG, mediaFile);
     out = twitter(args);
   } catch (e) {
-    log("twitter post failed:", e.message);
+    log("twitter post failed:", cliError(e));
     process.exit(1);
   } finally {
     if (mediaFile) await unlink(mediaFile).catch(() => {});

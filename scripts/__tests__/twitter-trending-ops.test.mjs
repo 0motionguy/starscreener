@@ -324,6 +324,140 @@ test("ambiguous outcome that never landed is discarded and the slot recovered", 
   assert.equal(state.pendingAfter, null, "phantom intent was left on disk");
 });
 
+// X rejects some writes with error 226 ("this request looks like it might be
+// automated") even when the account is healthy — twitter-cli can no longer send
+// x-client-transaction-id, so a slot must survive a flagged attempt. The danger
+// is that the CLI can also fail AFTER X accepted the tweet, so every retry has
+// to re-check the timeline first.
+const AUTOMATION_ERROR =
+  '{"ok":false,"error":{"code":"api_error","message":"Twitter API error: Authorization: This request looks like it might be automated. (226)"}}';
+
+async function runPostRetry(t, { label, postOutcomes, timeline }) {
+  const env = {
+    CRON_SECRET: process.env.CRON_SECRET,
+    TRENDING_POST_INTENT_FILE: process.env.TRENDING_POST_INTENT_FILE,
+    TRENDING_POST_RETRY_MS: process.env.TRENDING_POST_RETRY_MS,
+  };
+  const tempDir = await mkdtemp(join(tmpdir(), `trendingrepo-x-${label}-`));
+  process.env.CRON_SECRET = "test-secret";
+  process.env.TRENDING_POST_INTENT_FILE = join(tempDir, "pending.json");
+  process.env.TRENDING_POST_RETRY_MS = "1"; // keep the backoff out of the test
+
+  const state = { exits: [], logs: [], posts: 0, confirmations: 0, proposals: 0 };
+  let settled;
+  const finished = new Promise((resolve) => {
+    settled = resolve;
+  });
+  let exited = false;
+  t.mock.method(process, "exit", (code) => {
+    if (exited) return;
+    exited = true;
+    state.exits.push(code);
+    settled();
+    throw new Error(`__exit_${code}__`);
+  });
+  t.mock.method(console, "log", (...args) => {
+    const line = args.join(" ");
+    state.logs.push(line);
+    if (line.includes("tweet: https://")) settled();
+  });
+  t.mock.method(childProcess, "execFileSync", (_file, args) => {
+    if (args[0] === "--compact") return "ok: true\nusername: trendingrepo\n";
+    if (args[0] === "user-posts") return timeline();
+    const outcome = postOutcomes[state.posts];
+    state.posts += 1;
+    if (outcome instanceof Error) throw outcome;
+    return outcome;
+  });
+  t.mock.method(globalThis, "fetch", async (_url, init) => {
+    if (JSON.parse(init.body).confirm) {
+      state.confirmations += 1;
+      return Response.json({ ok: true });
+    }
+    state.proposals += 1;
+    return Response.json({
+      post: true,
+      fullName: "acme/repo",
+      fullNames: ["acme/repo"],
+      text: "acme/repo\n+10 stars today",
+      url: "https://trendingrepo.com/repo/acme/repo",
+    });
+  });
+  syncBuiltinESMExports();
+
+  try {
+    await import(`../twitter-trending-run.mjs?${label}=${Date.now()}`);
+    await finished;
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    return state;
+  } finally {
+    for (const [k, v] of Object.entries(env)) {
+      if (v === undefined) delete process.env[k];
+      else process.env[k] = v;
+    }
+    t.mock.restoreAll();
+    syncBuiltinESMExports();
+    await rm(tempDir, { recursive: true, force: true });
+  }
+}
+
+test("a flagged post that actually landed is confirmed, never re-posted", async (t) => {
+  const err = Object.assign(new Error("Command failed: twitter post"), {
+    stdout: AUTOMATION_ERROR,
+  });
+  const state = await runPostRetry(t, {
+    label: "retry-landed",
+    postOutcomes: [err],
+    timeline: () =>
+      JSON.stringify({
+        ok: true,
+        data: [
+          {
+            id: "2080860261301277176",
+            text: "acme/repo +10 stars today https://t.co/abcd",
+            createdAtISO: new Date().toISOString(),
+          },
+        ],
+      }),
+  });
+
+  assert.equal(state.posts, 1, "a landed tweet must never be posted a second time");
+  assert.equal(state.confirmations, 1, "the landed tweet was not committed to the ledger");
+  assert.ok(state.logs.some((l) => l.includes("landed despite the CLI error")));
+  assert.ok(state.logs.some((l) => l.includes("posted slot=unslotted 2080860261301277176")));
+});
+
+test("a flagged post that did NOT land is retried and succeeds", async (t) => {
+  const err = Object.assign(new Error("Command failed: twitter post"), {
+    stdout: AUTOMATION_ERROR,
+  });
+  const state = await runPostRetry(t, {
+    label: "retry-recovers",
+    postOutcomes: [err, JSON.stringify({ data: { id: "2080860261301277177" } })],
+    timeline: () => JSON.stringify({ ok: true, data: [{ id: "1", text: "unrelated", createdAtISO: "2026-01-01T00:00:00+00:00" }] }),
+  });
+
+  assert.equal(state.posts, 2, "the slot was lost instead of retried");
+  assert.equal(state.confirmations, 1);
+  assert.ok(state.logs.some((l) => l.includes("retriable — waiting")));
+  assert.ok(state.logs.some((l) => l.includes("posted slot=unslotted 2080860261301277177")));
+});
+
+test("a non-retriable post error fails fast without a second attempt", async (t) => {
+  const err = Object.assign(new Error("Command failed: twitter post"), {
+    stdout: '{"ok":false,"error":{"code":"not_authenticated","message":"No Twitter cookies found."}}',
+  });
+  const state = await runPostRetry(t, {
+    label: "retry-fatal",
+    postOutcomes: [err, JSON.stringify({ data: { id: "999" } })],
+    timeline: () => JSON.stringify({ ok: true, data: [{ id: "1", text: "unrelated", createdAtISO: "2026-01-01T00:00:00+00:00" }] }),
+  });
+
+  assert.equal(state.posts, 1, "a fatal error must not burn retries");
+  assert.equal(state.confirmations, 0);
+  assert.deepEqual(state.exits, [1]);
+});
+
 test("unresolvable outcome keeps the intent and retries next slot", async (t) => {
   const state = await runAmbiguousReconcile(t, {
     label: "unreachable",

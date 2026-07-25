@@ -33,6 +33,11 @@ const INTENT_FILE =
   process.env.TRENDING_POST_INTENT_FILE ||
   "/var/lib/trendingrepo-x-autopilot/pending.json";
 const ACCOUNT = process.env.TWITTER_ACCOUNT || "Trendingrepo";
+const POST_ATTEMPTS = Math.max(1, Number(process.env.TRENDING_POST_ATTEMPTS || 3));
+const POST_RETRY_BASE_MS = Math.max(
+  1_000,
+  Number(process.env.TRENDING_POST_RETRY_MS || 45_000),
+);
 
 const log = (...a) => console.log(new Date().toISOString(), ...a);
 
@@ -158,6 +163,54 @@ async function confirmIntent(intent) {
   log("posted", `slot=${intent.slot}`, intent.tweetId);
   log("confirm:", cres.status, "->", intent.confirm.fullNames.join(", "));
   log("tweet: https://x.com/trendingrepo/status/" + intent.tweetId);
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// X error 226 — "This request looks like it might be automated" — is
+// intermittent, not a ban: the same tweet usually goes through minutes later.
+// It got much likelier once twitter-cli stopped being able to send
+// x-client-transaction-id (x.com dropped the `ondemand.s` bundle reference the
+// upstream xclienttransaction lib scrapes; 1.0.3 is latest and still broken, so
+// there is no version to upgrade to). Treat it — plus rate limits and 5xx — as
+// retriable rather than losing the slot.
+function isRetriablePostError(message) {
+  return (
+    /\(226\)|might be automated/i.test(message) ||
+    /HTTP (?:429|5\d\d)\b/.test(message) ||
+    /rate.?limit|timed? ?out|ETIMEDOUT|ECONNRESET/i.test(message)
+  );
+}
+
+/**
+ * Post via the host CLI with bounded retries. Before EVERY retry it asks X
+ * whether the previous attempt actually landed, so a retry can never
+ * double-post. Returns the CLI output, or null when a failed attempt turned out
+ * to have landed (intent.tweetId is then set and the caller should confirm).
+ */
+async function postWithRetry(tweet, mediaFile, intent) {
+  for (let attempt = 1; ; attempt += 1) {
+    try {
+      const args = ["post", tweet, "--json"];
+      if (mediaFile) args.splice(2, 0, MEDIA_FLAG, mediaFile);
+      return twitter(args);
+    } catch (e) {
+      const message = cliError(e);
+      log(`twitter post attempt ${attempt}/${POST_ATTEMPTS} failed:`, message);
+
+      // Never retry blind — the CLI can fail after X accepted the tweet.
+      if ((await resolvePendingOutcome(intent)) === "landed") {
+        log("post landed despite the CLI error ->", intent.tweetId);
+        return null;
+      }
+      if (attempt >= POST_ATTEMPTS || !isRetriablePostError(message)) {
+        process.exit(1);
+      }
+      const waitMs = POST_RETRY_BASE_MS * attempt;
+      log(`retriable — waiting ${Math.round(waitMs / 1000)}s before retry`);
+      await sleep(waitMs);
+    }
+  }
 }
 
 // Download the proposal's OG card. Any failure -> null (post text-only rather
@@ -295,17 +348,18 @@ async function main() {
   };
   await writeIntent(intent);
 
-  // 4. Post via the host CLI.
+  // 4. Post via the host CLI, retrying X's intermittent automation rejection.
   let out;
   try {
-    const args = ["post", tweet, "--json"];
-    if (mediaFile) args.splice(2, 0, MEDIA_FLAG, mediaFile);
-    out = twitter(args);
-  } catch (e) {
-    log("twitter post failed:", cliError(e));
-    process.exit(1);
+    out = await postWithRetry(tweet, mediaFile, intent);
   } finally {
     if (mediaFile) await unlink(mediaFile).catch(() => {});
+  }
+  if (out === null) {
+    // A failed attempt had actually landed; postWithRetry set intent.tweetId.
+    await writeIntent(intent);
+    await confirmIntent(intent);
+    return;
   }
   let tweetId;
   try {

@@ -296,10 +296,28 @@ export async function composeReply(
   ctx: ReplyContext = {},
 ): Promise<{ text: string } | null> {
   const chat = ctx.chat ?? streamKimiThenNanogpt;
-  const raw = await chat(SYSTEM_PROMPT, buildUserPrompt(post, ctx));
+  const user = buildUserPrompt(post, ctx);
+  const raw = await chat(SYSTEM_PROMPT, user);
   if (!raw) return null;
   const cleaned = stripWrapping(raw);
-  const reject = validateReply(cleaned);
+  let reject = validateReply(cleaned);
+
+  // Reasoning models routinely overshoot the char budget (318-323 measured
+  // against a 240 cap) while the reply itself is perfectly on-brand. One
+  // targeted "tighten it" pass recovers those instead of binning a good reply.
+  // Every other rejection is a judgement call we deliberately do NOT relitigate
+  // — re-asking a model that chose SKIP is how you talk yourself into slop.
+  if (reject?.startsWith("over-budget")) {
+    const tighten = `${user}\n\nYour previous reply was ${cleaned.length} characters, over the ${REPLY_MAX_CHARS} limit. Rewrite the SAME point in under ${REPLY_MAX_CHARS} characters. Cut qualifiers and preamble, keep the specific.`;
+    const retryRaw = await chat(SYSTEM_PROMPT, tighten);
+    if (retryRaw) {
+      const retryCleaned = stripWrapping(retryRaw);
+      const retryReject = validateReply(retryCleaned);
+      if (retryReject === null) return { text: retryCleaned };
+      reject = `${reject} -> retry ${retryReject}`;
+    }
+  }
+
   if (reject !== null) {
     // Silently swallowing this is how "0 drafts" looked like a quiet roster
     // instead of a broken pipeline.

@@ -237,6 +237,45 @@ test("kimi omits temperature and both providers get a reasoning-sized token budg
   }
 });
 
+test("an over-budget reply gets one tighten pass; SKIP is never relitigated", async () => {
+  const long = "x".repeat(300);
+  const tight = "Retrieval is the easy half — the eval harness is where these stacks fall over.";
+
+  const prompts: string[] = [];
+  const recovered = await composeReply(makeCandidate({ id: "long1" }), {
+    chat: async (_system, user) => {
+      prompts.push(user);
+      return prompts.length === 1 ? long : tight;
+    },
+  });
+  assert.ok(recovered, "an on-brand but over-long reply must be recovered");
+  assert.equal(recovered.text, tight);
+  assert.equal(prompts.length, 2, "expected exactly one tighten pass");
+  assert.match(prompts[1], /over the 240 limit/);
+
+  // A model that chose SKIP is never asked twice.
+  const skipPrompts: string[] = [];
+  const skipped = await composeReply(makeCandidate({ id: "skip1" }), {
+    chat: async (_system, user) => {
+      skipPrompts.push(user);
+      return "SKIP";
+    },
+  });
+  assert.equal(skipped, null);
+  assert.equal(skipPrompts.length, 1, "SKIP must not trigger a retry");
+
+  // Still over budget after the tighten pass -> give up, don't loop.
+  let calls = 0;
+  const stubborn = await composeReply(makeCandidate({ id: "long2" }), {
+    chat: async () => {
+      calls += 1;
+      return long;
+    },
+  });
+  assert.equal(stubborn, null);
+  assert.equal(calls, 2, "the tighten pass must not loop");
+});
+
 test("composeReply returns a draft from the model and null on SKIP", async () => {
   const good = await composeReply(makeCandidate({ id: "c1" }), {
     chat: async () => "Solid — the tricky bit is eval, not retrieval. Worth benchmarking recall@k.",

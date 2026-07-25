@@ -181,7 +181,16 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const FATAL_POST_ERROR =
   /not_authenticated|no twitter cookies|unauthorized|suspend|forbidden|duplicate|already (?:posted|sent)|too long|over.?length/i;
 
+// Error 226 is the exception to the retry-by-default rule. It is a bot-detection
+// verdict, not a transient fault: measured 2026-07-25, three attempts at 45s and
+// 90s backoff were all rejected, and it stayed on for over an hour. Retrying it
+// inside the slot cannot help and adds exactly the burst pattern the detector is
+// scoring. Fail the slot instead — the next scheduled slot is hours away, which
+// is the backoff that actually works.
+const AUTOMATION_FLAG = /\(226\)|might be automated/i;
+
 function isRetriablePostError(message) {
+  if (AUTOMATION_FLAG.test(message)) return false;
   return !FATAL_POST_ERROR.test(message);
 }
 

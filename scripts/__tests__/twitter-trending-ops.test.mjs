@@ -427,9 +427,24 @@ test("a flagged post that actually landed is confirmed, never re-posted", async 
   assert.ok(state.logs.some((l) => l.includes("posted slot=unslotted 2080860261301277176")));
 });
 
-test("a flagged post that did NOT land is retried and succeeds", async (t) => {
+test("the automation flag is NOT retried inside the slot", async (t) => {
   const err = Object.assign(new Error("Command failed: twitter post"), {
     stdout: AUTOMATION_ERROR,
+  });
+  const state = await runPostRetry(t, {
+    label: "retry-flagged",
+    postOutcomes: [err, JSON.stringify({ data: { id: "2080860261301277177" } })],
+    timeline: () => JSON.stringify({ ok: true, data: [{ id: "1", text: "unrelated", createdAtISO: "2026-01-01T00:00:00+00:00" }] }),
+  });
+
+  assert.equal(state.posts, 1, "retrying a bot-flag just feeds the detector");
+  assert.equal(state.confirmations, 0);
+  assert.deepEqual(state.exits, [1]);
+});
+
+test("a transient network error IS retried and succeeds", async (t) => {
+  const err = Object.assign(new Error("Command failed: twitter post"), {
+    stdout: '{"ok":false,"error":{"code":"api_error","message":"Twitter API error (HTTP 503): upstream unavailable"}}',
   });
   const state = await runPostRetry(t, {
     label: "retry-recovers",

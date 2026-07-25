@@ -443,7 +443,7 @@ test("a flagged post that did NOT land is retried and succeeds", async (t) => {
   assert.ok(state.logs.some((l) => l.includes("posted slot=unslotted 2080860261301277177")));
 });
 
-test("a non-retriable post error fails fast without a second attempt", async (t) => {
+test("a fatal post error fails fast without a second attempt", async (t) => {
   const err = Object.assign(new Error("Command failed: twitter post"), {
     stdout: '{"ok":false,"error":{"code":"not_authenticated","message":"No Twitter cookies found."}}',
   });
@@ -456,6 +456,25 @@ test("a non-retriable post error fails fast without a second attempt", async (t)
   assert.equal(state.posts, 1, "a fatal error must not burn retries");
   assert.equal(state.confirmations, 0);
   assert.deepEqual(state.exits, [1]);
+});
+
+// 2026-07-25 05:44Z: a bare "Failed to create tweet" (HTTP 0) lost a slot
+// because the matcher only whitelisted known-transient codes. Unknown errors on
+// this transport are far more often transient than fatal.
+test("an unknown post error is retried, not treated as fatal", async (t) => {
+  const err = Object.assign(new Error("Command failed: twitter post"), {
+    stdout:
+      '{"ok":false,"error":{"code":"api_error","message":"Twitter API error (HTTP 0): Failed to create tweet"}}',
+  });
+  const state = await runPostRetry(t, {
+    label: "retry-unknown",
+    postOutcomes: [err, JSON.stringify({ data: { id: "2080999999999999999" } })],
+    timeline: () => JSON.stringify({ ok: true, data: [{ id: "1", text: "unrelated", createdAtISO: "2026-01-01T00:00:00+00:00" }] }),
+  });
+
+  assert.equal(state.posts, 2, "an unknown error must not cost the slot");
+  assert.equal(state.confirmations, 1);
+  assert.ok(state.logs.some((l) => l.includes("posted slot=unslotted 2080999999999999999")));
 });
 
 test("unresolvable outcome keeps the intent and retries next slot", async (t) => {

@@ -167,19 +167,22 @@ async function confirmIntent(intent) {
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// X error 226 — "This request looks like it might be automated" — is
-// intermittent, not a ban: the same tweet usually goes through minutes later.
-// It got much likelier once twitter-cli stopped being able to send
-// x-client-transaction-id (x.com dropped the `ondemand.s` bundle reference the
-// upstream xclienttransaction lib scrapes; 1.0.3 is latest and still broken, so
-// there is no version to upgrade to). Treat it — plus rate limits and 5xx — as
-// retriable rather than losing the slot.
+// This transport fails transiently far more often than it fails permanently:
+// error 226 ("might be automated"), 429s, and bare "Failed to create tweet"
+// (HTTP 0) all clear on a later attempt. It got worse once twitter-cli stopped
+// being able to send x-client-transaction-id — x.com dropped the `ondemand.s`
+// bundle reference the upstream xclienttransaction lib scrapes, and 1.0.3 is
+// latest, so there is no version to upgrade to.
+//
+// So the polarity is deliberate: retry by DEFAULT, and keep an explicit list of
+// the errors where retrying is pointless or harmful. An unknown error costs at
+// most POST_ATTEMPTS tries — and the timeline check before each one means a
+// retry can never double-post — whereas treating it as fatal costs the slot.
+const FATAL_POST_ERROR =
+  /not_authenticated|no twitter cookies|unauthorized|suspend|forbidden|duplicate|already (?:posted|sent)|too long|over.?length/i;
+
 function isRetriablePostError(message) {
-  return (
-    /\(226\)|might be automated/i.test(message) ||
-    /HTTP (?:429|5\d\d)\b/.test(message) ||
-    /rate.?limit|timed? ?out|ETIMEDOUT|ECONNRESET/i.test(message)
-  );
+  return !FATAL_POST_ERROR.test(message);
 }
 
 /**

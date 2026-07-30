@@ -34,6 +34,7 @@ import {
   xmlResponse,
   type UrlEntry,
 } from "@/lib/sitemap-xml";
+import { COMPETITORS } from "@/lib/vs/competitors";
 
 export const revalidate = 3600;
 export const dynamic = "force-static";
@@ -79,6 +80,7 @@ const STATIC_HUBS: StaticHub[] = [
   { path: "/about", priority: 0.5, changefreq: "monthly" },
   { path: "/contact", priority: 0.45, changefreq: "monthly" },
   { path: "/pricing", priority: 0.6, changefreq: "weekly" },
+  { path: "/vs", priority: 0.6, changefreq: "weekly" },
 ];
 
 // Static hub paths that ship their own `opengraph-image.tsx`. Keyed by
@@ -176,6 +178,18 @@ export function GET(): Response {
           title: c.name,
         },
       ],
+    });
+  }
+
+  // 4. /vs/<competitor> comparison pages. Each is hand-authored from a v3
+  //    competitor-deep-crawl run and refreshes weekly — same cadence as the
+  //    /vs index above.
+  for (const c of COMPETITORS) {
+    entries.push({
+      loc: absoluteUrl(`/vs/${c.slug}`),
+      lastmod: now,
+      changefreq: "weekly",
+      priority: 0.55,
     });
   }
 

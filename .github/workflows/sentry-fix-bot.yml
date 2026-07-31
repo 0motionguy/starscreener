@@ -36,6 +36,7 @@ jobs:
   dispatch-agent:
     if: github.event.label.name == 'sentry-error'
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Plant @claude prompt with stack-trace context
         env:

@@ -1,0 +1,843 @@
+{
+  "run_date": "2026-05-18T08:00:00.000Z",
+  "source": "perf-routes (TTFB + transfer) + manual OG/UX checks. PSI Lighthouse omitted — anonymous bucket rate-limited; add PAGESPEED_API_KEY secret in CI to enable.",
+  "key_present": false,
+  "base_url": "https://trendingrepo.com",
+  "thresholds": {
+    "perf": 0.7,
+    "a11y": 0.9,
+    "seo": 0.9,
+    "best": 0.85,
+    "ttfb_cached_ms": 800,
+    "ttfb_uncached_ms": 1500,
+    "transfer_kb": 90
+  },
+  "perf_routes_summary": {
+    "pass": 16,
+    "fail": 11,
+    "warn": 0,
+    "total": 27
+  },
+  "routes": [
+    {
+      "route": "/",
+      "policy": "isr",
+      "ttfb_ms": 165,
+      "transfer_kb": 78.4,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/githubrepo",
+      "policy": "isr",
+      "ttfb_ms": 166,
+      "transfer_kb": 47.4,
+      "vercel_cache": "STALE",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/skills",
+      "policy": "isr",
+      "ttfb_ms": 576,
+      "transfer_kb": 97.3,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "cache_control_violation:no-store",
+        "warmup_cache_miss:MISS",
+        "transfer_budget:97.3kb>90kb"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/mcp",
+      "policy": "isr",
+      "ttfb_ms": 159,
+      "transfer_kb": 81.2,
+      "vercel_cache": "STALE",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/reddit/trending",
+      "policy": "isr",
+      "ttfb_ms": 181,
+      "transfer_kb": 370.6,
+      "vercel_cache": "HIT",
+      "pass": false,
+      "failures": [
+        "transfer_budget:370.6kb>90kb"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/hackernews/trending",
+      "policy": "isr",
+      "ttfb_ms": 212,
+      "transfer_kb": 29.8,
+      "vercel_cache": "STALE",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/lobsters",
+      "policy": "isr",
+      "ttfb_ms": 428,
+      "transfer_kb": 33.3,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/devto",
+      "policy": "isr",
+      "ttfb_ms": 436,
+      "transfer_kb": 36.4,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/bluesky/trending",
+      "policy": "isr",
+      "ttfb_ms": 160,
+      "transfer_kb": 36.2,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/twitter",
+      "policy": "isr",
+      "ttfb_ms": 169,
+      "transfer_kb": 86.5,
+      "vercel_cache": "STALE",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/signals",
+      "policy": "isr",
+      "ttfb_ms": 876,
+      "transfer_kb": 39.3,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "cache_control_violation:no-store",
+        "warmup_cache_miss:MISS"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/top10",
+      "policy": "isr",
+      "ttfb_ms": 897,
+      "transfer_kb": 49.7,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "cache_control_violation:no-store",
+        "warmup_cache_miss:MISS"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/compare",
+      "policy": "isr",
+      "ttfb_ms": 164,
+      "transfer_kb": 20.2,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/funding",
+      "policy": "isr",
+      "ttfb_ms": 411,
+      "transfer_kb": 25,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/revenue",
+      "policy": "isr",
+      "ttfb_ms": 727,
+      "transfer_kb": 67.5,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "cache_control_violation:no-store",
+        "warmup_cache_miss:MISS"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/arxiv/trending",
+      "policy": "isr",
+      "ttfb_ms": 154,
+      "transfer_kb": 29.2,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/producthunt",
+      "policy": "isr",
+      "ttfb_ms": 493,
+      "transfer_kb": 36.2,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "cache_control_violation:no-store",
+        "warmup_cache_miss:MISS"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/huggingface",
+      "policy": "isr",
+      "ttfb_ms": 152,
+      "transfer_kb": 16.9,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/npm",
+      "policy": "isr",
+      "ttfb_ms": 510,
+      "transfer_kb": 37.6,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "cache_control_violation:no-store",
+        "warmup_cache_miss:MISS"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/breakouts",
+      "policy": "isr",
+      "ttfb_ms": 796,
+      "transfer_kb": 19,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "cache_control_violation:no-store",
+        "warmup_cache_miss:MISS"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/categories",
+      "policy": "isr",
+      "ttfb_ms": 439,
+      "transfer_kb": 22.7,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "cache_control_violation:no-store",
+        "warmup_cache_miss:MISS"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/methodology",
+      "policy": "static",
+      "ttfb_ms": 240,
+      "transfer_kb": 18.2,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/research",
+      "policy": "static",
+      "ttfb_ms": 152,
+      "transfer_kb": 30.1,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/tools/revenue-estimate",
+      "policy": "isr",
+      "ttfb_ms": 155,
+      "transfer_kb": 19.6,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/repo/vercel/next.js",
+      "policy": "isr",
+      "ttfb_ms": 11592,
+      "transfer_kb": 48.5,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "warmup_cache_miss:MISS",
+        "ttfb_budget:11592ms>1500ms"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/repo/sindresorhus/ky",
+      "policy": "isr",
+      "ttfb_ms": 5805,
+      "transfer_kb": 42.6,
+      "vercel_cache": "MISS",
+      "pass": false,
+      "failures": [
+        "ttfb_budget:5805ms>1500ms"
+      ],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    },
+    {
+      "route": "/api/health?soft=1",
+      "policy": "dynamic-public",
+      "ttfb_ms": 183,
+      "transfer_kb": 0.1,
+      "vercel_cache": "HIT",
+      "pass": true,
+      "failures": [],
+      "warnings": [],
+      "lighthouse_mobile": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      },
+      "lighthouse_desktop": {
+        "perf": null,
+        "a11y": null,
+        "seo": null,
+        "best": null,
+        "lcp_ms": null,
+        "cls": null,
+        "note": "PSI key required"
+      }
+    }
+  ],
+  "detail_pages": [
+    {
+      "route": "/repo/vercel/next.js",
+      "ttfb_ms": 11592,
+      "status": 200,
+      "note": "TTFB 11s — major cold-start regression. Likely first-render compute or DB miss on /repo/[owner]/[name] dynamic page"
+    },
+    {
+      "route": "/repo/sindresorhus/ky",
+      "ttfb_ms": 5805,
+      "status": 200,
+      "note": "TTFB 5.8s — same pattern. Whole /repo/* dynamic detail surface needs perf review"
+    },
+    {
+      "route": "/repo/anthropics/anthropic-cookbook",
+      "ttfb_ms": null,
+      "status": 200,
+      "note": "OG present; perf not measured this run"
+    },
+    {
+      "route": "/repo/openai/openai-python",
+      "ttfb_ms": null,
+      "status": 200,
+      "note": "OG present; perf not measured this run"
+    },
+    {
+      "route": "/repo/notarealuser/notarealrepo",
+      "ttfb_ms": null,
+      "status": 200,
+      "note": "POTENTIAL ISSUE: page returns 200 with FULL HTML for any non-existent owner/repo combo. SEO indexer can inflate junk pages."
+    }
+  ]
+}

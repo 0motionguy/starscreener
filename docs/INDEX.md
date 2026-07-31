@@ -241,6 +241,17 @@ These are produced by `scripts/derive-engine-inventory.mjs` and
 
 ---
 
+## Ideas (parked design docs)
+
+Design proposals captured for future consideration. **Not on any roadmap** —
+each has explicit customer-demand gates that must clear before work starts.
+
+| Path | Topic | Trigger gate |
+|---|---|---|
+| `docs/ideas/data-explorer-nl-to-sql.md` | NL→SQL data explorer (OSSInsight-style "Ask anything" over `tb_signals`) | ≥3 paying customers or ≥1 enterprise prospect |
+
+---
+
 ## Audit + readiness snapshots
 
 Time-boxed audit reports. Treat as historical unless explicitly current.

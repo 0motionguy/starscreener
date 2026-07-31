@@ -19,7 +19,7 @@ jobs:
   lint:
     runs-on: [self-hosted, toolbox]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Forbid legacy gabagool* literals
         run: |
           # Exclude this workflow file itself — it must mention the literal to forbid it.
